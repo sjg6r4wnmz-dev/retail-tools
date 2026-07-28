@@ -505,6 +505,34 @@
         };
       });
       renderProblems();
+      // 加载审核结果
+      fetchAuditResults();
+    }
+
+    async function fetchAuditResults() {
+      if (!selectedStore) return;
+      try {
+        const resp = await fetch(FC_URL + "/rectify/history", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN, "Bypass-Tunnel-Reminder": "go" },
+          body: JSON.stringify({ storeName: selectedStore.n, limit: 50 })
+        });
+        if (!resp.ok) return;
+        const data = await resp.json();
+        if (!data.ok || !Array.isArray(data.records)) return;
+        // Match audit records to problems by problem text
+        let hasAuditUpdate = false;
+        problems.forEach(p => {
+          const match = data.records.find(r => r.problem === p.text);
+          if (match) {
+            p.auditStatus = match.auditStatus || null;
+            p.auditComment = match.auditComment || "";
+          }
+        });
+        renderProblems();
+      } catch(e) {
+        // silently fail - audit results are optional
+      }
     }
 
     function renderProblems() {
@@ -520,13 +548,22 @@
         card.id = 'problemCard_' + i;
 
         let badge = '';
-        if (p.submitted) badge = '<span class="status-badge done">✓ 已提交</span>';
+        if (p.submitted) {
+          if (p.auditStatus === "approved") {
+            badge = '<span class="status-badge" style="background:#e8f5e9;color:#2e7d32">✓ 审核通过</span>';
+          } else if (p.auditStatus === "rejected") {
+            badge = '<span class="status-badge" style="background:#ffebee;color:#c62828">✗ 审核未通过</span>';
+          } else {
+            badge = '<span class="status-badge done">✓ 已提交</span>';
+          }
+        }
         else if (p.resultMsg && p.resultMsg.text && !p.resultMsg.success) badge = '<span class="status-badge" style="background:#ffebee;color:#c62828">✗ 失败</span>';
         card.innerHTML =
           '<div class="problem-header" id="problemHeader_' + i + '">' +
             '<span class="num">' + (i+1) + '</span>' +
             '<span class="txt">' + esc(p.text) + '</span>' +
             badge +
+            (p.auditComment ? '<div style="font-size:11px;color:#c62828;margin-top:4px;padding:4px 8px;background:#fff3e0;border-radius:6px;">📝 审核意见：' + esc(p.auditComment) + '</div>' : '') +
             '<span class="arrow">▶</span>' +
           '</div>' +
           '<div class="problem-body" id="problemBody_' + i + '">' + problemFormHtml(p, i) + '</div>';

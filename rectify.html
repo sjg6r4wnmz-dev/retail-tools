@@ -228,8 +228,16 @@
   <script src="data.js?v=6"></script>
   <script>
     const FC_URL = "https://posm-recog-posm-scap-recog-oopugfimug.cn-hangzhou.fcapp.run";
-    const BACKUP_URLS = ["https://chayan-rectify.loca.lt"];
+    const BACKUP_URLS = []; // 备用隧道（loca.lt 已废弃，移除避免拖垮请求）
     const AUTH_TOKEN = "posm_5fa4761ff06d7c89d189faf93574f248";
+
+    // 带超时的 fetch：防止某个端点 hang 死整个流程
+    function fetchWithTimeout(url, options, timeoutMs) {
+      return Promise.race([
+        fetch(url, options),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("请求超时(" + timeoutMs + "ms)")), timeoutMs))
+      ]);
+    }
     const DATA = window.RECTIFY_DATA || {};
     const STORES = DATA.stores || [];
     const STORE_AUDITS = DATA.storeAudits || {};
@@ -268,7 +276,7 @@
       if (!__bpRefreshPending[auditId]) {
         __bpRefreshPending[auditId] = (async () => {
           try {
-            const resp = await fetch(FC_URL + "/rectify/refresh-bp", {
+            const resp = await fetchWithTimeout(FC_URL + "/rectify/refresh-bp", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -276,7 +284,7 @@
                 "Bypass-Tunnel-Reminder": "go"
               },
               body: JSON.stringify({ recordId: auditId })
-            });
+            }, 8000);
             if (!resp.ok) throw new Error("HTTP " + resp.status);
             const data = await resp.json();
             if (!data.ok || !Array.isArray(data.bp)) throw new Error("bad response");
@@ -512,11 +520,11 @@
     async function fetchAuditResults() {
       if (!selectedStore) return;
       try {
-        const resp = await fetch(FC_URL + "/rectify/history", {
+        const resp = await fetchWithTimeout(FC_URL + "/rectify/history", {
           method: "POST",
           headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN, "Bypass-Tunnel-Reminder": "go" },
           body: JSON.stringify({ storeName: selectedStore.n, limit: 50 })
-        });
+        }, 8000);
         if (!resp.ok) return;
         const data = await resp.json();
         if (!data.ok || !Array.isArray(data.records)) return;
@@ -755,7 +763,7 @@
       const p = problems[i];
       const photoData = p.photos.map(p => p);
       try {
-        const resp = await fetch(FC_URL + "/rectify/submit", {
+        const resp = await fetchWithTimeout(FC_URL + "/rectify/submit", {
           method: "POST",
           headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN, "Bypass-Tunnel-Reminder": "go" },
           body: JSON.stringify({
@@ -769,7 +777,7 @@
             submitterName: submitterInput.value.trim(),
             expectedDate: p.status === "不能立即整改" ? p.expectedDate : "",
           })
-        });
+        }, 15000);
         const data = await resp.json();
         if (data.ok) {
           p.submitted = true; p.resultMsg = { text: "已提交", success: true };

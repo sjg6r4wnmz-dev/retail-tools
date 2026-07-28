@@ -65,7 +65,11 @@
     .record-card .meta .state-pending { background: #e3f2fd; color: #1565c0; }
     .record-card .meta .state-error { background: #ffebee; color: #c62828; }
     .record-card .meta .state-deleted { background: #eeeeee; color: #757575; }
+    .record-card .meta .audit-approved { background: #e8f5e9; color: #2e7d32; font-weight: 600; }
+    .record-card .meta .audit-rejected { background: #ffebee; color: #c62828; font-weight: 600; }
+    .record-card .meta .audit-pending { background: #e3f2fd; color: #1565c0; }
     .record-card .actions { display: flex; gap: 8px; }
+    .audit-comment { font-size: 12px; color: var(--text-2); margin-top: 8px; background: #fff3e0; padding: 8px 10px; border-radius: 8px; border-left: 3px solid var(--warn); }
     .record-card .actions .btn { flex: 1; padding: 9px; font-size: 13px; }
     .record-empty { text-align: center; padding: 50px 0; color: var(--text-2); font-size: 14px; }
 
@@ -514,8 +518,20 @@
         const statusCls = rec.status === "已整改" ? "done" : (rec.status === "不能立即整改" ? "later" : "pending");
         const stateLabel = getStateLabel(rec);
         const isDeleted = rec.deleted || rec.editState === "deleted" || rec.editState === "pending-delete";
+        // 审核状态
+        let auditHtml = "";
+        if (rec.auditStatus === "approved") {
+          auditHtml = '<span class="audit-approved">审核通过</span>';
+        } else if (rec.auditStatus === "rejected") {
+          auditHtml = '<span class="audit-rejected">审核不通过</span>';
+          if (rec.auditComment) {
+            auditHtml += '<div class="audit-comment">📝 ' + esc(rec.auditComment) + '</div>';
+          }
+        } else {
+          auditHtml = '<span class="audit-pending">待审核</span>';
+        }
         return `
-          <div class="detail-problem" data-rec-idx="${i}">
+          <div class="detail-problem" data-rec-idx="${i}" data-rec-id="${esc(rec.id)}">
             <div class="prob-header">
               <div class="prob-title">${esc(rec.problem || "-")}</div>
               <div class="prob-meta">
@@ -528,12 +544,16 @@
               <span>时间：${dateStr}</span>
               <span>预计完成：${expStr}</span>
             </div>
+            <div class="prob-meta" style="margin-top:8px;">${auditHtml}</div>
             <div class="sec-title">整改照片 (${photos.length}张)</div>
             <div class="sec-body">${photosHtml}</div>
             <div class="sec-title" style="margin-top:10px">提交人签名</div>
             <div class="sec-body">${sigHtml}</div>
             ${!isDeleted ? `
             <div class="prob-actions">
+              ${!rec.auditStatus ? `<button class="btn" style="background:#e8f5e9;color:#2e7d32;" onclick="auditRecord('${esc(rec.id)}','approved',event)">通过</button>
+              <button class="btn" style="background:#ffebee;color:#c62828;" onclick="auditRecord('${esc(rec.id)}','rejected',event)">不通过</button>` : `
+              <button class="btn btn-secondary" style="font-size:12px;" onclick="cancelAudit('${esc(rec.id)}',event)">撤销审核</button>`}
               <button class="btn btn-secondary btn-edit-in-detail" data-rec-idx="${i}">编辑</button>
               <button class="btn btn-danger btn-delete-in-detail" data-rec-idx="${i}">删除</button>
             </div>
@@ -693,6 +713,50 @@
         const list = searchStores(e.target.value.trim());
         renderEditStoreList(list);
       });
+    }
+
+    async function auditRecord(recordId, action, event) {
+      if (event) event.stopPropagation();
+      let comment = "";
+      if (action === "rejected") {
+        comment = prompt("请输入不通过的原因（可选）：") || "";
+        if (comment === null) return; // 用户取消
+      }
+      try {
+        const resp = await fcPost("/rectify/audit", { id: recordId, action, comment });
+        if (!resp.ok) throw new Error(resp.error || "操作失败");
+        showToast(action === "approved" ? "已通过" : "已标记不通过", "success");
+        // 更新本地记录
+        const h = allRecords.find(r => r.id === recordId);
+        if (h) { h.auditStatus = action; h.auditComment = comment; h.auditTime = Date.now(); }
+        // 重新渲染详情弹窗
+        const storeName = document.querySelector("#detailModal .modal-header h3")?.textContent || "";
+        if (storeName && storeName !== "整改详情") {
+          const recs = allRecords.filter(r => r.storeName === storeName);
+          openStoreDetail(storeName, recs);
+        }
+        updateStats();
+      } catch (e) {
+        showToast(e.message, "error");
+      }
+    }
+
+    async function cancelAudit(recordId, event) {
+      if (event) event.stopPropagation();
+      if (!confirm("确定撤销该记录的审核状态吗？审核意见将被清除。")) return;
+      try {
+        // 撤销审核 = 清除 audit 字段
+        const h = allRecords.find(r => r.id === recordId);
+        if (h) { delete h.auditStatus; delete h.auditComment; delete h.auditTime; }
+        const storeName = document.querySelector("#detailModal .modal-header h3")?.textContent || "";
+        if (storeName && storeName !== "整改详情") {
+          const recs = allRecords.filter(r => r.storeName === storeName);
+          openStoreDetail(storeName, recs);
+        }
+        showToast("审核状态已撤销", "success");
+      } catch (e) {
+        showToast(e.message, "error");
+      }
     }
 
     initLogin();

@@ -187,9 +187,9 @@
       </div>
 
       <div class="stats" id="statsArea">
-        <div class="stat-item"><div class="num" id="statTotal">0</div><div class="label">全部记录</div></div>
-        <div class="stat-item"><div class="num" id="statPending">0</div><div class="label">待同步</div></div>
-        <div class="stat-item"><div class="num" id="statDone">0</div><div class="label">已同步</div></div>
+        <div class="stat-item"><div class="num" id="statTotal">0</div><div class="label">涉及门店数</div></div>
+        <div class="stat-item"><div class="num" id="statDone">0</div><div class="label">已整改门店</div></div>
+        <div class="stat-item"><div class="num" id="statPending">0</div><div class="label">待整改门店</div></div>
       </div>
 
       <div id="offlineBadge" class="offline-badge"></div>
@@ -418,12 +418,22 @@
     }
 
     function updateStats() {
-      const total = allRecords.length;
-      const pending = allRecords.filter(r => r.state === "pending" || r.editState === "pending" || r.editState === "pending-delete").length;
-      const done = allRecords.filter(r => r.state === "done" && !r.editState).length;
-      $("statTotal").textContent = total;
-      $("statPending").textContent = pending;
-      $("statDone").textContent = done;
+      // 统计门店维度（去重）
+      const stores = new Set();
+      const doneStores = new Set();
+      const pendingStores = new Set();
+      for (const r of allRecords) {
+        const name = r.storeName || "未知门店";
+        stores.add(name);
+        if (r.status === "已整改" || r.status === "通过") {
+          doneStores.add(name);
+        } else {
+          pendingStores.add(name);
+        }
+      }
+      $("statTotal").textContent = stores.size;
+      $("statDone").textContent = doneStores.size;
+      $("statPending").textContent = pendingStores.size;
     }
 
     function filterRecords() {

@@ -73,6 +73,12 @@
     .record-card .actions .btn { flex: 1; padding: 9px; font-size: 13px; }
     .record-empty { text-align: center; padding: 50px 0; color: var(--text-2); font-size: 14px; }
 
+    /* 省份分组 */
+    .province-group { margin-bottom: 18px; }
+    .province-title { display: flex; align-items: center; gap: 8px; padding: 8px 14px; font-size: 14px; font-weight: 700; color: var(--text); position: relative; }
+    .province-title .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+    .province-title .prov-stat { font-size: 12px; color: var(--text-2); font-weight: 400; margin-left: 4px; }
+
     /* 门店聚合卡片 */
     .store-card { background: var(--card); border-radius: 12px; padding: 14px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); cursor: pointer; transition: transform 0.1s; }
     .store-card:active { transform: scale(0.995); }
@@ -452,51 +458,95 @@
         container.innerHTML = '<div class="record-empty"><div style="font-size:32px">📋</div>没有找到记录</div>';
         return;
       }
-      // 按门店分组
+
+      // 门店名 → 省份 映射
+      const storeProvince = new Map();
+      try {
+        const storeData = (window.RECTIFY_DATA && window.RECTIFY_DATA.stores) || [];
+        storeData.forEach(s => {
+          if (s.n && s.p) storeProvince.set(s.n, s.p);
+        });
+      } catch(e) {}
+
+      // 按门店分组（records）
       const groups = new Map();
       filteredRecords.forEach(r => {
         const key = r.storeName || "未知门店";
         if (!groups.has(key)) groups.set(key, []);
         groups.get(key).push(r);
       });
-      // 每组按时间倒序排
       groups.forEach(list => list.sort((a, b) => (b.ts || 0) - (a.ts || 0)));
-      // 门店列表按最近提交时间倒序
-      const stores = Array.from(groups.entries()).sort((a, b) => {
-        const ta = (a[1][0] && a[1][0].ts) || 0;
-        const tb = (b[1][0] && b[1][0].ts) || 0;
-        return tb - ta;
+
+      // 按省份分组
+      const provinces = new Map();
+      groups.forEach((records, storeName) => {
+        const prov = storeProvince.get(storeName) || "其他";
+        if (!provinces.has(prov)) provinces.set(prov, new Map());
+        provinces.get(prov).set(storeName, records);
       });
 
-      container.innerHTML = stores.map(([storeName, records]) => {
-        const doneCount = records.filter(r => r.status === "已整改").length;
-        const pendingCount = records.filter(r => r.status !== "已整改").length;
-        const latestTime = formatTime(records[0].ts);
-        const submitters = [...new Set(records.map(r => r.submitterName).filter(Boolean))];
-        const problems = records.map(r => r.problem || "-").filter(p => p !== "-");
-        const hasDeleted = records.some(r => r.deleted || r.editState === "deleted" || r.editState === "pending-delete");
-        return `
-          <div class="store-card" data-store="${esc(storeName)}">
-            <div class="store-header">
-              <div class="store-name">${esc(storeName)}</div>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <span class="store-count">${records.length}条</span>
-                <span class="store-time">${latestTime}</span>
+      // 省份排序
+      const provOrder = ["湖南省", "湖北省", "广东省", "重庆市", "江苏省", "其他"];
+      const sortedProvs = [...provinces.keys()].sort((a, b) => {
+        const ia = provOrder.indexOf(a), ib = provOrder.indexOf(b);
+        if (ia >= 0 && ib >= 0) return ia - ib;
+        if (ia >= 0) return -1;
+        if (ib >= 0) return 1;
+        return a.localeCompare(b);
+      });
+
+      let html = "";
+      for (const prov of sortedProvs) {
+        const storeMap = provinces.get(prov);
+        let provDone = 0, provPending = 0, provRecCount = 0;
+        storeMap.forEach(records => {
+          provRecCount += records.length;
+          if (records.some(r => r.status === "已整改")) provDone++;
+          if (records.some(r => r.status !== "已整改" && r.status !== "通过")) provPending++;
+        });
+
+        html += `<div class="province-group">`;
+        html += `<div class="province-title"><span class="dot"></span>${esc(prov)}<span class="prov-stat">${storeMap.size}家 · ${provRecCount}条${provDone > 0 ? " · 已整改" + provDone : ""}${provPending > 0 ? " · 待整改" + provPending : ""}</span></div>`;
+
+        // 省内门店按最新提交时间倒序
+        const storeEntries = [...storeMap.entries()].sort((a, b) => {
+          const ta = (a[1][0] && a[1][0].ts) || 0;
+          const tb = (b[1][0] && b[1][0].ts) || 0;
+          return tb - ta;
+        });
+
+        for (const [storeName, records] of storeEntries) {
+          const doneCount = records.filter(r => r.status === "已整改" || r.status === "通过").length;
+          const pendingCount = records.filter(r => r.status !== "已整改" && r.status !== "通过").length;
+          const latestTime = formatTime(records[0].ts);
+          const submitters = [...new Set(records.map(r => r.submitterName).filter(Boolean))];
+          const problems = records.map(r => r.problem || "-").filter(p => p !== "-");
+          const hasDeleted = records.some(r => r.deleted || r.editState === "deleted" || r.editState === "pending-delete");
+          html += `
+            <div class="store-card" data-store="${esc(storeName)}">
+              <div class="store-header">
+                <div class="store-name">${esc(storeName)}</div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <span class="store-count">${records.length}条</span>
+                  <span class="store-time">${latestTime}</span>
+                </div>
               </div>
-            </div>
-            <div class="problem-tags">
-              ${problems.slice(0, 4).map(p => `<span title="${esc(p)}">${esc(p.length > 12 ? p.slice(0, 11) + "…" : p)}</span>`).join("")}
-              ${problems.length > 4 ? `<span>+${problems.length - 4}</span>` : ""}
-            </div>
-            <div class="store-summary">
-              ${doneCount > 0 ? `<span class="done">已整改 ${doneCount}</span>` : ""}
-              ${pendingCount > 0 ? `<span class="pending">待整改 ${pendingCount}</span>` : ""}
-              ${submitters.length > 0 ? `<span class="submitter">${esc(submitters.slice(0, 2).join(", "))}${submitters.length > 2 ? "等" : ""}</span>` : ""}
-              ${hasDeleted ? `<span style="background:#eee;color:#757575;">含已删除</span>` : ""}
-            </div>
-          </div>
-        `;
-      }).join("");
+              <div class="problem-tags">
+                ${problems.slice(0, 4).map(p => `<span title="${esc(p)}">${esc(p.length > 12 ? p.slice(0, 11) + "…" : p)}</span>`).join("")}
+                ${problems.length > 4 ? `<span>+${problems.length - 4}</span>` : ""}
+              </div>
+              <div class="store-summary">
+                ${doneCount > 0 ? `<span class="done">已整改 ${doneCount}</span>` : ""}
+                ${pendingCount > 0 ? `<span class="pending">待整改 ${pendingCount}</span>` : ""}
+                ${submitters.length > 0 ? `<span class="submitter">${esc(submitters.slice(0, 2).join(", "))}${submitters.length > 2 ? "等" : ""}</span>` : ""}
+                ${hasDeleted ? `<span style="background:#eee;color:#757575;">含已删除</span>` : ""}
+              </div>
+            </div>`;
+        }
+        html += `</div>`;
+      }
+
+      container.innerHTML = html;
 
       container.querySelectorAll(".store-card").forEach(card => {
         card.addEventListener("click", () => {

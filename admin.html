@@ -354,17 +354,31 @@
         allRecords = offline.slice();
         filterRecords();
         updateStats();
-        showOfflineBadge(false);
+        showOfflineBadge(false, 0, offline.length);
       }
-      // 2. 再异步从远端拉取最新数据，拿到后覆盖本地
-      $("recordsArea").innerHTML = '<div class="loading"><span class="spinner"></span>加载中...</div>';
+      // 2. 再异步从远端拉取最新数据，合并（不覆盖）离线数据
+      //    问题：FC 实例重启后 history 为 0，直接覆盖会导致页面空白
       try {
         const resp = await fcPost("/rectify/history", { limit: 500 });
         if (resp.ok && Array.isArray(resp.records)) {
-          allRecords = resp.records;
+          // 合并策略：FC数据优先（同名recordId用FC版本），离线数据补足
+          const fcMap = new Map();
+          resp.records.forEach(r => { if (r.id || r.recordId) fcMap.set(r.id || r.recordId, r); });
+          const merged = resp.records.slice();
+          if (Array.isArray(offline)) {
+            offline.forEach(r => {
+              const key = r.id || r.recordId;
+              if (key && !fcMap.has(key)) merged.push(r);
+            });
+          }
+          // 按时间倒序
+          merged.sort((a, b) => (b.ts || 0) - (a.ts || 0));
+          allRecords = merged;
           filterRecords();
           updateStats();
-          showOfflineBadge(false);
+          const fcCount = resp.records.length;
+          const totalCount = merged.length;
+          showOfflineBadge(fcCount === 0 && totalCount > 0, fcCount, totalCount);
         } else {
           throw new Error(resp.error || "远端返回错误");
         }
@@ -374,23 +388,26 @@
           allRecords = offline.slice();
           filterRecords();
           updateStats();
-          showOfflineBadge(true);
+          showOfflineBadge(true, 0, offline.length);
           return;
         }
         $("recordsArea").innerHTML = '<div class="record-empty">加载失败：' + esc(e.message) + '<br><br><button class="btn" onclick="location.reload()">点击重试</button></div>';
       }
     }
 
-    function showOfflineBadge(isOffline) {
+    function showOfflineBadge(isPartial, fcCount, totalCount) {
       const badge = $("offlineBadge");
       if (!badge) return;
-      if (isOffline) {
-        badge.textContent = "离线数据 · 隧道连接不稳定，仅显示本地缓存";
+      if (isPartial && fcCount === 0) {
+        badge.textContent = "云端数据为空（FC实例可能刚重启），显示本地缓存 " + totalCount + " 条";
+        badge.className = "offline-badge show warn";
+      } else if (isPartial) {
+        badge.textContent = "部分离线 · 本地缓存 " + totalCount + " 条，云端 " + fcCount + " 条";
         badge.className = "offline-badge show warn";
       } else {
-        badge.textContent = "已连接";
+        badge.textContent = "已连接 · " + totalCount + " 条记录";
         badge.className = "offline-badge show ok";
-        setTimeout(() => badge.classList.remove("show"), 1500);
+        setTimeout(() => badge.classList.remove("show"), 3000);
       }
     }
 

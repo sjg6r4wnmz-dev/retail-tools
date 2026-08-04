@@ -379,19 +379,22 @@ function exportCsv(){
   a.click();
 }
 
-// 动态加载 teatest_data.js（带时间戳，强制刷新，防止缓存导致图片过期）
-(function(){
-  var s = document.createElement('script');
-  s.src = 'teatest_data.js?v=' + Date.now();
-  s.onerror = function(){ console.log('teatest_data.js not available'); render(); };
-  s.onload = function(){
-    if(window.TEATEST_CLOUD_DATA && Array.isArray(window.TEATEST_CLOUD_DATA)){
-      allRecords = window.TEATEST_CLOUD_DATA;
-    }
+// 用 fetch + no-store 加载 teatest_data.js，强制绕过所有缓存
+fetch('teatest_data.js?v=' + Date.now(), {cache:'no-store'})
+  .then(function(r){ return r.text(); })
+  .then(function(text){
+    try{
+      new Function(text)(); // 执行 JS，设置 window.TEATEST_CLOUD_DATA
+      if(window.TEATEST_CLOUD_DATA && Array.isArray(window.TEATEST_CLOUD_DATA)){
+        allRecords = window.TEATEST_CLOUD_DATA;
+      }
+    }catch(e){ console.log('teatest_data parse error:', e); }
     render();
-  };
-  document.head.appendChild(s);
-})();
+  })
+  .catch(function(e){
+    console.log('teatest_data.js load failed:', e);
+    render();
+  });
 </script>
 </body>
 </html>

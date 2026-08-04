@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-04 18:56:33）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 18:59:27）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -1064,6 +1064,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "I2pl5SdCF6",
+    "store": "武汉汉秀剧场茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "原叶冻萃茶/荔枝乌龙茶",
+    "taster": "张亮",
+    "remark": "",
+    "created_at": "2026-08-04 10:58:50"
+  },
+  {
     "recordId": "IKOcnaEsxi",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -1440,6 +1449,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "OXglfuA2mR",
+    "store": "武汉汉秀剧场茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/岭南佳荔",
+    "taster": "张亮",
+    "remark": "",
+    "created_at": "2026-08-04 10:58:50"
   },
   {
     "recordId": "PB1T1E8G31",
@@ -1820,6 +1838,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-03 10:25:01"
   },
   {
+    "recordId": "XBCf3TUTpV",
+    "store": "武汉汉秀剧场茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（茉莉绿茶）",
+    "taster": "张亮",
+    "remark": "",
+    "created_at": "2026-08-04 10:58:50"
+  },
+  {
     "recordId": "XC0NGmH7L5",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -2045,6 +2072,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "aDw1BXH3Ei",
+    "store": "武汉汉秀剧场茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（栀香绿茶）",
+    "taster": "张亮",
+    "remark": "",
+    "created_at": "2026-08-04 10:58:50"
+  },
+  {
     "recordId": "aH9jT1raZO",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -2079,6 +2115,33 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "aS1O4PXbuJ",
+    "store": "武汉汉秀剧场茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/玫瑰油切绿茶",
+    "taster": "张亮",
+    "remark": "",
+    "created_at": "2026-08-04 10:58:50"
+  },
+  {
+    "recordId": "agNk2vyIvi",
+    "store": "武汉汉秀剧场茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（黑乌龙）",
+    "taster": "张亮",
+    "remark": "",
+    "created_at": "2026-08-04 10:58:50"
+  },
+  {
+    "recordId": "akShCnr5ul",
+    "store": "武汉汉秀剧场茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/芒果红茶",
+    "taster": "张亮",
+    "remark": "",
+    "created_at": "2026-08-04 10:58:50"
   },
   {
     "recordId": "ax0az3giFW",
@@ -2414,6 +2477,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "f4WNKJ7zJP",
+    "store": "武汉汉秀剧场茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（陌桂）",
+    "taster": "张亮",
+    "remark": "",
+    "created_at": "2026-08-04 10:58:50"
+  },
+  {
     "recordId": "fOFp8ddQzO",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -2628,6 +2700,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "jVN3QcFU3V",
+    "store": "武汉汉秀剧场茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/李子味乌龙",
+    "taster": "张亮",
+    "remark": "",
+    "created_at": "2026-08-04 10:58:50"
   },
   {
     "recordId": "jlAmCkpcXS",

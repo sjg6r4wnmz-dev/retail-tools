@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-04 15:50:09）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 15:51:19）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -221,6 +221,18 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-03 11:28:04"
   },
   {
+    "recordId": "LxsHwfyTor",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-05-10",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "侯钰轩",
+    "remark": "",
+    "photos": [
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/f2b33cb4-2a1a-4703-9844-6a974fc97c82.jpg"
+    ],
+    "created_at": "2026-08-04 07:50:19"
+  },
+  {
     "recordId": "M6Ne1OIv2r",
     "store": "深圳海上世界游园会店",
     "register_date": "2026-08-03",
@@ -257,6 +269,18 @@ window.TEATEST_CLOUD_DATA = [
       "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/7ad30c45-f7c4-420f-846c-6a8fda9c9f00.jpg"
     ],
     "created_at": "2026-08-04 07:39:30"
+  },
+  {
+    "recordId": "PB1T1E8G31",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-05-08",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "侯钰轩",
+    "remark": "",
+    "photos": [
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/dbd212bf-f29d-4c94-98ae-f51e58140ba3.jpg"
+    ],
+    "created_at": "2026-08-04 07:50:45"
   },
   {
     "recordId": "Q8nFEJJktX",

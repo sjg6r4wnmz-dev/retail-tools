@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>茶叶试闻电子台账</title>
+<style>
+  :root{
+    --tea-green:#2f6b4f;
+    --tea-green-light:#e8f1ec;
+    --tea-gold:#c9a86a;
+    --bg:#f5f3ee;
+    --card:#ffffff;
+    --text:#2b2b2b;
+    --muted:#8a8a8a;
+    --line:#e3e0d8;
+    --danger:#c0392b;
+    --warn:#e67e22;
+    --warn-bg:#fef3e8;
+    --expired:#c0392b;
+    --expired-bg:#fdeaea;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.5;
+  }
+  header{
+    background:linear-gradient(135deg,var(--tea-green),#3c8163);
+    color:#fff;padding:20px 24px;box-shadow:0 2px 8px rgba(0,0,0,.08);
+  }
+  header h1{margin:0;font-size:20px;font-weight:600;letter-spacing:.5px;}
+  header p{margin:4px 0 0;font-size:13px;opacity:.85;}
+  .wrap{max-width:1080px;margin:0 auto;padding:20px 16px 60px;}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:20px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  /* Tab 导航 */
+  .tab-nav{
+    display:flex;gap:8px;background:var(--card);padding:8px;border-radius:12px;
+    border:1px solid var(--line);margin-bottom:18px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);position:sticky;top:8px;z-index:20;
+  }
+  .tab-btn{
+    flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+    padding:12px 16px;border:none;background:transparent;border-radius:8px;
+    font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;
+    font-family:inherit;transition:all .15s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .tab-btn .tab-icon{font-size:18px;}
+  .tab-btn:hover{background:var(--tea-green-light);color:var(--tea-green);}
+  .tab-btn.active{
+    background:var(--tea-green);color:#fff;box-shadow:0 2px 6px rgba(47,107,79,.3);
+  }
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;animation:fadeIn .2s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+  .card h2{margin:0 0 16px;font-size:16px;color:var(--tea-green);
+    display:flex;align-items:center;gap:8px;}
+  .card h2::before{content:"";width:4px;height:16px;background:var(--tea-green);border-radius:2px;}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .field{display:flex;flex-direction:column;gap:6px;}
+  .field.full{grid-column:1 / -1;}
+  label{font-size:13px;color:var(--muted);}
+  label .req{color:var(--danger);margin-left:2px;}
+  input,select,textarea{
+    border:1px solid var(--line);border-radius:8px;padding:9px 10px;font-size:14px;
+    background:#fcfcfb;color:var(--text);font-family:inherit;transition:border .15s;
+  }
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--tea-green);background:#fff;}
+  textarea{resize:vertical;min-height:60px;}
+  .btn{
+    border:none;border-radius:8px;padding:10px 18px;font-size:14px;cursor:pointer;
+    font-family:inherit;transition:opacity .15s,transform .05s;font-weight:500;
+    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{background:var(--tea-green);color:#fff;}
+  .btn-primary:hover{opacity:.92;}
+  .btn-ghost{background:var(--tea-green-light);color:var(--tea-green);}
+  .btn-ghost:hover{opacity:.85;}
+  .btn-line{background:#fff;border:1px solid var(--line);color:var(--text);}
+  .btn-line:hover{background:#fafafa;}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;}
+  .toast{
+    position:fixed;top:18px;left:50%;transform:translateX(-50%);
+    background:#333;color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;
+    opacity:0;pointer-events:none;transition:opacity .25s;z-index:99;max-width:90vw;
+  }
+  .toast.show{opacity:1;}
+  .toast.err{background:var(--danger);}
+  .toast.ok{background:var(--tea-green);}
+  .count-bar{font-size:13px;color:var(--muted);margin-bottom:12px;}
+  .count-bar b{color:var(--tea-green);}
+  .table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:720px;}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap;}
+  th{background:var(--tea-green-light);color:var(--tea-green);font-weight:600;position:sticky;top:0;}
+  tbody tr:hover{background:#fafaf8;}
+  .status-tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px;background:#eee;color:#555;}
+  .warn-tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px;background:var(--warn-bg);color:var(--warn);font-weight:500;}
+  .expired-tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px;background:var(--expired-bg);color:var(--expired);font-weight:500;}
+  .empty{text-align:center;color:var(--muted);padding:40px 0;font-size:14px;}
+  .query-row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;}
+  .query-row .field{min-width:150px;}
+  /* 可搜索下拉 */
+  .combo{position:relative;}
+  .combo-list{
+    position:absolute;top:100%;left:0;right:0;z-index:50;
+    background:#fff;border:1px solid var(--line);border-top:none;
+    border-radius:0 0 8px 8px;max-height:240px;overflow-y:auto;
+    list-style:none;margin:0;padding:4px 0;box-shadow:0 6px 16px rgba(0,0,0,.12);
+    display:none;
+  }
+  .combo-list li{
+    padding:8px 12px;cursor:pointer;display:flex;justify-content:space-between;
+    gap:10px;align-items:center;font-size:14px;
+  }
+  .combo-list li:hover{background:var(--tea-green-light);}
+  .combo-name{color:var(--text);}
+  .combo-hint{color:var(--muted);font-size:12px;white-space:nowrap;}
+  .combo-empty{padding:8px 12px;color:var(--muted);font-size:13px;cursor:default;}
+  /* 多茶叶条目列表 */
+  .item-group{
+    margin-top:6px;border:1px dashed var(--line);border-radius:10px;
+    padding:10px 12px;background:#fbfaf6;
+  }
+  .item-group-head{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:8px;font-size:13px;color:var(--tea-green);font-weight:500;
+  }
+  .item-group-head .count-tag{
+    background:var(--tea-green-light);padding:2px 8px;border-radius:10px;
+    font-size:12px;color:var(--tea-green);
+  }
+  .item-row{
+    display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;
+    flex-wrap:wrap;
+  }
+  .item-row:last-child{margin-bottom:0;}
+  .item-idx{
+    flex:0 0 24px;height:32px;line-height:32px;text-align:center;
+    background:var(--tea-green);color:#fff;border-radius:50%;
+    font-size:12px;font-weight:600;margin-top:4px;
+  }
+  .item-row .tea-input{flex:1;min-width:200px;}
+  .item-row .tea-input input{width:100%;}
+  .item-del{
+    flex:0 0 32px;height:32px;border-radius:8px;border:1px solid var(--line);
+    background:#fff;color:var(--muted);cursor:pointer;font-size:18px;
+    line-height:1;display:flex;align-items:center;justify-content:center;
+    margin-top:4px;
+  }
+  .item-del:hover{background:var(--danger);color:#fff;border-color:var(--danger);}
+  .item-add{
+    width:100%;margin-top:4px;padding:9px;border:1px dashed var(--line);
+    border-radius:8px;background:transparent;color:var(--tea-green);
+    cursor:pointer;font-size:13px;font-family:inherit;
+    transition:background .15s,border-color .15s;
+  }
+  .item-add:hover{background:var(--tea-green-light);border-color:var(--tea-green);}
+  /* ---- 查询结果：移动端卡片式布局 ---- */
+  .result-cards{display:none;}
+  @media(max-width:640px){
+    .table-scroll{display:none;}
+    .result-cards{display:block;}
+    .result-card{
+      background:var(--card);border:1px solid var(--line);border-radius:10px;
+      padding:14px;margin-bottom:10px;box-shadow:0 1px 2px rgba(0,0,0,.03);
+    }
+    .result-card .rc-head{
+      display:flex;justify-content:space-between;align-items:center;
+      margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--line);
+    }
+    .result-card .rc-tea{font-size:15px;font-weight:600;color:var(--tea-green);}
+    .result-card .rc-date{font-size:12px;color:var(--muted);}
+    .result-card .rc-row{
+      display:flex;gap:8px;margin-bottom:4px;font-size:13px;line-height:1.6;
+    }
+    .result-card .rc-label{flex:0 0 56px;color:var(--muted);font-size:12px;}
+    .result-card .rc-value{flex:1;color:var(--text);}
+    .result-card .rc-meta{
+      margin-top:6px;font-size:11px;color:var(--muted);
+      display:flex;justify-content:space-between;
+    }
+    .result-card .rc-warn{margin-bottom:6px;}
+    .empty-card{padding:40px 20px;text-align:center;color:var(--muted);font-size:14px;}
+
+    /* 门店分组折叠卡片 */
+    .store-card{
+      background:var(--card);border:1px solid var(--line);border-radius:12px;
+      margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.04);overflow:hidden;
+    }
+    .store-header{
+      display:flex;align-items:center;gap:10px;padding:14px 16px;
+      cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+      user-select:none;background:linear-gradient(135deg,#f8faf7 0%,#fff 100%);
+    }
+    .store-header:active{background:#f0f4ee;}
+    .store-header .store-icon{
+      width:36px;height:36px;border-radius:10px;
+      background:var(--tea-green);color:#fff;font-size:16px;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    }
+    .store-header .store-info{flex:1;min-width:0;}
+    .store-header .store-name{font-size:15px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .store-header .store-meta{font-size:12px;color:var(--muted);margin-top:2px;}
+    .store-header .store-arrow{
+      width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+      color:var(--muted);transition:transform .2s ease;font-size:14px;
+    }
+    .store-card.collapsed .store-arrow{transform:rotate(-90deg);}
+    .tea-list{padding:0 16px 14px;display:flex;flex-direction:column;gap:8px;}
+    .store-card.collapsed .tea-list{display:none;}
+    .tea-item{
+      background:#fafbfa;border:1px solid var(--line);border-radius:10px;
+      padding:12px 14px;position:relative;
+    }
+    .tea-item-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+    .tea-item-name{font-size:14px;font-weight:600;color:var(--tea-green);}
+    .tea-item-date{font-size:12px;color:var(--muted);}
+    .tea-item-row{display:flex;gap:6px;margin-bottom:3px;font-size:12px;line-height:1.5;}
+    .tea-item-label{flex:0 0 48px;color:var(--muted);}
+    .tea-item-val{flex:1;color:var(--text);word-break:break-all;}
+    .tea-item-meta{margin-top:6px;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;}
+    .store-divider{height:1px;background:var(--line);margin:0 16px;}
+    .store-card.collapsed .store-divider{display:none;}
+
+    /* 表单单列 */
+    .grid{grid-template-columns:1fr;}
+    .query-row{flex-direction:column;}
+    .query-row .field{min-width:100%;}
+    .query-row .field[style*="flex-direction:row"]{flex-wrap:wrap;}
+    .query-row .field[style*="flex-direction:row"] button{flex:1;min-width:80px;}
+
+    /* 增大触控目标 */
+    input,select,textarea,button{padding:12px 14px;font-size:16px;}
+    .btn{padding:12px 18px;font-size:16px;}
+    .item-row .tea-input input{padding:12px 14px;font-size:16px;}
+    .item-del{width:40px;height:40px;font-size:20px;}
+    .item-idx{width:28px;height:36px;line-height:36px;font-size:13px;}
+    .item-add{padding:12px;font-size:15px;}
+    .combo-list li{padding:12px 14px;font-size:16px;}
+
+    /* 减小间距 */
+    header{padding:14px 16px;}
+    header h1{font-size:18px;}
+    .wrap{padding:12px 10px 80px;}
+    .card{padding:14px;margin-bottom:12px;border-radius:10px;}
+    .grid{gap:10px;}
+
+    /* Toast 安全区 */
+    .toast{top:env(safe-area-inset-top,12px);}
+  }
+
+  @media(min-width:481px) and (max-width:720px){
+    .grid{grid-template-columns:1fr 1fr;}
+  }
+  @media(max-width:480px){.grid{grid-template-columns:1fr;}}
+</style>
+<script src="https://beacon.cdn.qq.com/sdk/4.5.9/beacon_web.min.js"></script>
+<script>
+(function(){
+  try{
+    var beacon=new BeaconAction({
+      appkey:'0WEB06U85YBSLJNL',
+      versionCode:'1.0.0',
+      channelID:'share',
+      delay:1000,
+      sessionDuration:30*60*1000,
+      isOversea:false,
+      needReportRqdEvent:false
+    });
+    beacon.onDirectUserAction('preview_page_view',{
+      'url':location.href,
+      'referrer':document.referrer,
+      'title':document.title,
+      'sandbox_id':'4c12882a66c74f78a1a82747afebd0e4'
+    });
+  }catch(e){}
+})();
+</script></head>
+<body>
+<header>
+  <h1>🍵 茶叶试闻电子台账</h1>
+  <p>门店登记 · 统一查询 · 多门店数据实时汇总</p>
+</header>
+
+<div class="wrap">
+
+  <!-- Tab 切换 -->
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="record" onclick="switchTab('record')">
+      <span class="tab-icon">📝</span><span>登记试闻</span>
+    </button>
+    <button class="tab-btn" data-tab="query" onclick="switchTab('query')">
+      <span class="tab-icon">🔍</span><span>查询台账</span>
+    </button>
+    <a class="tab-btn" href="records.html" style="text-decoration:none;">
+      <span class="tab-icon">📋</span><span>记录查看</span>
+    </a>
+  </div>
+
+  <!-- 登记试闻 -->
+  <div class="tab-panel active" id="panel-record">
+    <div class="card">
+      <h2>登记试闻记录 <span style="font-size:12px;color:var(--muted);font-weight:400;">（可同时登记多条茶叶）</span></h2>
+      <form id="form">
+      <!-- 基本信息（共享字段） -->
+      <div class="grid">
+        <div class="field">
+          <label>门店<span class="req">*</span></label>
+          <div class="combo">
+            <input id="f_store" placeholder="搜索或输入门店名称（必填）" required autocomplete="off">
+            <ul class="combo-list" id="list_store"></ul>
+          </div>
+        </div>
+        <div class="field">
+          <label>登记日期<span class="req">*</span></label>
+          <input id="f_date" type="date" required>
+        </div>
+        <div class="field">
+          <label>登记人</label>
+          <div class="combo">
+            <input id="f_taster" placeholder="从钉钉组织架构中选择（选填）" autocomplete="off">
+            <ul class="combo-list" id="list_taster"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 茶叶条目列表 -->
+      <div class="item-group" style="margin-top:18px;">
+        <div class="item-group-head">
+          <span>茶叶条目</span>
+          <span class="count-tag" id="itemCountTag">已添加 1 种</span>
+        </div>
+        <div id="itemList"></div>
+        <button type="button" class="item-add" onclick="addItem()">＋ 添加茶叶</button>
+      </div>
+
+      <div class="actions" style="margin-top:18px;">
+        <button type="submit" class="btn btn-primary">提交登记</button>
+        <button type="reset" class="btn btn-line" onclick="onFormReset()">清空</button>
+      </div>
+    </form>
+    </div>
+  </div>
+
+  <!-- 查询台账 -->
+  <div class="tab-panel" id="panel-query">
+    <div class="card">
+      <h2>查询台账</h2>
+      <div class="query-row">
+      <div class="field" style="flex:1;min-width:280px;">
+        <label>门店名称</label>
+        <input id="q_store" placeholder="输入门店名称，查询该门店所有记录（留空查看全部）">
+      </div>
+      <div class="field" style="flex-direction:row;align-items:center;gap:8px;">
+        <button class="btn btn-primary" onclick="doQuery()">查询</button>
+        <button class="btn btn-line" onclick="resetQuery()">重置</button>
+        <button class="btn btn-ghost" onclick="exportCsv()">导出 Excel</button>
+      </div>
+    </div>
+
+    <div class="count-bar" id="countBar" style="display:none;"></div>
+    <!-- 桌面端：表格 -->
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th><th>门店</th><th>登记日期</th><th>茶叶名称</th>
+            <th>登记人</th><th>预警状态</th><th>录入时间</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <tr><td colspan="7" class="empty">暂无数据，点击「查询」加载，或先登记一条记录。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- 移动端：卡片式 -->
+    <div class="result-cards" id="resultCards">
+      <div class="empty-card">暂无数据，点击「查询」加载，或先登记一条记录。</div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- AUTO_DATA_START -->
+<script>
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 16:50:04）
+window.TEATEST_CLOUD_DATA = [
+  {
+    "recordId": "04vYLAf9ZE",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/清茉",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "0JPZxYOu2u",
+    "store": "深圳福田cocopark茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "习惯茶/茉莉红茶",
+    "taster": "欧阳菁",
+    "remark": "",
+    "created_at": "2026-08-03 07:06:52"
+  },
+  {
+    "recordId": "1C2yP5zP78",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:45:11"
+  },
+  {
+    "recordId": "1Cn2Inax66",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "侯钰轩",
+    "remark": "",
+    "created_at": "2026-08-04 07:39:30"
+  },
+  {
+    "recordId": "1JcOhrjtpq",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:25:57"
+  },
+  {
+    "recordId": "1ahtcbVJPd",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/栀晓绿",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:35:01"
+  },
+  {
+    "recordId": "1hnTfFYUF5",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "习惯茶/清新乌龙",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:30:31"
+  },
+  {
+    "recordId": "1twyVWrynu",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/岭南佳荔",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "2YgumqGXxH",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "习惯茶/青梅乌龙",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:30:31"
+  },
+  {
+    "recordId": "3YPFGswB9O",
+    "store": "深圳湾万象城游园会店",
+    "register_date": "2026-08-02",
+    "tea_name": "栀晓",
+    "taster": "彭萱",
+    "remark": "",
+    "created_at": "2026-08-02 15:48:23"
+  },
+  {
+    "recordId": "3eErKOepuf",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-07-13",
+    "tea_name": "习惯茶/橘香冻顶乌龙",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 08:32:20"
+  },
+  {
+    "recordId": "3mAB0JcQQO",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "习惯茶之桃花坞/蜜桃乌龙",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:29:52"
+  },
+  {
+    "recordId": "3zkr6v6frB",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "习惯茶/岭南佳荔",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:29:52"
+  },
+  {
+    "recordId": "50e8EvaS0a",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "单品SOE冻萃咖啡",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:45:11"
+  },
+  {
+    "recordId": "5oKtKhlKNk",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/栀晓绿",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "7EQjAD4Wxm",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:44:16"
+  },
+  {
+    "recordId": "7PCqLiDbDL",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-03-16",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 08:30:35"
+  },
+  {
+    "recordId": "7a5iFQqsFJ",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/清茉",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "7oo1PIdztV",
+    "store": "深圳福田cocopark茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "习惯茶/橘香冻顶乌龙",
+    "taster": "欧阳菁",
+    "remark": "",
+    "created_at": "2026-08-03 07:07:37"
+  },
+  {
+    "recordId": "8GQRc2W27J",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:45:11"
+  },
+  {
+    "recordId": "ASNlPokxf0",
+    "store": "深圳万象城罗湖游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "刘世琦",
+    "remark": "",
+    "created_at": "2026-08-03 10:25:28"
+  },
+  {
+    "recordId": "ASXnyvwZKk",
+    "store": "深圳万象城罗湖游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "天生我材/小金桂茶",
+    "taster": "刘世琦",
+    "remark": "",
+    "created_at": "2026-08-03 10:26:46"
+  },
+  {
+    "recordId": "BLmfMXVtz6",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "习惯茶/菠萝啤味乌龙",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:29:52"
+  },
+  {
+    "recordId": "BVvpnaKZ4S",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/李子味乌龙",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:35:01"
+  },
+  {
+    "recordId": "BoF9uGmn9f",
+    "store": "深圳湾万象城游园会店",
+    "register_date": "2026-08-02",
+    "tea_name": "草本",
+    "taster": "彭萱",
+    "remark": "",
+    "created_at": "2026-08-02 15:48:16"
+  },
+  {
+    "recordId": "Bz9xcuo4rd",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-07-01",
+    "tea_name": "习惯茶/碎银子普洱",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 08:32:52"
+  },
+  {
+    "recordId": "CK8DtOINtn",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/清茉",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:35:01"
+  },
+  {
+    "recordId": "Cz3KsJB8ID",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/岭南佳荔",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:35:01"
+  },
+  {
+    "recordId": "D6JEHRPt4a",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:45:11"
+  },
+  {
+    "recordId": "EP1xRSFYLv",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:25:31"
+  },
+  {
+    "recordId": "ElkDDtoZg1",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/竹叶香乌龙",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "F69diTLVgj",
+    "store": "深圳湾万象城游园会店",
+    "register_date": "2026-08-02",
+    "tea_name": "硕果",
+    "taster": "彭萱",
+    "remark": "",
+    "created_at": "2026-08-02 15:48:05"
+  },
+  {
+    "recordId": "FvIeQquAqP",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶之女儿红/葡萄乌龙",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "HZsvU6h3aw",
+    "store": "深圳福田cocopark茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "习惯茶/岭南佳荔",
+    "taster": "欧阳菁",
+    "remark": "",
+    "created_at": "2026-08-03 07:10:24"
+  },
+  {
+    "recordId": "IipsY8PwLH",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/茉莉红茶",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "IspLdmebfo",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "少年心气/茉莉窨花茶",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-03 11:21:52"
+  },
+  {
+    "recordId": "JcROmJ0dKK",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "玫",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:35:01"
+  },
+  {
+    "recordId": "K49DcZvEYl",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "自摇沫泡奶茶/声声乌龙（1杯装）",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:28:04"
+  },
+  {
+    "recordId": "LKURyoQok8",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/玫瑰油切绿茶",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "LxsHwfyTor",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-05-10",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "侯钰轩",
+    "remark": "",
+    "created_at": "2026-08-04 07:50:19"
+  },
+  {
+    "recordId": "M6Ne1OIv2r",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:27:05"
+  },
+  {
+    "recordId": "MCCc2bMr48",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "天生我材/小金桂茶",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:45:11"
+  },
+  {
+    "recordId": "MsHvDmtLkL",
+    "store": "深圳万象城罗湖游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "蜜桃乌龙&桂花乌龙/同心组合",
+    "taster": "刘世琦",
+    "remark": "",
+    "created_at": "2026-08-03 10:24:19"
+  },
+  {
+    "recordId": "NRoyQGPLRu",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "鸳央手冲挂耳茶咖2.0",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:45:11"
+  },
+  {
+    "recordId": "NbHAN0bBRn",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "侯钰轩",
+    "remark": "",
+    "created_at": "2026-08-04 07:39:30"
+  },
+  {
+    "recordId": "PB1T1E8G31",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-05-08",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "侯钰轩",
+    "remark": "",
+    "created_at": "2026-08-04 07:50:45"
+  },
+  {
+    "recordId": "Q8nFEJJktX",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "自摇沫泡奶茶/幽兰拿铁（1杯装）",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:28:04"
+  },
+  {
+    "recordId": "QgolF9joIW",
+    "store": "深圳万象城罗湖游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "刘世琦",
+    "remark": "",
+    "created_at": "2026-08-03 10:28:13"
+  },
+  {
+    "recordId": "SUCA9CAmQy",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "习惯茶/黑乌龙",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:30:31"
+  },
+  {
+    "recordId": "TAhpbKA44U",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-02-24",
+    "tea_name": "天生我材/小金桂茶",
+    "taster": "侯钰轩",
+    "remark": "",
+    "created_at": "2026-08-04 07:51:32"
+  },
+  {
+    "recordId": "TdL2ojoQKv",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "半日普洱闲时茶",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:45:11"
+  },
+  {
+    "recordId": "V67F3nARVn",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-02-27",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "侯钰轩",
+    "remark": "",
+    "created_at": "2026-08-04 07:49:50"
+  },
+  {
+    "recordId": "X7x9cStJtV",
+    "store": "深圳万象城罗湖游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "少年心气/茉莉窨花茶",
+    "taster": "刘世琦",
+    "remark": "",
+    "created_at": "2026-08-03 10:25:01"
+  },
+  {
+    "recordId": "XpNC96DnpN",
+    "store": "深圳万象城罗湖游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "刘世琦",
+    "remark": "",
+    "created_at": "2026-08-03 10:28:36"
+  },
+  {
+    "recordId": "YlWBD1jROv",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:45:11"
+  },
+  {
+    "recordId": "Z3AkRGm4qO",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-03-14",
+    "tea_name": "少年心气/茉莉窨花茶",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 08:31:07"
+  },
+  {
+    "recordId": "aHLtCAUAIL",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-02-28",
+    "tea_name": "鸳央手冲挂耳茶咖2.0",
+    "taster": "侯钰轩",
+    "remark": "",
+    "created_at": "2026-08-04 07:52:10"
+  },
+  {
+    "recordId": "b30Ym0Q9dW",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶之女儿红/葡萄乌龙",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "bVCzxolgyn",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/玫瑰油切绿茶",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:35:01"
+  },
+  {
+    "recordId": "cLpaqPSz7v",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:24:34"
+  },
+  {
+    "recordId": "cbEkWYadXT",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/栀晓绿",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "dDOIQYpYyH",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:44:16"
+  },
+  {
+    "recordId": "eNCM2aMFz7",
+    "store": "深圳福田cocopark茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "习惯茶/柚子乌龙",
+    "taster": "欧阳菁",
+    "remark": "",
+    "created_at": "2026-08-03 07:08:31"
+  },
+  {
+    "recordId": "fOFp8ddQzO",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/茉莉红茶",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "g7WONlXRAc",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/玫珑香乌龙",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "gOVMyz7lsG",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "天生我材/小金桂茶",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:25:10"
+  },
+  {
+    "recordId": "hHahcr5mBt",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "藏不住",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:44:16"
+  },
+  {
+    "recordId": "hM4t4bevNp",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-06-24",
+    "tea_name": "习惯茶/槐花青苹果乌龙",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 08:32:36"
+  },
+  {
+    "recordId": "hZrgLgV4TD",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:24:18"
+  },
+  {
+    "recordId": "l87IAvUJg3",
+    "store": "深圳福田cocopark茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "习惯茶/玫珑香乌龙",
+    "taster": "欧阳菁",
+    "remark": "",
+    "created_at": "2026-08-03 07:11:12"
+  },
+  {
+    "recordId": "lyBWnH7JrV",
+    "store": "深圳福田cocopark茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "习惯茶之桃花坞/蜜桃乌龙",
+    "taster": "欧阳菁",
+    "remark": "",
+    "created_at": "2026-08-03 07:09:25"
+  },
+  {
+    "recordId": "nNo07G5xWl",
+    "store": "深圳万象城罗湖游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "刘世琦",
+    "remark": "",
+    "created_at": "2026-08-03 10:27:22"
+  },
+  {
+    "recordId": "otDlmJXXUc",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:23:47"
+  },
+  {
+    "recordId": "pjrpPuiVdO",
+    "store": "深圳湾万象城游园会店",
+    "register_date": "2026-08-02",
+    "tea_name": "大四喜",
+    "taster": "彭萱",
+    "remark": "",
+    "created_at": "2026-08-02 15:47:53"
+  },
+  {
+    "recordId": "qIy6p77Fi0",
+    "store": "深圳万象城罗湖游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "刘世琦",
+    "remark": "",
+    "created_at": "2026-08-03 10:27:42"
+  },
+  {
+    "recordId": "rYyURIZ2gJ",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/玫瑰油切绿茶",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "rdV94vlXrj",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "蜜桃乌龙&桂花乌龙/同心组合",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:20:33"
+  },
+  {
+    "recordId": "rj2qKSZpXq",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:26:35"
+  },
+  {
+    "recordId": "sXOz8YGKRW",
+    "store": "深圳福田cocopark茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "欧阳菁",
+    "remark": "",
+    "created_at": "2026-08-04 08:32:33"
+  },
+  {
+    "recordId": "urHXhykXD8",
+    "store": "深圳海上世界游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "鸳央手冲挂耳茶咖2.0",
+    "taster": "邓健良",
+    "remark": "",
+    "created_at": "2026-08-03 11:27:21"
+  },
+  {
+    "recordId": "uv1g6NOiHk",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/玫珑香乌龙",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "v2Tb0bNApj",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/竹叶香乌龙",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "w4zua9cj8N",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-03-09",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 08:31:28"
+  },
+  {
+    "recordId": "wEHHkWeNVU",
+    "store": "深圳万象城罗湖游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "鸳央手冲挂耳茶咖2.0",
+    "taster": "刘世琦",
+    "remark": "",
+    "created_at": "2026-08-03 10:29:23"
+  },
+  {
+    "recordId": "wvZcGGmw9i",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/岭南佳荔",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "yS1xcAgMuD",
+    "store": "深圳万象城罗湖游园会店",
+    "register_date": "2026-08-03",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "刘世琦",
+    "remark": "",
+    "created_at": "2026-08-03 10:26:04"
+  },
+  {
+    "recordId": "ykCoyA007b",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "茗优原叶冻萃茶/茶小匣清减装（浓香金观音)",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:45:11"
+  },
+  {
+    "recordId": "ztMlE3Sr6C",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "侯钰轩",
+    "remark": "",
+    "created_at": "2026-08-04 07:39:30"
+  }
+];
+</script>
+<!-- AUTO_DATA_END -->
+
+<script>
+// Tab 切换
+function switchTab(name){
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === name);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => {
+    p.classList.toggle('active', p.id === 'panel-' + name);
+  });
+  // 切到查询台账时，自动加载一次数据（如果之前没加载过）
+  if(name === 'query' && !window._queryLoaded){
+    doQuery();
+    window._queryLoaded = true;
+  }
+  // 滚到顶部
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+const $ = id => document.getElementById(id);
+
+// ====== localStorage 数据层 + 云端钉钉AI表格同步 ======
+const LS_KEY = 'tea_ledger_records';
+const TUNNEL_URL = 'https://chayan-rectify.loca.lt';
+const AUTH_TOKEN = 'posm_5fa4761ff06d7c89d189faf93574f248';
+let _nextId = 0;
+
+function loadRecords(){
+  try{ return JSON.parse(localStorage.getItem(LS_KEY) || '[]'); }
+  catch(e){ return []; }
+}
+
+function saveRecords(records){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(records)); }
+  catch(e){ toast('存储空间不足，请清理旧记录', 'err'); throw e; }
+}
+
+function getNextId(records){
+  if(!_nextId) _nextId = records.reduce((max, r) => Math.max(max, r.id||0), 0);
+  return ++_nextId;
+}
+
+function insertRecords(baseData, teaItems){
+  const now = new Date().toISOString().replace('T',' ').slice(0,19);
+  const records = loadRecords();
+  const newRecords = teaItems.map(it => {
+    const id = getNextId(records);
+    return { id, store: baseData.store, register_date: baseData.register_date,
+      tea_name: it.tea_name, taster: baseData.taster,
+      created_at: now };
+  });
+  records.push(...newRecords);
+  saveRecords(records);
+
+  // 异步提交到云端钉钉AI表格（fire-and-forget，不阻塞UI）
+  try {
+    fetch(TUNNEL_URL + '/teatest/submit', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'X-Auth-Token': AUTH_TOKEN},
+      body: JSON.stringify({
+        store: baseData.store,
+        register_date: baseData.register_date,
+        tea_names: teaItems.map(it => it.tea_name.trim()).filter(Boolean),
+        tea_items: teaItems.map(it => ({tea_name: it.tea_name.trim()})).filter(it => it.tea_name),
+        taster: baseData.taster,
+        created_at: now
+      })
+    }).catch(() => {});
+  } catch(e) {}
+
+  return newRecords;
+}
+
+function queryRecords(storeFilter){
+  // 1. 本地 localStorage 记录
+  const localRecords = loadRecords();
+
+  // 2. 云端钉钉 AI 表格记录（由 teatest_data.js 注入 window.TEATEST_CLOUD_DATA）
+  let cloudRecords = [];
+  if(window.TEATEST_CLOUD_DATA && Array.isArray(window.TEATEST_CLOUD_DATA)){
+    cloudRecords = window.TEATEST_CLOUD_DATA.map(r => ({
+      id: 0,
+      recordId: r.recordId || '',
+      store: r.store || '',
+      register_date: r.register_date || '',
+      tea_name: r.tea_name || '',
+      taster: r.taster || '',
+      created_at: r.created_at || '',
+      source: 'cloud'
+    }));
+  }
+
+  // 3. 合并：以 (store, tea_name) 为 key，云端数据优先
+  const allMap = new Map();
+
+  // 先放本地记录
+  localRecords.forEach(r => {
+    const key = r.store + '||' + r.tea_name;
+    // 本地记录也可能有 source 标记
+    if(!r.source) r.source = 'local';
+    allMap.set(key, r);
+  });
+
+  // 云端记录覆盖同 key 的本地记录（云端更权威）
+  cloudRecords.forEach(r => {
+    const key = r.store + '||' + r.tea_name;
+    const existing = allMap.get(key);
+    // 云端覆盖 local OR 云端日期更新
+    if(!existing || existing.source === 'local' ||
+       r.register_date >= existing.register_date){
+      allMap.set(key, r);
+    }
+  });
+
+  let allArray = Array.from(allMap.values());
+
+  // 4. 过滤
+  if(storeFilter){
+    const kw = storeFilter.toLowerCase();
+    allArray = allArray.filter(r => r.store && r.store.toLowerCase().includes(kw));
+  }
+
+  // 5. 排序：按 register_date 降序
+  allArray.sort((a, b) => b.register_date.localeCompare(a.register_date) || (b.id||0) - (a.id||0));
+
+  return { data: allArray, total: allArray.length, cloudCount: cloudRecords.length, localCount: localRecords.length };
+}
+
+function getStoreList(){
+  const records = loadRecords();
+  const stores = new Set();
+  records.forEach(r => { if(r.store) stores.add(r.store); });
+  return Array.from(stores).sort();
+}
+
+function toast(msg, type){
+  const t = $("toast");
+  t.textContent = msg;
+  t.className = "toast show " + (type||"");
+  setTimeout(()=> t.className = "toast " + (type||""), 2200);
+}
+
+// 日期默认今天
+$("f_date").value = new Date().toISOString().slice(0,10);
+
+// 提交登记
+$("form").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const store = $("f_store").value.trim();
+  const register_date = $("f_date").value;
+  const taster = $("f_taster").value.trim();
+  const items = collectItems();
+  if(!store || !register_date){
+    toast("门店、登记日期为必填项", "err"); return;
+  }
+  if(!items.length){
+    toast("请至少添加一种茶叶", "err"); return;
+  }
+  const blanks = items.filter(it => !it.tea_name.trim());
+  if(blanks.length){
+    toast("请填写所有茶叶名称", "err"); return;
+  }
+  // 同表单内去重：相同茶叶名称只留一条（防止一次登记重复添加）
+  const seen = new Set(), dedupedItems = [];
+  items.forEach(it => {
+    const key = it.tea_name.trim();
+    if(!seen.has(key)){ seen.add(key); dedupedItems.push(it); }
+  });
+  try{
+    const newRecords = insertRecords({
+      store, register_date, taster
+    }, dedupedItems);
+    toast(`登记成功，已入库 ${newRecords.length} 条记录`, "ok");
+    // 自动跳到查询台账看新记录
+    setTimeout(() => switchTab('query'), 600);
+    onFormReset(true);
+    doQuery();
+  }catch(e){ toast("网络错误，无法连接服务", "err"); }
+});
+
+function calcWarnStatus(registerDate){
+  // 试闻30天更换，提前3天预警（第27天起）
+  const reg = new Date(registerDate + 'T00:00:00');
+  const now = new Date();
+  const diffMs = now - reg;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  if(diffDays >= 30){
+    return { text: '已过期（'+ diffDays +'天）', cls: 'expired-tag', days: diffDays };
+  }
+  if(diffDays >= 27){
+    const remain = 30 - diffDays;
+    return { text: '预警（剩'+ remain +'天）', cls: 'warn-tag', days: diffDays };
+  }
+  return { text: '正常（'+ diffDays +'天）', cls: 'status-tag', days: diffDays };
+}
+
+function doQuery(){
+  const storeFilter = $("q_store").value.trim();
+  const { data: rows, total, cloudCount, localCount } = queryRecords(storeFilter);
+  const bar = $("countBar");
+  if(rows.length){
+    bar.style.display = "block";
+    let sourceInfo = "";
+    if(cloudCount > 0 && localCount > 0){
+      sourceInfo = " <span style=\"font-size:12px;color:var(--tea-gold);\">云" + cloudCount + "条 + 本地" + localCount + "条 · 已去重</span>";
+    } else if(cloudCount > 0){
+      sourceInfo = " <span style=\"font-size:12px;color:var(--tea-gold);\">来源：云端同步</span>";
+    } else {
+      sourceInfo = " <span style=\"font-size:12px;color:var(--muted);\">来源：本地记录（云端数据暂未同步）</span>";
+    }
+    bar.innerHTML = "共 <b>" + rows.length + "</b> 条最新记录" + sourceInfo;
+  }else{
+    bar.style.display = "block";
+    bar.innerHTML = "未查询到符合条件的记录" +
+      (cloudCount > 0 ? " <span style=\"font-size:12px;color:var(--muted);\">（云端数据可能有延迟，稍后再试）</span>" : "");
+  }
+  const tb = $("tbody");
+  const cards = $("resultCards");
+  tb.innerHTML = "";
+  cards.innerHTML = "";
+  if(!rows.length){
+    tb.innerHTML = '<tr><td colspan="7" class="empty">没有匹配的记录</td></tr>';
+    cards.innerHTML = '<div class="empty-card">没有匹配的记录</div>';
+    return;
+  }
+  rows.forEach(r=>{
+    // 桌面端：表格行
+    const tr = document.createElement("tr");
+    const ws = calcWarnStatus(r.register_date);
+    const displayId = r.recordId ? ('☁ ' + r.recordId.slice(0, 8)) : (r.id || '—');
+    tr.innerHTML = [
+      displayId, esc(r.store), esc(r.register_date), esc(r.tea_name),
+      esc(r.taster)||"—",
+      '<span class="' + ws.cls + '">' + ws.text + '</span>', esc(r.created_at)
+    ].map(c=>"<td>"+c+"</td>").join("");
+    tb.appendChild(tr);
+  });
+
+  // 移动端：门店分组折叠卡片
+  const byStore = {};
+  rows.forEach(r => {
+    const key = r.store || '未知门店';
+    if(!byStore[key]) byStore[key] = [];
+    byStore[key].push(r);
+  });
+  Object.keys(byStore).forEach(storeName => {
+    const teaList = byStore[storeName];
+    teaList.sort((a,b) => b.register_date.localeCompare(a.register_date) || (b.id||0) - (a.id||0));
+    const latest = teaList[0];
+    const card = document.createElement("div");
+    card.className = "store-card";
+    card.dataset.store = esc(storeName);
+
+    const header = document.createElement("div");
+    header.className = "store-header";
+    header.innerHTML = `
+      <div class="store-icon">🏪</div>
+      <div class="store-info">
+        <div class="store-name">${esc(storeName)}</div>
+        <div class="store-meta">${teaList.length} 种茶叶 · 最近登记 ${esc(latest.register_date)}</div>
+      </div>
+      <div class="store-arrow">▼</div>
+    `;
+    header.onclick = function(){ toggleStoreCard(card); };
+    card.appendChild(header);
+
+    const divider = document.createElement("div");
+    divider.className = "store-divider";
+    card.appendChild(divider);
+
+    const listWrap = document.createElement("div");
+    listWrap.className = "tea-list";
+    teaList.forEach(r => {
+      const item = document.createElement("div");
+      item.className = "tea-item";
+      const ws = calcWarnStatus(r.register_date);
+      const displayId = r.recordId ? ('☁ ' + r.recordId.slice(0, 8)) : (r.id || '—');
+      item.innerHTML = `
+        <div class="tea-item-head">
+          <span class="tea-item-name">${esc(r.tea_name)}</span>
+          <span class="tea-item-date">${esc(r.register_date)}</span>
+        </div>
+        <div class="tea-item-row"><span class="${ws.cls}">${ws.text}</span></div>
+        <div class="tea-item-row"><span class="tea-item-label">登记人</span><span class="tea-item-val">${esc(r.taster)||"—"}</span></div>
+        <div class="tea-item-meta"><span>#${displayId}</span><span>${esc(r.created_at)}</span></div>
+      `;
+      listWrap.appendChild(item);
+    });
+    card.appendChild(listWrap);
+    cards.appendChild(card);
+  });
+}
+
+function toggleStoreCard(card){
+  card.classList.toggle("collapsed");
+}
+
+function exportCsv(){
+  const storeFilter = $("q_store").value.trim();
+  const { data: rows } = queryRecords(storeFilter);
+  // 导出时显示全量历史��不去重）
+  const allRecords = loadRecords().filter(r => {
+    if(!storeFilter) return true;
+    return r.store && r.store.toLowerCase().includes(storeFilter.toLowerCase());
+  });
+  const headers = ["ID","门店","登记日期","茶叶名称","登记人","录入时间"];
+  const lines = [headers.join(",")];
+  allRecords.forEach(r => {
+    lines.push([
+      r.id,
+      '"'+(r.store||"").replace(/"/g,'""')+'"',
+      r.register_date,
+      '"'+(r.tea_name||"").replace(/"/g,'""')+'"',
+      '"'+(r.taster||"").replace(/"/g,'""')+'"',
+      r.created_at
+    ].join(","));
+  });
+  const bom = '\uFEFF';
+  const blob = new Blob([bom + lines.join("\n")], {type: 'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '茶叶试闻台账_' + new Date().toISOString().slice(0,10) + '.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast('已导出 ' + allRecords.length + ' 条记录', 'ok');
+}
+
+function resetQuery(){
+  $("q_store").value = "";
+  doQuery();
+}
+
+function esc(s){
+  return String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+}
+function statusTag(v){
+  if(!v) return "—";
+  const map = {正常:'<span class="status-tag" style="background:#e8f5e9;color:#2e7d32">正常</span>',
+    偏陈:'<span class="status-tag" style="background:#fff3e0;color:#ef6c00">偏陈</span>',
+    受潮:'<span class="status-tag" style="background:#e3f2fd;color:#1565c0">受潮</span>',
+    异味:'<span class="status-tag" style="background:#fce4ec;color:#c62828">异味</span>',
+    其他异常:'<span class="status-tag" style="background:#f3e5f5;color:#6a1b9a">其他异常</span>'};
+  return map[v] || esc(v);
+}
+
+// ---------- 可搜索下拉（茶叶名称 / 登记人） ----------
+// 全局缓存：茶叶列表 + 钉钉组织
+let TEA_OPTIONS = [];
+let ORG_OPTIONS = [];
+
+function makeCombobox(input, listEl, options){
+  function render(){
+    const f = input.value.trim().toLowerCase();
+    const matched = options.filter(o =>
+      !f || o.label.toLowerCase().includes(f) ||
+      (o.hint && o.hint.toLowerCase().includes(f))
+    );
+    listEl.innerHTML = "";
+    if(!matched.length){
+      const li = document.createElement("li");
+      li.className = "combo-empty";
+      li.textContent = "无匹配，可直接输入";
+      listEl.appendChild(li);
+      listEl.style.display = "block";
+      return;
+    }
+    matched.slice(0,50).forEach(o=>{
+      const li = document.createElement("li");
+      const nm = document.createElement("span");
+      nm.className = "combo-name"; nm.textContent = o.label;
+      li.appendChild(nm);
+      if(o.hint){
+        const ht = document.createElement("span");
+        ht.className = "combo-hint"; ht.textContent = o.hint;
+        li.appendChild(ht);
+      }
+      li.addEventListener("mousedown", e=>{
+        e.preventDefault();
+        input.value = o.label;
+        listEl.style.display = "none";
+      });
+      listEl.appendChild(li);
+    });
+    listEl.style.display = "block";
+  }
+  input.addEventListener("input", render);
+  input.addEventListener("focus", render);
+  input.addEventListener("blur", ()=> setTimeout(()=> listEl.style.display="none", 150));
+}
+
+async function loadComboboxData(){
+  try{
+    // 门店：合并 stores.json（763家预置清单）+ localStorage 已有记录 + 测试门店
+    const builtinStores = await fetch("stores.json")
+      .then(r=>r.json())
+      .then(arr => (arr||[]).map(x => typeof x === "string" ? {label:x} : x))
+      .catch(()=>[]);
+    // 测试门店（演示用，硬编码到前端，不依赖 stores.json 部署生效）
+    const TEST_STORES = [
+      {label: "🧪 测试门店A（演示用）"},
+      {label: "🧪 测试门店B（演示用）"},
+      {label: "🧪 Test Store Demo"},
+    ];
+    const localStores = getStoreList().map(s => ({label: s}));
+    // 合并去重（测试门店置顶）
+    const storeMap = new Map();
+    TEST_STORES.forEach(s => storeMap.set(s.label, s));
+    builtinStores.forEach(s => storeMap.set(s.label, s));
+    localStores.forEach(s => { if(!storeMap.has(s.label)) storeMap.set(s.label, s); });
+    const storeData = Array.from(storeMap.values());
+    // 登记人：从 org.json 加载
+    const orgData = await fetch("org.json")
+      .then(r=>r.json())
+      .then(arr => (arr||[]).map(x => typeof x === "string" ? {label:x} : x))
+      .catch(()=>[]);
+    ORG_OPTIONS = orgData;
+    makeCombobox($("f_store"), $("list_store"), storeData);
+    makeCombobox($("f_taster"), $("list_taster"), ORG_OPTIONS);
+    renderItems();
+  }catch(e){ renderItems(); }
+}
+
+// ---------- 茶叶条目（多茶批量登记） ----------
+const MAX_ITEMS = 10; // 单次最多 10 种
+let items = []; // [{id, value}]
+
+function addItem(value = ""){
+  if(items.length >= MAX_ITEMS){
+    toast(`最多添加 ${MAX_ITEMS} 种茶叶`, "err");
+    return;
+  }
+  items.push({ id: Date.now() + Math.random(), value });
+  renderItems();
+}
+
+function removeItem(id){
+  if(items.length <= 1){
+    toast("至少保留一种茶叶", "err");
+    return;
+  }
+  items = items.filter(it => it.id !== id);
+  renderItems();
+}
+
+// ====== 茶叶名称列表（从钉钉SKU表同步） ======
+let TEA_LIST = [];
+async function loadTeaList(){
+  try{
+    const resp = await fetch("tea_list.json?v=" + Date.now());
+    if(resp.ok){
+      TEA_LIST = await resp.json();
+      console.log("茶叶名称列表已加载:", TEA_LIST.length, "种");
+    }
+  }catch(e){ console.warn("茶叶名称列表加载失败，将使用自由输入模式:", e.message); }
+}
+
+function renderItems(showSuggestions){
+  const list = $("itemList");
+  list.innerHTML = "";
+  const datalistId = "tea-suggestions";
+  let hadDatalist = !!document.getElementById(datalistId);
+  items.forEach((it, idx) => {
+    const row = document.createElement("div");
+    row.className = "item-row";
+    row.dataset.id = it.id;
+    row.innerHTML = `
+      <span class="item-idx">${idx + 1}</span>
+      <div class="tea-input">
+        <input type="text" placeholder="填写茶叶名称（可搜索，必填）" value="${esc(it.value)}" autocomplete="off" list="${datalistId}">
+      </div>
+      <button type="button" class="item-del" title="删除该条">×</button>
+    `;
+    const input = row.querySelector("input");
+    const delBtn = row.querySelector(".item-del");
+    input.addEventListener("input", () => {
+      it.value = input.value;
+    });
+    delBtn.addEventListener("click", () => removeItem(it.id));
+    list.appendChild(row);
+  });
+  // 如果TEA_LIST有数据且还没创建datalist，填充一次
+  if(TEA_LIST.length && !hadDatalist){
+    const dl = document.createElement("datalist");
+    dl.id = datalistId;
+    dl.innerHTML = TEA_LIST.map(n => `<option value="${esc(n)}">`).join("");
+    list.appendChild(dl);
+  }
+  $("itemCountTag").textContent = `已添加 ${items.length} 种`;
+}
+
+function collectItems(){
+  return items.map(it => ({ tea_name: it.value.trim() }));
+}
+
+function onFormReset(keepCommon = false){
+  items = [{ id: Date.now() + Math.random(), value: "" }];
+  renderItems();
+  if(!keepCommon){
+    $("form").reset();
+    $("f_date").value = new Date().toISOString().slice(0,10);
+  }else{
+    // 保留门店/日期/登记人，仅清空茶叶条目
+  }
+}
+
+// 默认 1 条空条目
+items = [{ id: Date.now() + Math.random(), value: "" }];
+renderItems();
+
+// combobox 数据加载（含首次条目渲染）
+loadComboboxData();
+loadTeaList();
+
+// 防止浏览器原生 reset 事件打乱 items：拦截后用我们自己的逻辑
+$("form").addEventListener("reset", e => {
+  setTimeout(() => onFormReset(false), 0);
+});
+</script>
+</body>
+</html>

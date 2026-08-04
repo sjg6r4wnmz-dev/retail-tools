@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-04 16:31:06）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 16:32:07）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -281,6 +281,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-03 10:28:36"
   },
   {
+    "recordId": "Z3AkRGm4qO",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-03-14",
+    "tea_name": "少年心气/茉莉窨花茶",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 08:31:07"
+  },
+  {
     "recordId": "aHLtCAUAIL",
     "store": "泰州兴化英莱达茶叶子",
     "register_date": "2026-02-28",
@@ -405,6 +414,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "created_at": "2026-08-03 11:27:21"
+  },
+  {
+    "recordId": "w4zua9cj8N",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-03-09",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 08:31:28"
   },
   {
     "recordId": "wEHHkWeNVU",

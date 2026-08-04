@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-04 22:44:18）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 22:46:17）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -810,6 +810,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "DLSH0ZBI5V",
+    "store": "武汉老通城茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 14:45:21"
   },
   {
     "recordId": "DaGxJeSBir",
@@ -1953,6 +1962,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "XURlJJcl13",
+    "store": "武汉老通城茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 14:45:21"
   },
   {
     "recordId": "XXBuGzGI6b",

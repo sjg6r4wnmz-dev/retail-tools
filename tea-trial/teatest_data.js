@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-05 00:55:15）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-05 01:01:17）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -153,6 +153,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "20VNGMR2Up",
+    "store": "武汉太和里茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "雷丽霞",
+    "remark": "",
+    "created_at": "2026-08-04 16:59:42"
   },
   {
     "recordId": "22r6aHZSjD",
@@ -2234,6 +2243,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 10:58:50"
   },
   {
+    "recordId": "aa3Czsc11r",
+    "store": "武汉太和里茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "同心瓶",
+    "taster": "雷丽霞",
+    "remark": "",
+    "created_at": "2026-08-04 16:59:42"
+  },
+  {
     "recordId": "agNk2vyIvi",
     "store": "武汉汉秀剧场茶叶子",
     "register_date": "2026-08-04",
@@ -2396,6 +2414,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "d3wxfFxoD4",
+    "store": "武汉太和里茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "再相见",
+    "taster": "雷丽霞",
+    "remark": "",
+    "created_at": "2026-08-04 16:59:42"
+  },
+  {
     "recordId": "d5kY6U3zZ3",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -2430,6 +2457,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "dWrxWaAiT9",
+    "store": "武汉太和里茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "天生我材/小金桂茶",
+    "taster": "雷丽霞",
+    "remark": "",
+    "created_at": "2026-08-04 16:59:42"
   },
   {
     "recordId": "dsOSH7z92G",
@@ -3080,6 +3116,24 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "nn7mopYXVj",
+    "store": "武汉太和里茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "雷丽霞",
+    "remark": "",
+    "created_at": "2026-08-04 16:59:42"
+  },
+  {
+    "recordId": "oG7nvKXlZd",
+    "store": "武汉太和里茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "雷丽霞",
+    "remark": "",
+    "created_at": "2026-08-04 16:59:42"
+  },
+  {
     "recordId": "odAx3hzXSb",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -3141,6 +3195,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "pRa7ej4IWM",
+    "store": "武汉太和里茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "少年心气/茉莉窨花茶",
+    "taster": "雷丽霞",
+    "remark": "",
+    "created_at": "2026-08-04 16:59:42"
   },
   {
     "recordId": "pVUfcUTar5",
@@ -3411,6 +3474,24 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "td0cLPz0hz",
+    "store": "武汉太和里茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "半日普洱闲时茶",
+    "taster": "雷丽霞",
+    "remark": "",
+    "created_at": "2026-08-04 16:59:42"
+  },
+  {
+    "recordId": "tlxiZCcPLm",
+    "store": "武汉太和里茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "雷丽霞",
+    "remark": "",
+    "created_at": "2026-08-04 16:59:42"
   },
   {
     "recordId": "u7iIrjYvRe",

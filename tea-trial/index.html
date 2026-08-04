@@ -283,9 +283,8 @@
     .toast{top:env(safe-area-inset-top,12px);}
   }
 
-  @media(max-width:720px){
+  @media(min-width:481px) and (max-width:720px){
     .grid{grid-template-columns:1fr 1fr;}
-    .query-row .field{min-width:45%;}
   }
   @media(max-width:480px){.grid{grid-template-columns:1fr;}}
 </style>

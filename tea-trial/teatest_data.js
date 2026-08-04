@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-04 16:29:05）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 16:31:06）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -72,6 +72,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "created_at": "2026-08-03 11:29:52"
+  },
+  {
+    "recordId": "7PCqLiDbDL",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-03-16",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 08:30:35"
   },
   {
     "recordId": "7oo1PIdztV",

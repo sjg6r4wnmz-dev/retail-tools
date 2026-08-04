@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-04 16:57:22）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 16:58:25）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -110,6 +110,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "399qXLFJKr",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/竹叶香乌龙",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
     "recordId": "3YPFGswB9O",
     "store": "深圳湾万象城游园会店",
     "register_date": "2026-08-02",
@@ -159,6 +168,15 @@ window.TEATEST_CLOUD_DATA = [
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
     "tea_name": "习惯茶/栀晓绿",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "62tsZbYUOM",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/玫瑰油切绿茶",
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
@@ -344,6 +362,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "EoomNv3JZr",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/栀晓绿",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
     "recordId": "F69diTLVgj",
     "store": "深圳湾万象城游园会店",
     "register_date": "2026-08-02",
@@ -357,6 +384,15 @@ window.TEATEST_CLOUD_DATA = [
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
     "tea_name": "习惯茶之女儿红/葡萄乌龙",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "FyCbOM1Z1D",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/清茉",
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
@@ -614,6 +650,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 07:49:50"
   },
   {
+    "recordId": "V6mCDWwtwU",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶之女儿红/葡萄乌龙",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
     "recordId": "WNd1x3l15s",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -749,6 +794,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:44:16"
   },
   {
+    "recordId": "e0GyqY6OsM",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/玫珑香乌龙",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
+  },
+  {
     "recordId": "eNCM2aMFz7",
     "store": "深圳福田cocopark茶叶子",
     "register_date": "2026-08-01",
@@ -873,6 +927,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘世琦",
     "remark": "",
     "created_at": "2026-08-03 10:27:22"
+  },
+  {
+    "recordId": "odAx3hzXSb",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/茉莉红茶",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
   },
   {
     "recordId": "otDlmJXXUc",
@@ -1017,6 +1080,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘世琦",
     "remark": "",
     "created_at": "2026-08-03 10:26:04"
+  },
+  {
+    "recordId": "ybJoVLyxrZ",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "习惯茶/岭南佳荔",
+    "taster": "向江月",
+    "remark": "",
+    "created_at": "2026-08-04 08:43:40"
   },
   {
     "recordId": "ykCoyA007b",

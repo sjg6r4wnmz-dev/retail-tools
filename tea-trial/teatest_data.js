@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-04 15:46:05）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 15:50:09）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -293,6 +293,18 @@ window.TEATEST_CLOUD_DATA = [
       "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/c5d5ce5a-e330-40d4-9e51-4d084b8d35dd.jpg"
     ],
     "created_at": "2026-08-03 11:30:31"
+  },
+  {
+    "recordId": "V67F3nARVn",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-02-27",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "侯钰轩",
+    "remark": "",
+    "photos": [
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/33a2a238-dd9f-466b-8305-47f427c6f071.jpg"
+    ],
+    "created_at": "2026-08-04 07:49:50"
   },
   {
     "recordId": "X7x9cStJtV",

@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>茶叶试闻电子台账</title>
@@ -415,8 +418,15 @@
 
 <div class="toast" id="toast"></div>
 
-<!-- 云端数据（钉钉AI表格定时同步，自动生成） -->
-<script src="teatest_data.js" onerror="console.log('teatest_data.js not available (first load or sync pending)')"></script>
+<!-- 云端数据（钉钉AI表格定时同步，自动生成）—— 动态加载带时间戳，防止缓存导致图片过期 -->
+<script>
+(function(){
+  var s = document.createElement('script');
+  s.src = 'teatest_data.js?v=' + Date.now();
+  s.onerror = function(){ console.log('teatest_data.js not available (first load or sync pending)'); };
+  document.head.appendChild(s);
+})();
+</script>
 
 <!-- 照片放大弹窗 -->
 <div id="photoModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;justify-content:center;align-items:center;" onclick="this.style.display='none'">

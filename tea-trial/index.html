@@ -186,11 +186,6 @@
     }
     .result-card .rc-label{flex:0 0 56px;color:var(--muted);font-size:12px;}
     .result-card .rc-value{flex:1;color:var(--text);}
-    .result-card .rc-photos{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
-    .result-card .rc-photos img{
-      width:64px;height:64px;object-fit:cover;border-radius:8px;
-      border:1px solid var(--line);cursor:pointer;
-    }
     .result-card .rc-meta{
       margin-top:6px;font-size:11px;color:var(--muted);
       display:flex;justify-content:space-between;
@@ -234,8 +229,6 @@
     .tea-item-row{display:flex;gap:6px;margin-bottom:3px;font-size:12px;line-height:1.5;}
     .tea-item-label{flex:0 0 48px;color:var(--muted);}
     .tea-item-val{flex:1;color:var(--text);word-break:break-all;}
-    .tea-item-photos{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
-    .tea-item-photos img{width:56px;height:56px;object-fit:cover;border-radius:6px;border:1px solid var(--line);cursor:pointer;}
     .tea-item-meta{margin-top:6px;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;}
     .store-divider{height:1px;background:var(--line);margin:0 16px;}
     .store-card.collapsed .store-divider{display:none;}
@@ -255,8 +248,6 @@
     .item-idx{width:28px;height:36px;line-height:36px;font-size:13px;}
     .item-add{padding:12px;font-size:15px;}
     .combo-list li{padding:12px 14px;font-size:16px;}
-    .photo-thumb-wrap{width:72px;height:72px;}
-    .photo-thumb-wrap .del{width:24px;height:24px;font-size:14px;line-height:24px;}
 
     /* 减小间距 */
     header{padding:14px 16px;}
@@ -344,7 +335,7 @@
         </div>
       </div>
 
-      <!-- 茶叶条目列表（每条独立含照片） -->
+      <!-- 茶叶条目列表 -->
       <div class="item-group" style="margin-top:18px;">
         <div class="item-group-head">
           <span>茶叶条目</span>
@@ -385,11 +376,11 @@
         <thead>
           <tr>
             <th>ID</th><th>门店</th><th>登记日期</th><th>茶叶名称</th>
-            <th>登记人</th><th>照片</th><th>预警状态</th><th>录入时间</th>
+            <th>登记人</th><th>预警状态</th><th>录入时间</th>
           </tr>
         </thead>
         <tbody id="tbody">
-          <tr><td colspan="8" class="empty">暂无数据，点击「查询」加载，或先登记一条记录。</td></tr>
+          <tr><td colspan="7" class="empty">暂无数据，点击「查询」加载，或先登记一条记录。</td></tr>
         </tbody>
       </table>
     </div>
@@ -405,7 +396,7 @@
 
 <!-- AUTO_DATA_START -->
 <script>
-// 茶叶试闻台账云端数据（自动生成于 2026-08-04 16:23:05）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 16:29:05）
 window.TEATEST_CLOUD_DATA = [
   {
     "recordId": "0JPZxYOu2u",
@@ -834,18 +825,7 @@ window.TEATEST_CLOUD_DATA = [
 </script>
 <!-- AUTO_DATA_END -->
 
-<!-- 照片放大弹窗 -->
-<div id="photoModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;justify-content:center;align-items:center;" onclick="this.style.display='none'">
-  <img id="photoModalImg" src="" style="max-width:92vw;max-height:92vh;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.5);">
-</div>
-
 <script>
-function openPhotoModal(src){
-  const m = document.getElementById("photoModal");
-  document.getElementById("photoModalImg").src = src;
-  m.style.display = "flex";
-}
-
 // Tab 切换
 function switchTab(name){
   document.querySelectorAll('.tab-btn').forEach(b => {
@@ -878,7 +858,7 @@ function loadRecords(){
 
 function saveRecords(records){
   try{ localStorage.setItem(LS_KEY, JSON.stringify(records)); }
-  catch(e){ toast('存储空间不足，请清理旧记录或减少照片', 'err'); throw e; }
+  catch(e){ toast('存储空间不足，请清理旧记录', 'err'); throw e; }
 }
 
 function getNextId(records){
@@ -887,16 +867,13 @@ function getNextId(records){
 }
 
 function insertRecords(baseData, teaItems){
-  // baseData: {store, register_date, taster}
-  // teaItems: [{tea_name, photos:[]}, ...]
-  // 同一登记单内的多条记录共享相同 created_at
   const now = new Date().toISOString().replace('T',' ').slice(0,19);
   const records = loadRecords();
   const newRecords = teaItems.map(it => {
     const id = getNextId(records);
     return { id, store: baseData.store, register_date: baseData.register_date,
       tea_name: it.tea_name, taster: baseData.taster,
-      photos: JSON.stringify(it.photos || []), created_at: now };
+      created_at: now };
   });
   records.push(...newRecords);
   saveRecords(records);
@@ -910,11 +887,11 @@ function insertRecords(baseData, teaItems){
         store: baseData.store,
         register_date: baseData.register_date,
         tea_names: teaItems.map(it => it.tea_name.trim()).filter(Boolean),
-        tea_items: teaItems.map(it => ({tea_name: it.tea_name.trim(), photos: it.photos || []})).filter(it => it.tea_name),
+        tea_items: teaItems.map(it => ({tea_name: it.tea_name.trim()})).filter(it => it.tea_name),
         taster: baseData.taster,
         created_at: now
       })
-    }).catch(() => {}); // 静默失败，不影响用户体验
+    }).catch(() => {});
   } catch(e) {}
 
   return newRecords;
@@ -928,13 +905,12 @@ function queryRecords(storeFilter){
   let cloudRecords = [];
   if(window.TEATEST_CLOUD_DATA && Array.isArray(window.TEATEST_CLOUD_DATA)){
     cloudRecords = window.TEATEST_CLOUD_DATA.map(r => ({
-      id: 0, // 云端记录无本地ID，用recordId替代
+      id: 0,
       recordId: r.recordId || '',
       store: r.store || '',
       register_date: r.register_date || '',
       tea_name: r.tea_name || '',
       taster: r.taster || '',
-      photos: JSON.stringify(r.photos || []), // 云端是 URL 数组
       created_at: r.created_at || '',
       source: 'cloud'
     }));
@@ -992,51 +968,6 @@ function toast(msg, type){
 
 // 日期默认今天
 $("f_date").value = new Date().toISOString().slice(0,10);
-
-// ---------- 每条茶叶独立照片 ----------
-const MAX_ITEM_PHOTOS = 99; // 不限制张数
-let _activeItemId = null; // 当前正在上传照片的茶叶条目ID
-
-function pickItemPhoto(itemId, type){
-  _activeItemId = itemId;
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = "image/*";
-  input.multiple = true; // 允许一次选多张
-  if(type === 'camera') input.setAttribute("capture", "environment");
-  input.onchange = function(e){
-    onItemPhotoSelected(e, itemId);
-    input.remove();
-  };
-  input.click();
-}
-
-function onItemPhotoSelected(e, itemId){
-  const files = e.target.files;
-  if(!files.length) return;
-  const it = items.find(x => x.id == itemId);
-  if(!it) return;
-  const remaining = MAX_ITEM_PHOTOS - (it.photos || []).length;
-  if(remaining <= 0){ toast("照片数量已达上限", "err"); return; }
-  Array.from(files).slice(0, remaining).forEach(file => {
-    if(!file.type.startsWith("image/")){ toast("请上传图片文件", "err"); return; }
-    const reader = new FileReader();
-    reader.onload = ev => {
-      if(!it.photos) it.photos = [];
-      it.photos.push(ev.target.result);
-      renderItems();
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-function removeItemPhoto(itemId, photoIdx){
-  const it = items.find(x => x.id == itemId);
-  if(it && it.photos){
-    it.photos.splice(photoIdx, 1);
-    renderItems();
-  }
-}
 
 // 提交登记
 $("form").addEventListener("submit", async e=>{
@@ -1114,29 +1045,18 @@ function doQuery(){
   tb.innerHTML = "";
   cards.innerHTML = "";
   if(!rows.length){
-    tb.innerHTML = '<tr><td colspan="9" class="empty">没有匹配的记录</td></tr>';
+    tb.innerHTML = '<tr><td colspan="7" class="empty">没有匹配的记录</td></tr>';
     cards.innerHTML = '<div class="empty-card">没有匹配的记录</div>';
     return;
   }
   rows.forEach(r=>{
     // 桌面端：表格行
     const tr = document.createElement("tr");
-    let photoCell = "—";
-    let photoUrls = [];
-    if(r.photos){
-      try{
-        const arr = typeof r.photos === "string" ? JSON.parse(r.photos) : r.photos;
-        if(Array.isArray(arr) && arr.length){
-          photoUrls = arr;
-          photoCell = arr.map((src,i) => '<img src="'+esc(src)+'" style="width:48px;height:48px;object-fit:cover;border-radius:6px;margin:0 4px 4px 0;cursor:pointer;" onclick="openPhotoModal(\''+esc(src)+'\')">').join("");
-        }
-      }catch(e){}
-    }
     const ws = calcWarnStatus(r.register_date);
     const displayId = r.recordId ? ('☁ ' + r.recordId.slice(0, 8)) : (r.id || '—');
     tr.innerHTML = [
       displayId, esc(r.store), esc(r.register_date), esc(r.tea_name),
-      esc(r.taster)||"—", photoCell,
+      esc(r.taster)||"—",
       '<span class="' + ws.cls + '">' + ws.text + '</span>', esc(r.created_at)
     ].map(c=>"<td>"+c+"</td>").join("");
     tb.appendChild(tr);
@@ -1179,17 +1099,6 @@ function doQuery(){
     teaList.forEach(r => {
       const item = document.createElement("div");
       item.className = "tea-item";
-      let photosHtml = "";
-      if(r.photos){
-        try{
-          const arr = typeof r.photos === "string" ? JSON.parse(r.photos) : r.photos;
-          if(Array.isArray(arr) && arr.length){
-            photosHtml = '<div class="tea-item-photos">' + arr.map(src =>
-              '<img src="'+esc(src)+'" onclick="openPhotoModal(\''+esc(src)+'\')">'
-            ).join("") + '</div>';
-          }
-        }catch(e){}
-      }
       const ws = calcWarnStatus(r.register_date);
       const displayId = r.recordId ? ('☁ ' + r.recordId.slice(0, 8)) : (r.id || '—');
       item.innerHTML = `
@@ -1199,7 +1108,6 @@ function doQuery(){
         </div>
         <div class="tea-item-row"><span class="${ws.cls}">${ws.text}</span></div>
         <div class="tea-item-row"><span class="tea-item-label">登记人</span><span class="tea-item-val">${esc(r.taster)||"—"}</span></div>
-        ${photosHtml}
         <div class="tea-item-meta"><span>#${displayId}</span><span>${esc(r.created_at)}</span></div>
       `;
       listWrap.appendChild(item);
@@ -1221,18 +1129,15 @@ function exportCsv(){
     if(!storeFilter) return true;
     return r.store && r.store.toLowerCase().includes(storeFilter.toLowerCase());
   });
-  const headers = ["ID","门店","登记日期","茶叶名称","登记人","照片数量","录入时间"];
+  const headers = ["ID","门店","登记日期","茶叶名称","登记人","录入时间"];
   const lines = [headers.join(",")];
   allRecords.forEach(r => {
-    let photoCount = 0;
-    try{ const arr = typeof r.photos === "string" ? JSON.parse(r.photos) : (r.photos||[]); photoCount = Array.isArray(arr) ? arr.length : 0; }catch(e){}
     lines.push([
       r.id,
       '"'+(r.store||"").replace(/"/g,'""')+'"',
       r.register_date,
       '"'+(r.tea_name||"").replace(/"/g,'""')+'"',
       '"'+(r.taster||"").replace(/"/g,'""')+'"',
-      photoCount,
       r.created_at
     ].join(","));
   });
@@ -1346,14 +1251,14 @@ async function loadComboboxData(){
 
 // ---------- 茶叶条目（多茶批量登记） ----------
 const MAX_ITEMS = 10; // 单次最多 10 种
-let items = []; // [{id, value, photos:[]}]
+let items = []; // [{id, value}]
 
 function addItem(value = ""){
   if(items.length >= MAX_ITEMS){
     toast(`最多添加 ${MAX_ITEMS} 种茶叶`, "err");
     return;
   }
-  items.push({ id: Date.now() + Math.random(), value, photos: [] });
+  items.push({ id: Date.now() + Math.random(), value });
   renderItems();
 }
 
@@ -1387,27 +1292,12 @@ function renderItems(showSuggestions){
     const row = document.createElement("div");
     row.className = "item-row";
     row.dataset.id = it.id;
-    // 照片缩略图
-    let thumbsHtml = "";
-    if(it.photos && it.photos.length){
-      thumbsHtml = '<div class="thumb-grid">' + it.photos.map((src, pidx) =>
-        '<div class="photo-thumb-wrap"><img src="'+src+'"><button type="button" class="del" onclick="removeItemPhoto(\''+it.id+'\','+pidx+')">×</button></div>'
-      ).join("") + '</div>';
-    }
     row.innerHTML = `
       <span class="item-idx">${idx + 1}</span>
       <div class="tea-input">
         <input type="text" placeholder="填写茶叶名称（可搜索，必填）" value="${esc(it.value)}" autocomplete="off" list="${datalistId}">
       </div>
       <button type="button" class="item-del" title="删除该条">×</button>
-      <div class="item-photos">
-        <div class="photo-btns">
-          <button type="button" class="btn btn-ghost" onclick="pickItemPhoto('${it.id}','camera')">📷 拍照</button>
-          <button type="button" class="btn btn-ghost" onclick="pickItemPhoto('${it.id}','gallery')">🖼️ 相册</button>
-          <span class="photo-count">${(it.photos||[]).length}张</span>
-        </div>
-        ${thumbsHtml}
-      </div>
     `;
     const input = row.querySelector("input");
     const delBtn = row.querySelector(".item-del");
@@ -1428,12 +1318,11 @@ function renderItems(showSuggestions){
 }
 
 function collectItems(){
-  return items.map(it => ({ tea_name: it.value.trim(), photos: it.photos || [] }));
+  return items.map(it => ({ tea_name: it.value.trim() }));
 }
 
 function onFormReset(keepCommon = false){
-  // 始终清空条目与照片
-  items = [{ id: Date.now() + Math.random(), value: "", photos: [] }];
+  items = [{ id: Date.now() + Math.random(), value: "" }];
   renderItems();
   if(!keepCommon){
     $("form").reset();
@@ -1444,7 +1333,7 @@ function onFormReset(keepCommon = false){
 }
 
 // 默认 1 条空条目
-items = [{ id: Date.now() + Math.random(), value: "", photos: [] }];
+items = [{ id: Date.now() + Math.random(), value: "" }];
 renderItems();
 
 // combobox 数据加载（含首次条目渲染）

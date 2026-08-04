@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-04 15:37:04）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 15:40:53）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -13,6 +13,20 @@ window.TEATEST_CLOUD_DATA = [
       "images/0f71ae8d-4e8b-4371-b518-adafb9a3ba0c.jpg"
     ],
     "created_at": "2026-08-03 07:06:52"
+  },
+  {
+    "recordId": "1Cn2Inax66",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "侯钰轩",
+    "remark": "",
+    "photos": [
+      "images/117c8bc3-2901-4632-8266-b9eba8008770.jpg",
+      "images/2ae629d7-e751-440b-9157-ab29d277a83d.jpg",
+      "images/577ec3eb-f90a-4846-8863-2b5c6ac78c24.jpg"
+    ],
+    "created_at": "2026-08-04 07:39:30"
   },
   {
     "recordId": "1JcOhrjtpq",
@@ -229,6 +243,20 @@ window.TEATEST_CLOUD_DATA = [
       "images/a875a549-5231-4bdd-a55f-250e89aaf079.jpg"
     ],
     "created_at": "2026-08-03 10:24:19"
+  },
+  {
+    "recordId": "NbHAN0bBRn",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "侯钰轩",
+    "remark": "",
+    "photos": [
+      "images/8c55d08b-d5f4-4fd8-a105-09c21de1499c.jpg",
+      "images/ce3ebba3-4d25-4fd7-9487-9d23e672dd4e.jpg",
+      "images/7ad30c45-f7c4-420f-846c-6a8fda9c9f00.jpg"
+    ],
+    "created_at": "2026-08-04 07:39:30"
   },
   {
     "recordId": "Q8nFEJJktX",
@@ -470,5 +498,19 @@ window.TEATEST_CLOUD_DATA = [
       "images/0278504c-b7da-49d6-8d22-89013b2e0eb6.jpg"
     ],
     "created_at": "2026-08-03 10:26:04"
+  },
+  {
+    "recordId": "ztMlE3Sr6C",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "侯钰轩",
+    "remark": "",
+    "photos": [
+      "images/570e5f11-aded-4f83-b504-46658e3b9f0f.jpg",
+      "images/880caa17-9895-48a8-a9df-e44d5262213c.jpg",
+      "images/158a1aec-3580-4a8d-a4aa-a7a504845d70.jpg"
+    ],
+    "created_at": "2026-08-04 07:39:30"
   }
 ];

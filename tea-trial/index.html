@@ -419,7 +419,7 @@
 
 <!-- AUTO_DATA_START -->
 <script>
-// 茶叶试闻台账云端数据（自动生成于 2026-08-04 16:10:04）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 16:15:04）
 window.TEATEST_CLOUD_DATA = [
   {
     "recordId": "0JPZxYOu2u",
@@ -1157,7 +1157,7 @@ function toast(msg, type){
 $("f_date").value = new Date().toISOString().slice(0,10);
 
 // ---------- 每条茶叶独立照片 ----------
-const MAX_ITEM_PHOTOS = 3;
+const MAX_ITEM_PHOTOS = 99; // 不限制张数
 let _activeItemId = null; // 当前正在上传照片的茶叶条目ID
 
 function pickItemPhoto(itemId, type){
@@ -1165,6 +1165,7 @@ function pickItemPhoto(itemId, type){
   const input = document.createElement("input");
   input.type = "file";
   input.accept = "image/*";
+  input.multiple = true; // 允许一次选多张
   if(type === 'camera') input.setAttribute("capture", "environment");
   input.onchange = function(e){
     onItemPhotoSelected(e, itemId);
@@ -1179,7 +1180,7 @@ function onItemPhotoSelected(e, itemId){
   const it = items.find(x => x.id == itemId);
   if(!it) return;
   const remaining = MAX_ITEM_PHOTOS - (it.photos || []).length;
-  if(remaining <= 0){ toast("每条茶叶最多3张照片", "err"); return; }
+  if(remaining <= 0){ toast("照片数量已达上限", "err"); return; }
   Array.from(files).slice(0, remaining).forEach(file => {
     if(!file.type.startsWith("image/")){ toast("请上传图片文件", "err"); return; }
     const reader = new FileReader();
@@ -1566,7 +1567,7 @@ function renderItems(showSuggestions){
         <div class="photo-btns">
           <button type="button" class="btn btn-ghost" onclick="pickItemPhoto('${it.id}','camera')">📷 拍照</button>
           <button type="button" class="btn btn-ghost" onclick="pickItemPhoto('${it.id}','gallery')">🖼️ 相册</button>
-          <span class="photo-count">${(it.photos||[]).length}/3</span>
+          <span class="photo-count">${(it.photos||[]).length}张</span>
         </div>
         ${thumbsHtml}
       </div>

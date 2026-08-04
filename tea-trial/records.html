@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>茶叶试闻台账 · 记录查看</title>
+<style>
+:root{
+  --bg:#f5f5f5;--card:#fff;--line:#e0e0e0;--text:#222;--sub:#666;--mute:#999;
+  --brand:#a0623a;--brand-light:#f0e6df;--ok:#2e7d32;--warn:#e65100;--err:#c62828;
+  --radius:10px;--shadow:0 1px 4px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-text-size-adjust:100%}
+.header{background:var(--card);border-bottom:1px solid var(--line);padding:14px 16px;position:sticky;top:0;z-index:10;box-shadow:var(--shadow)}
+.header h1{font-size:18px;font-weight:700;color:var(--brand)}
+.header .sub{font-size:12px;color:var(--mute);margin-top:2px}
+.back-link{font-size:13px;color:var(--brand);text-decoration:none}
+.filters{background:var(--card);padding:12px 16px;border-bottom:1px solid var(--line)}
+.filter-row{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:11px;color:var(--mute);font-weight:500}
+.field input,.field select{padding:6px 10px;border:1px solid var(--line);border-radius:6px;font-size:13px;background:#fff;min-width:120px}
+.field input:focus,.field select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 2px rgba(160,98,58,.12)}
+.btn{padding:7px 16px;border:none;border-radius:6px;font-size:13px;cursor:pointer;font-weight:500;transition:opacity .15s}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{opacity:.85}
+.btn-line{background:transparent;border:1px solid var(--line);color:var(--text)}
+.btn-line:hover{background:#f5f5f5}
+.stats-bar{display:flex;gap:16px;padding:10px 16px;font-size:12px;color:var(--sub);background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.stat-item{display:flex;align-items:center;gap:4px}
+.stat-item strong{color:var(--brand);font-size:15px}
+.container{max-width:960px;margin:0 auto;padding:12px 16px 60px}
+.store-group{margin-bottom:20px}
+.store-header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--brand-light);border-radius:var(--radius);margin-bottom:8px;cursor:pointer;user-select:none}
+.store-header:hover{background:#e8ddd5}
+.store-name{font-size:15px;font-weight:700;color:var(--brand)}
+.store-meta{font-size:12px;color:var(--sub);display:flex;gap:12px;align-items:center}
+.store-meta .badge{background:var(--brand);color:#fff;padding:1px 8px;border-radius:10px;font-size:11px}
+.submission-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:10px;overflow:hidden;border:1px solid var(--line)}
+.submission-head{padding:10px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.submission-head .date{font-size:14px;font-weight:600}
+.submission-head .taster{font-size:12px;color:var(--sub)}
+.submission-head .time{font-size:11px;color:var(--mute)}
+.submission-head .count{font-size:11px;color:var(--brand);background:var(--brand-light);padding:2px 8px;border-radius:8px}
+.tea-list{padding:6px 14px 10px}
+.tea-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.tea-item:last-child{border-bottom:none}
+.tea-name{flex:1;font-size:14px;font-weight:500;line-height:1.4}
+.tea-photos{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.tea-photos img{width:56px;height:56px;object-fit:cover;border-radius:6px;border:1px solid var(--line);cursor:pointer;transition:transform .15s}
+.tea-photos img:hover{transform:scale(1.08)}
+.tea-status{font-size:11px;padding:1px 7px;border-radius:8px;white-space:nowrap}
+.status-ok{background:#e8f5e9;color:var(--ok)}
+.status-warn{background:#fff3e0;color:var(--warn)}
+.status-expired{background:#ffebee;color:var(--err)}
+.no-photo{font-size:11px;color:var(--mute);padding:2px 6px;background:#f5f5f5;border-radius:4px}
+.empty{text-align:center;padding:60px 20px;color:var(--mute)}
+.empty .icon{font-size:48px;margin-bottom:10px}
+.photo-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100;justify-content:center;align-items:center;cursor:zoom-out}
+.photo-modal img{max-width:94vw;max-height:92vh;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.photo-modal .close{position:fixed;top:16px;right:20px;color:#fff;font-size:28px;cursor:pointer;opacity:.7}
+.photo-modal .close:hover{opacity:1}
+.photo-nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.6);font-size:13px}
+.loading{text-align:center;padding:30px;color:var(--mute)}
+.loading .spin{display:inline-block;width:24px;height:24px;border:3px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:600px){
+  .container{padding:8px 10px 40px}
+  .filter-row{flex-direction:column;align-items:stretch}
+  .field input,.field select{min-width:0;width:100%}
+  .submission-head{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div>
+      <h1>茶叶试闻台账 · 记录查看</h1>
+      <div class="sub">按门店提交批次聚合 · 图片2小时自动刷新</div>
+    </div>
+    <a class="back-link" href="index.html">← 返回台账</a>
+  </div>
+</div>
+
+<div class="filters">
+  <div class="filter-row">
+    <div class="field">
+      <label>开始日期</label>
+      <input type="date" id="dateFrom">
+    </div>
+    <div class="field">
+      <label>结束日期</label>
+      <input type="date" id="dateTo">
+    </div>
+    <div class="field" style="flex:1;min-width:160px">
+      <label>门店搜索</label>
+      <input type="text" id="storeFilter" placeholder="门店名称">
+    </div>
+    <div class="field" style="min-width:120px">
+      <label>登记人</label>
+      <input type="text" id="tasterFilter" placeholder="姓名">
+    </div>
+    <div class="field" style="min-width:140px">
+      <label>茶叶名称</label>
+      <input type="text" id="teaFilter" placeholder="茶叶关键词">
+    </div>
+    <button class="btn btn-primary" onclick="render()">筛选</button>
+    <button class="btn btn-line" onclick="clearFilters()">重置</button>
+    <button class="btn btn-line" onclick="exportCsv()">导出</button>
+  </div>
+</div>
+
+<div class="stats-bar" id="statsBar">
+  <div class="stat-item">提交批次 <strong id="statSubmissions">-</strong></div>
+  <div class="stat-item">茶叶记录 <strong id="statTeas">-</strong></div>
+  <div class="stat-item">涉及门店 <strong id="statStores">-</strong></div>
+  <div class="stat-item">涉及登记人 <strong id="statTasters">-</strong></div>
+</div>
+
+<div class="container" id="container">
+  <div class="loading"><span class="spin"></span><div style="margin-top:8px">加载中…</div></div>
+</div>
+
+<div class="photo-modal" id="photoModal" onclick="closePhotoModal(event)">
+  <span class="close" onclick="closePhotoModal(event)">&times;</span>
+  <img id="photoModalImg" src="">
+  <div class="photo-nav" id="photoNav"></div>
+</div>
+
+<script src="teatest_data.js" onerror="console.log('teatest_data.js not available')"></script>
+<script>
+var allRecords = [];
+var allSubmissions = [];
+var currentPhotoList = [];
+var currentPhotoIdx = 0;
+
+// 30天预警
+function calcStatus(registerDate){
+  var reg = new Date(registerDate + 'T00:00:00');
+  var now = new Date();
+  var diff = Math.floor((now - reg) / 86400000);
+  if(diff >= 30) return {text:'已过期('+diff+'天)',cls:'status-expired'};
+  if(diff >= 27) return {text:'预警(剩'+(30-diff)+'天)',cls:'status-warn'};
+  return {text:'正常('+diff+'天)',cls:'status-ok'};
+}
+
+function esc(s){
+  if(!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// 按提交批次聚合：(store, register_date, taster) + 时间间隔 <10分钟
+function groupSubmissions(records){
+  // 先按 store + register_date + taster 分组
+  var groups = {};
+  records.forEach(function(r){
+    var key = (r.store||'未知') + '||' + (r.register_date||'') + '||' + (r.taster||'');
+    if(!groups[key]) groups[key] = [];
+    groups[key].push(r);
+  });
+
+  var submissions = [];
+  Object.keys(groups).forEach(function(key){
+    var items = groups[key].sort(function(a,b){
+      return (a.created_at||'').localeCompare(b.created_at||'');
+    });
+    // 按时间间隔拆分批次（间隔 >10 分钟 = 新批次）
+    var batch = [];
+    var lastTime = '';
+    items.forEach(function(r){
+      var t = r.created_at || '';
+      if(lastTime && t){
+        var d1 = new Date(lastTime.replace(' ','T'));
+        var d2 = new Date(t.replace(' ','T'));
+        var gap = (d2 - d1) / 60000; // 分钟
+        if(gap > 10 && batch.length > 0){
+          submissions.push(makeSubmission(batch));
+          batch = [];
+        }
+      }
+      batch.push(r);
+      lastTime = t;
+    });
+    if(batch.length > 0) submissions.push(makeSubmission(batch));
+  });
+
+  // 按登记日期降序、提交时间降序排
+  submissions.sort(function(a,b){
+    return (b.registerDate||'').localeCompare(a.registerDate||'') ||
+           (b.submitTime||'').localeCompare(a.submitTime||'');
+  });
+  return submissions;
+}
+
+function makeSubmission(records){
+  var first = records[0];
+  var last = records[records.length-1];
+  return {
+    store: first.store || '未知门店',
+    registerDate: first.register_date || '',
+    taster: first.taster || '',
+    submitTime: (first.created_at||'').slice(0,16),
+    lastTime: (last.created_at||'').slice(11,16),
+    teaCount: records.length,
+    teas: records.map(function(r){
+      var st = calcStatus(r.register_date);
+      var photos = [];
+      if(Array.isArray(r.photos)) photos = r.photos;
+      else if(typeof r.photos === 'string'){
+        try{ photos = JSON.parse(r.photos); }catch(e){ photos = []; }
+      }
+      return {
+        name: r.tea_name || '',
+        photos: photos,
+        status: st,
+        remark: r.remark || '',
+        recordId: r.recordId || r.id || ''
+      };
+    })
+  };
+}
+
+function render(){
+  var dateFrom = document.getElementById('dateFrom').value;
+  var dateTo = document.getElementById('dateTo').value;
+  var storeKw = document.getElementById('storeFilter').value.toLowerCase();
+  var tasterKw = document.getElementById('tasterFilter').value.toLowerCase();
+  var teaKw = document.getElementById('teaFilter').value.toLowerCase();
+
+  // 筛选
+  var filtered = allRecords.filter(function(r){
+    if(dateFrom && (r.register_date||'') < dateFrom) return false;
+    if(dateTo && (r.register_date||'') > dateTo) return false;
+    if(storeKw && !(r.store||'').toLowerCase().includes(storeKw)) return false;
+    if(tasterKw && !(r.taster||'').toLowerCase().includes(tasterKw)) return false;
+    if(teaKw && !(r.tea_name||'').toLowerCase().includes(teaKw)) return false;
+    return true;
+  });
+
+  allSubmissions = groupSubmissions(filtered);
+
+  // 统计
+  var stores = {}, tasters = {};
+  filtered.forEach(function(r){
+    stores[r.store] = 1;
+    tasters[r.taster] = 1;
+  });
+  document.getElementById('statSubmissions').textContent = allSubmissions.length;
+  document.getElementById('statTeas').textContent = filtered.length;
+  document.getElementById('statStores').textContent = Object.keys(stores).length;
+  document.getElementById('statTasters').textContent = Object.keys(tasters).length;
+
+  // 渲染
+  var container = document.getElementById('container');
+  if(allSubmissions.length === 0){
+    container.innerHTML = '<div class="empty"><div class="icon">📋</div>没有匹配的记录</div>';
+    return;
+  }
+
+  // 按门店分组
+  var byStore = {};
+  allSubmissions.forEach(function(s){
+    if(!byStore[s.store]) byStore[s.store] = [];
+    byStore[s.store].push(s);
+  });
+
+  var html = '';
+  Object.keys(byStore).forEach(function(storeName){
+    var subs = byStore[storeName];
+    var totalTeas = subs.reduce(function(a,b){return a+b.teaCount},0);
+    html += '<div class="store-group">';
+    html += '<div class="store-header" onclick="toggleStore(this)">';
+    html += '<span class="store-name">'+esc(storeName)+'</span>';
+    html += '<span class="store-meta"><span class="badge">'+subs.length+' 批次</span> '+totalTeas+' 条茶叶</span>';
+    html += '</div>';
+    html += '<div class="store-body" style="display:block">';
+
+    subs.forEach(function(s){
+      html += '<div class="submission-card">';
+      html += '<div class="submission-head">';
+      html += '<span class="date">'+esc(s.registerDate)+'</span>';
+      html += '<span class="taster">'+esc(s.taster)+'</span>';
+      html += '<span class="time">提交 '+esc(s.submitTime)+(s.lastTime && s.lastTime !== s.submitTime.slice(11,16) ? ' ~ '+esc(s.lastTime) : '')+'</span>';
+      html += '<span class="count">'+s.teaCount+' 条</span>';
+      html += '</div>';
+      html += '<div class="tea-list">';
+      s.teas.forEach(function(t){
+        html += '<div class="tea-item">';
+        html += '<div style="flex:1">';
+        html += '<div class="tea-name">'+esc(t.name)+'</div>';
+        if(t.remark) html += '<div style="font-size:12px;color:var(--sub);margin-top:2px">备注：'+esc(t.remark)+'</div>';
+        html += '</div>';
+        html += '<span class="tea-status '+t.status.cls+'">'+t.status.text+'</span>';
+        html += '</div>';
+        if(t.photos.length > 0){
+          html += '<div class="tea-photos">';
+          t.photos.forEach(function(url,i){
+            html += '<img src="'+esc(url)+'" loading="lazy" onclick="openPhotoModal(event,'+JSON.stringify(t.photos)+','+i+')">';
+          });
+          html += '</div>';
+        }else{
+          html += '<div style="margin-top:4px"><span class="no-photo">无照片</span></div>';
+        }
+      });
+      html += '</div>';
+      html += '</div>';
+    });
+
+    html += '</div>';
+    html += '</div>';
+  });
+
+  container.innerHTML = html;
+}
+
+function toggleStore(header){
+  var body = header.nextElementSibling;
+  body.style.display = body.style.display === 'none' ? 'block' : 'none';
+}
+
+function openPhotoModal(e,photos,idx){
+  e.stopPropagation();
+  currentPhotoList = photos;
+  currentPhotoIdx = idx;
+  showPhoto();
+  var modal = document.getElementById('photoModal');
+  modal.style.display = 'flex';
+}
+
+function showPhoto(){
+  document.getElementById('photoModalImg').src = currentPhotoList[currentPhotoIdx];
+  document.getElementById('photoNav').textContent = (currentPhotoIdx+1) + ' / ' + currentPhotoList.length + ' · 左右切换 · 点击关闭';
+}
+
+function closePhotoModal(e){
+  if(e){
+    if(e.target.tagName === 'IMG') return;
+  }
+  document.getElementById('photoModal').style.display = 'none';
+}
+
+document.addEventListener('keydown', function(e){
+  var modal = document.getElementById('photoModal');
+  if(modal.style.display !== 'flex') return;
+  if(e.key === 'Escape') modal.style.display = 'none';
+  if(e.key === 'ArrowLeft' && currentPhotoIdx > 0){ currentPhotoIdx--; showPhoto(); }
+  if(e.key === 'ArrowRight' && currentPhotoIdx < currentPhotoList.length-1){ currentPhotoIdx++; showPhoto(); }
+});
+
+function clearFilters(){
+  document.getElementById('dateFrom').value = '';
+  document.getElementById('dateTo').value = '';
+  document.getElementById('storeFilter').value = '';
+  document.getElementById('tasterFilter').value = '';
+  document.getElementById('teaFilter').value = '';
+  render();
+}
+
+function exportCsv(){
+  var rows = [['门店','登记日期','登记人','茶叶名称','照片数','提交时间','状态']];
+  allSubmissions.forEach(function(s){
+    s.teas.forEach(function(t){
+      rows.push([
+        s.store, s.registerDate, s.taster, t.name,
+        t.photos.length, s.submitTime, t.status.text
+      ]);
+    });
+  });
+  var csv = '\ufeff' + rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"'}).join(',')}).join('\n');
+  var blob = new Blob([csv],{type:'text/csv;charset=utf-8'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '茶叶试闻记录_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+}
+
+// 初始化
+if(window.TEATEST_CLOUD_DATA && Array.isArray(window.TEATEST_CLOUD_DATA)){
+  allRecords = window.TEATEST_CLOUD_DATA;
+}else{
+  allRecords = [];
+}
+render();
+</script>
+</body>
+</html>

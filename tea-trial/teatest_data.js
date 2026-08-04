@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-04 15:51:19）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 15:53:11）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -353,6 +353,18 @@ window.TEATEST_CLOUD_DATA = [
       "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/854ec10d-72a8-410e-800a-a052b6925398.jpg"
     ],
     "created_at": "2026-08-03 10:28:36"
+  },
+  {
+    "recordId": "aHLtCAUAIL",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-02-28",
+    "tea_name": "鸳央手冲挂耳茶咖2.0",
+    "taster": "侯钰轩",
+    "remark": "",
+    "photos": [
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/e71a2e01-85a3-4982-9059-6d8f1df9a54f.jpg"
+    ],
+    "created_at": "2026-08-04 07:52:10"
   },
   {
     "recordId": "cLpaqPSz7v",

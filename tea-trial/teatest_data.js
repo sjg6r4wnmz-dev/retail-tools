@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-04 15:53:11）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 15:55:12）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -317,6 +317,18 @@ window.TEATEST_CLOUD_DATA = [
       "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/c5d5ce5a-e330-40d4-9e51-4d084b8d35dd.jpg"
     ],
     "created_at": "2026-08-03 11:30:31"
+  },
+  {
+    "recordId": "TAhpbKA44U",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-02-24",
+    "tea_name": "天生我材/小金桂茶",
+    "taster": "侯钰轩",
+    "remark": "",
+    "photos": [
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/22f14a3f-bcb6-4a24-ae71-8c5d2903bc0b.jpg"
+    ],
+    "created_at": "2026-08-04 07:51:32"
   },
   {
     "recordId": "V67F3nARVn",

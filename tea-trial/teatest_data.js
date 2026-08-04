@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-04 19:05:11）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 19:11:40）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -398,6 +398,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "6QiNFFh7fl",
+    "store": "武汉湖经学院茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "此刻如常/心愿茶",
+    "taster": "李星悦",
+    "remark": "样品茶叶到期时间",
+    "created_at": "2026-08-04 11:09:36"
+  },
+  {
     "recordId": "6UWKHIjbme",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -468,6 +477,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "",
     "remark": "",
     "created_at": "2026-08-04 08:30:35"
+  },
+  {
+    "recordId": "7Q4VbNEg8l",
+    "store": "武汉湖经学院茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "自摇沫泡奶茶/伯爵红茶风味（1杯装）",
+    "taster": "李星悦",
+    "remark": "样品茶叶到期时间",
+    "created_at": "2026-08-04 11:09:36"
   },
   {
     "recordId": "7WhKJQixn0",
@@ -839,6 +857,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "DymHr2wLkZ",
+    "store": "武汉湖经学院茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "天生我材/小金桂茶",
+    "taster": "李星悦",
+    "remark": "样品茶叶到期时间",
+    "created_at": "2026-08-04 11:09:36"
+  },
+  {
     "recordId": "EP1xRSFYLv",
     "store": "深圳海上世界游园会店",
     "register_date": "2026-08-03",
@@ -999,6 +1026,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "HRevItwS9k",
+    "store": "武汉湖经学院茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "李星悦",
+    "remark": "样品茶叶到期时间",
+    "created_at": "2026-08-04 11:09:36"
   },
   {
     "recordId": "HTM6xcbDRo",
@@ -1451,6 +1487,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "OMNOe67RjW",
+    "store": "武汉湖经学院茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "李星悦",
+    "remark": "样品茶叶到期时间",
+    "created_at": "2026-08-04 11:09:36"
+  },
+  {
     "recordId": "OXglfuA2mR",
     "store": "武汉汉秀剧场茶叶子",
     "register_date": "2026-08-04",
@@ -1575,6 +1620,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "RUflIdHd05",
+    "store": "武汉湖经学院茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（黑乌龙）",
+    "taster": "李星悦",
+    "remark": "样品茶叶到期时间",
+    "created_at": "2026-08-04 11:09:36"
   },
   {
     "recordId": "RZ8Q1aiSd8",
@@ -1998,6 +2052,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:44:16"
+  },
+  {
+    "recordId": "ZMJvRQvpQU",
+    "store": "武汉湖经学院茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "李星悦",
+    "remark": "样品茶叶到期时间",
+    "created_at": "2026-08-04 11:09:36"
   },
   {
     "recordId": "ZMblow1gzF",
@@ -2457,6 +2520,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "esB0yHNiQM",
+    "store": "武汉湖经学院茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "李星悦",
+    "remark": "样品茶叶到期时间",
+    "created_at": "2026-08-04 11:09:36"
   },
   {
     "recordId": "eyrOEoZpvO",
@@ -3179,6 +3251,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "rEfFqUtCtG",
+    "store": "武汉湖经学院茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "少年心气/茉莉窨花茶",
+    "taster": "李星悦",
+    "remark": "样品茶叶到期时间",
+    "created_at": "2026-08-04 11:09:36"
+  },
+  {
     "recordId": "rYyURIZ2gJ",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -3618,6 +3699,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:45:11"
+  },
+  {
+    "recordId": "zhiAZ8kLe7",
+    "store": "武汉湖经学院茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "李星悦",
+    "remark": "样品茶叶到期时间",
+    "created_at": "2026-08-04 11:09:36"
   },
   {
     "recordId": "ztMlE3Sr6C",

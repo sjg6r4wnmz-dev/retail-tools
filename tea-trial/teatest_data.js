@@ -10,7 +10,7 @@ window.TEATEST_CLOUD_DATA = [
     "remark": "",
     "photos": [
       "images/282787cc-5c02-40f9-ae77-55ac36f3595d.jpg",
-      "https://alidocs2.oss-cn-zhangjiakou.aliyuncs.com/res/54Lq35orm98K9l7E/img/0f71ae8d-4e8b-4371-b518-adafb9a3ba0c.jpg?Expires=1785834387&OSSAccessKeyId=LTAI5tKTjg4Kq1HCdBJ8qpSp&Signature=RLe9Z2z8HpJSR2hZfqjIc53qoQM%3D"
+      "images/0f71ae8d-4e8b-4371-b518-adafb9a3ba0c.jpg"
     ],
     "created_at": "2026-08-03 07:06:52"
   },

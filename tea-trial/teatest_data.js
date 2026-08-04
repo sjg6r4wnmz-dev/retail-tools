@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-04 15:40:53）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 15:46:05）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -9,8 +9,8 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "欧阳菁",
     "remark": "",
     "photos": [
-      "images/282787cc-5c02-40f9-ae77-55ac36f3595d.jpg",
-      "images/0f71ae8d-4e8b-4371-b518-adafb9a3ba0c.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/282787cc-5c02-40f9-ae77-55ac36f3595d.jpg",
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/0f71ae8d-4e8b-4371-b518-adafb9a3ba0c.jpg"
     ],
     "created_at": "2026-08-03 07:06:52"
   },
@@ -22,9 +22,9 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "侯钰轩",
     "remark": "",
     "photos": [
-      "images/117c8bc3-2901-4632-8266-b9eba8008770.jpg",
-      "images/2ae629d7-e751-440b-9157-ab29d277a83d.jpg",
-      "images/577ec3eb-f90a-4846-8863-2b5c6ac78c24.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/117c8bc3-2901-4632-8266-b9eba8008770.jpg",
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/2ae629d7-e751-440b-9157-ab29d277a83d.jpg",
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/577ec3eb-f90a-4846-8863-2b5c6ac78c24.jpg"
     ],
     "created_at": "2026-08-04 07:39:30"
   },
@@ -36,7 +36,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/e3a7c38b-e298-49e0-910a-2926ec5414c9.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/e3a7c38b-e298-49e0-910a-2926ec5414c9.jpg"
     ],
     "created_at": "2026-08-03 11:25:57"
   },
@@ -48,7 +48,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/dd855654-5419-47f0-bff8-ba28f874d010.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/dd855654-5419-47f0-bff8-ba28f874d010.jpg"
     ],
     "created_at": "2026-08-03 11:30:31"
   },
@@ -60,7 +60,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/fc543446-55e5-4e3b-9b7f-0043b4253abd.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/fc543446-55e5-4e3b-9b7f-0043b4253abd.jpg"
     ],
     "created_at": "2026-08-03 11:30:31"
   },
@@ -82,7 +82,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/c7ca3582-aa15-4e8f-8cd7-70e7a3eeeb4c.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/c7ca3582-aa15-4e8f-8cd7-70e7a3eeeb4c.jpg"
     ],
     "created_at": "2026-08-03 11:29:52"
   },
@@ -94,7 +94,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/44c661ae-1c1c-4ecd-b58d-4b07ede4c927.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/44c661ae-1c1c-4ecd-b58d-4b07ede4c927.jpg"
     ],
     "created_at": "2026-08-03 11:29:52"
   },
@@ -106,8 +106,8 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "欧阳菁",
     "remark": "",
     "photos": [
-      "images/8980c648-b9a6-40d7-8acc-36cef85d773a.jpg",
-      "images/06d85fb0-440c-4152-841a-5d1cfc8d034e.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/8980c648-b9a6-40d7-8acc-36cef85d773a.jpg",
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/06d85fb0-440c-4152-841a-5d1cfc8d034e.jpg"
     ],
     "created_at": "2026-08-03 07:07:37"
   },
@@ -119,7 +119,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘世琦",
     "remark": "",
     "photos": [
-      "images/ed7a6d76-b98a-40cb-8c8a-6907aaf70bfe.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/ed7a6d76-b98a-40cb-8c8a-6907aaf70bfe.jpg"
     ],
     "created_at": "2026-08-03 10:25:28"
   },
@@ -131,7 +131,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘世琦",
     "remark": "",
     "photos": [
-      "images/005ab9c6-c84d-481d-87f5-a37b3a666d2b.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/005ab9c6-c84d-481d-87f5-a37b3a666d2b.jpg"
     ],
     "created_at": "2026-08-03 10:26:46"
   },
@@ -143,7 +143,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/8d6e96af-6bfc-47e6-9146-d936645f4689.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/8d6e96af-6bfc-47e6-9146-d936645f4689.jpg"
     ],
     "created_at": "2026-08-03 11:29:52"
   },
@@ -155,7 +155,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "彭萱",
     "remark": "",
     "photos": [
-      "images/606c0933-7d1d-449c-9b22-9effd2a4b3f6.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/606c0933-7d1d-449c-9b22-9effd2a4b3f6.jpg"
     ],
     "created_at": "2026-08-02 15:48:16"
   },
@@ -167,7 +167,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/cb1ded40-fc3a-40c9-a613-759e81129380.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/cb1ded40-fc3a-40c9-a613-759e81129380.jpg"
     ],
     "created_at": "2026-08-03 11:25:31"
   },
@@ -179,7 +179,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "彭萱",
     "remark": "",
     "photos": [
-      "images/3416aafe-af9f-4a89-b32b-a9b8388f7d29.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/3416aafe-af9f-4a89-b32b-a9b8388f7d29.jpg"
     ],
     "created_at": "2026-08-02 15:48:05"
   },
@@ -191,8 +191,8 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "欧阳菁",
     "remark": "",
     "photos": [
-      "images/872168f4-24cf-40dc-b8bd-0e7a5819dabd.jpg",
-      "images/79ad9d63-9737-451f-ae9f-7d858cfff762.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/872168f4-24cf-40dc-b8bd-0e7a5819dabd.jpg",
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/79ad9d63-9737-451f-ae9f-7d858cfff762.jpg"
     ],
     "created_at": "2026-08-03 07:10:24"
   },
@@ -204,7 +204,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "",
     "remark": "",
     "photos": [
-      "images/f381506b-92ff-409f-8573-08df3cba006e.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/f381506b-92ff-409f-8573-08df3cba006e.jpg"
     ],
     "created_at": "2026-08-03 11:21:52"
   },
@@ -216,7 +216,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/47b510ed-5945-4433-8c16-730c74d11a0d.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/47b510ed-5945-4433-8c16-730c74d11a0d.jpg"
     ],
     "created_at": "2026-08-03 11:28:04"
   },
@@ -228,7 +228,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/a4db247c-44a4-48c9-8c2c-a4a5511c7e47.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/a4db247c-44a4-48c9-8c2c-a4a5511c7e47.jpg"
     ],
     "created_at": "2026-08-03 11:27:05"
   },
@@ -240,7 +240,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘世琦",
     "remark": "",
     "photos": [
-      "images/a875a549-5231-4bdd-a55f-250e89aaf079.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/a875a549-5231-4bdd-a55f-250e89aaf079.jpg"
     ],
     "created_at": "2026-08-03 10:24:19"
   },
@@ -252,9 +252,9 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "侯钰轩",
     "remark": "",
     "photos": [
-      "images/8c55d08b-d5f4-4fd8-a105-09c21de1499c.jpg",
-      "images/ce3ebba3-4d25-4fd7-9487-9d23e672dd4e.jpg",
-      "images/7ad30c45-f7c4-420f-846c-6a8fda9c9f00.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/8c55d08b-d5f4-4fd8-a105-09c21de1499c.jpg",
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/ce3ebba3-4d25-4fd7-9487-9d23e672dd4e.jpg",
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/7ad30c45-f7c4-420f-846c-6a8fda9c9f00.jpg"
     ],
     "created_at": "2026-08-04 07:39:30"
   },
@@ -266,7 +266,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/2a7db621-7fc0-46ab-bee9-1e3802e14e06.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/2a7db621-7fc0-46ab-bee9-1e3802e14e06.jpg"
     ],
     "created_at": "2026-08-03 11:28:04"
   },
@@ -278,7 +278,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘世琦",
     "remark": "",
     "photos": [
-      "images/42c12ca8-14c8-4684-8002-050168fd17fd.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/42c12ca8-14c8-4684-8002-050168fd17fd.jpg"
     ],
     "created_at": "2026-08-03 10:28:13"
   },
@@ -290,7 +290,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/c5d5ce5a-e330-40d4-9e51-4d084b8d35dd.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/c5d5ce5a-e330-40d4-9e51-4d084b8d35dd.jpg"
     ],
     "created_at": "2026-08-03 11:30:31"
   },
@@ -302,7 +302,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘世琦",
     "remark": "",
     "photos": [
-      "images/839258ea-3e05-4663-8c70-a4609b5d30c9.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/839258ea-3e05-4663-8c70-a4609b5d30c9.jpg"
     ],
     "created_at": "2026-08-03 10:25:01"
   },
@@ -314,7 +314,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘世琦",
     "remark": "",
     "photos": [
-      "images/854ec10d-72a8-410e-800a-a052b6925398.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/854ec10d-72a8-410e-800a-a052b6925398.jpg"
     ],
     "created_at": "2026-08-03 10:28:36"
   },
@@ -336,8 +336,8 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "欧阳菁",
     "remark": "",
     "photos": [
-      "images/f8aa735b-fe73-4c8b-b719-594192dad4e3.jpg",
-      "images/46d5f568-c66a-4827-a82e-93cb3b2f6ec2.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/f8aa735b-fe73-4c8b-b719-594192dad4e3.jpg",
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/46d5f568-c66a-4827-a82e-93cb3b2f6ec2.jpg"
     ],
     "created_at": "2026-08-03 07:08:31"
   },
@@ -349,7 +349,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/5fe60859-7baf-466f-9a6c-9005eefdc433.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/5fe60859-7baf-466f-9a6c-9005eefdc433.jpg"
     ],
     "created_at": "2026-08-03 11:25:10"
   },
@@ -361,7 +361,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/8b6a5597-769e-4f6b-bae4-a249a7530938.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/8b6a5597-769e-4f6b-bae4-a249a7530938.jpg"
     ],
     "created_at": "2026-08-03 11:24:18"
   },
@@ -373,8 +373,8 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "欧阳菁",
     "remark": "",
     "photos": [
-      "images/e409a65f-a9e6-4363-8f2a-30801f00ce8a.jpg",
-      "images/88bf8a7d-0fc5-4dad-9a01-983ff8c01464.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/e409a65f-a9e6-4363-8f2a-30801f00ce8a.jpg",
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/88bf8a7d-0fc5-4dad-9a01-983ff8c01464.jpg"
     ],
     "created_at": "2026-08-03 07:11:12"
   },
@@ -386,8 +386,8 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "欧阳菁",
     "remark": "",
     "photos": [
-      "images/3bfbe470-1dee-4d21-b6a0-965a9016e4ae.jpg",
-      "images/e18fcdf8-e992-4db7-9d9f-9111d825e421.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/3bfbe470-1dee-4d21-b6a0-965a9016e4ae.jpg",
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/e18fcdf8-e992-4db7-9d9f-9111d825e421.jpg"
     ],
     "created_at": "2026-08-03 07:09:25"
   },
@@ -399,7 +399,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘世琦",
     "remark": "",
     "photos": [
-      "images/56739a0a-e895-4d9b-b5bf-e44aae1dbe08.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/56739a0a-e895-4d9b-b5bf-e44aae1dbe08.jpg"
     ],
     "created_at": "2026-08-03 10:27:22"
   },
@@ -411,7 +411,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/5928c509-4038-42a7-bfcf-18c1665e9260.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/5928c509-4038-42a7-bfcf-18c1665e9260.jpg"
     ],
     "created_at": "2026-08-03 11:23:47"
   },
@@ -423,7 +423,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "彭萱",
     "remark": "",
     "photos": [
-      "images/bdb661b0-9dc7-4c34-98af-aa94f9dec972.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/bdb661b0-9dc7-4c34-98af-aa94f9dec972.jpg"
     ],
     "created_at": "2026-08-02 15:47:53"
   },
@@ -435,7 +435,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘世琦",
     "remark": "",
     "photos": [
-      "images/05c8b95e-9fee-4ff6-8a8b-b904b17c002e.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/05c8b95e-9fee-4ff6-8a8b-b904b17c002e.jpg"
     ],
     "created_at": "2026-08-03 10:27:42"
   },
@@ -447,7 +447,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/a0197faf-b326-4b81-9083-e6d86f3254b4.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/a0197faf-b326-4b81-9083-e6d86f3254b4.jpg"
     ],
     "created_at": "2026-08-03 11:20:33"
   },
@@ -459,7 +459,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/24032e06-d3d0-43fe-aaee-ae03ac29349e.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/24032e06-d3d0-43fe-aaee-ae03ac29349e.jpg"
     ],
     "created_at": "2026-08-03 11:26:35"
   },
@@ -471,7 +471,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "photos": [
-      "images/d5a3c6ec-2d17-41a0-9a0f-751736d6352a.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/d5a3c6ec-2d17-41a0-9a0f-751736d6352a.jpg"
     ],
     "created_at": "2026-08-03 11:27:21"
   },
@@ -483,7 +483,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘世琦",
     "remark": "",
     "photos": [
-      "images/b9c2f60f-368f-43c1-826c-7fff8a4f2d2a.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/b9c2f60f-368f-43c1-826c-7fff8a4f2d2a.jpg"
     ],
     "created_at": "2026-08-03 10:29:23"
   },
@@ -495,7 +495,7 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘世琦",
     "remark": "",
     "photos": [
-      "images/0278504c-b7da-49d6-8d22-89013b2e0eb6.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/0278504c-b7da-49d6-8d22-89013b2e0eb6.jpg"
     ],
     "created_at": "2026-08-03 10:26:04"
   },
@@ -507,9 +507,9 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "侯钰轩",
     "remark": "",
     "photos": [
-      "images/570e5f11-aded-4f83-b504-46658e3b9f0f.jpg",
-      "images/880caa17-9895-48a8-a9df-e44d5262213c.jpg",
-      "images/158a1aec-3580-4a8d-a4aa-a7a504845d70.jpg"
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/570e5f11-aded-4f83-b504-46658e3b9f0f.jpg",
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/880caa17-9895-48a8-a9df-e44d5262213c.jpg",
+      "https://sjg6r4wnmz-dev.github.io/retail-tools/tea-trial/images/158a1aec-3580-4a8d-a4aa-a7a504845d70.jpg"
     ],
     "created_at": "2026-08-04 07:39:30"
   }

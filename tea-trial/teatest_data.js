@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-04 22:43:14）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 22:44:18）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -893,6 +893,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "EmKVTieGzn",
+    "store": "武汉老通城茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 14:43:44"
+  },
+  {
     "recordId": "EoomNv3JZr",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -1008,6 +1017,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "HHLGkkAPiZ",
+    "store": "武汉老通城茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "少年心气/茉莉窨花茶",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 14:43:44"
   },
   {
     "recordId": "HP7AyYtPAV",
@@ -1503,6 +1521,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "张亮",
     "remark": "",
     "created_at": "2026-08-04 10:58:50"
+  },
+  {
+    "recordId": "OnbP4mL24W",
+    "store": "武汉老通城茶叶子",
+    "register_date": "2026-08-04",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 14:43:44"
   },
   {
     "recordId": "PB1T1E8G31",

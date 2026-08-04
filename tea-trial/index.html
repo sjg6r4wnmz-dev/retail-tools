@@ -418,14 +418,15 @@
 
 <div class="toast" id="toast"></div>
 
-<!-- 云端数据（钉钉AI表格定时同步，自动生成）—— 动态加载带时间戳，防止缓存导致图片过期 -->
+<!-- 云端数据（钉钉AI表格定时同步）—— fetch + no-store 强制绕过缓存 -->
 <script>
-(function(){
-  var s = document.createElement('script');
-  s.src = 'teatest_data.js?v=' + Date.now();
-  s.onerror = function(){ console.log('teatest_data.js not available (first load or sync pending)'); };
-  document.head.appendChild(s);
-})();
+fetch('teatest_data.js?v=' + Date.now(), {cache:'no-store'})
+  .then(function(r){ return r.text(); })
+  .then(function(text){
+    try{ new Function(text)(); }catch(e){ console.log('teatest_data parse error:', e); }
+  })
+  .catch(function(e){ console.log('teatest_data.js load failed:', e); });
+
 </script>
 
 <!-- 照片放大弹窗 -->

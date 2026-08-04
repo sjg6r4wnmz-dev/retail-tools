@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-04 16:32:07）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-04 16:34:12）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -54,6 +54,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "彭萱",
     "remark": "",
     "created_at": "2026-08-02 15:48:23"
+  },
+  {
+    "recordId": "3eErKOepuf",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-07-13",
+    "tea_name": "习惯茶/橘香冻顶乌龙",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 08:32:20"
   },
   {
     "recordId": "3mAB0JcQQO",
@@ -126,6 +135,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "彭萱",
     "remark": "",
     "created_at": "2026-08-02 15:48:16"
+  },
+  {
+    "recordId": "Bz9xcuo4rd",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-07-01",
+    "tea_name": "习惯茶/碎银子普洱",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 08:32:52"
   },
   {
     "recordId": "EP1xRSFYLv",
@@ -326,6 +344,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-03 11:25:10"
   },
   {
+    "recordId": "hM4t4bevNp",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-06-24",
+    "tea_name": "习惯茶/槐花青苹果乌龙",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-04 08:32:36"
+  },
+  {
     "recordId": "hZrgLgV4TD",
     "store": "深圳海上世界游园会店",
     "register_date": "2026-08-03",
@@ -405,6 +432,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "created_at": "2026-08-03 11:26:35"
+  },
+  {
+    "recordId": "sXOz8YGKRW",
+    "store": "深圳福田cocopark茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "欧阳菁",
+    "remark": "",
+    "created_at": "2026-08-04 08:32:33"
   },
   {
     "recordId": "urHXhykXD8",

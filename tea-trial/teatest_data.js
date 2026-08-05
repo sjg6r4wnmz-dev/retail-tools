@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-05 17:27:18）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-05 17:31:18）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -1305,6 +1305,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "GYd9s92BtF",
+    "store": "武汉大悦城负一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "茗优原叶冻萃茶/茶小匣清减装（浓香金观音)",
+    "taster": "刘聪",
+    "remark": "",
+    "created_at": "2026-08-05 09:29:21"
   },
   {
     "recordId": "Gh4RHBe6WD",

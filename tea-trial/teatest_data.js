@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-05 17:35:17）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-05 17:36:16）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -1224,6 +1224,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "FbwZTMz6Ds",
+    "store": "武汉大悦城负一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "刘聪",
+    "remark": "",
+    "created_at": "2026-08-05 09:36:00"
   },
   {
     "recordId": "FfEyIuvQ4s",
@@ -4752,6 +4761,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "yRn0tybhga",
+    "store": "武汉大悦城负一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "刘聪",
+    "remark": "",
+    "created_at": "2026-08-05 09:35:22"
   },
   {
     "recordId": "yS1xcAgMuD",

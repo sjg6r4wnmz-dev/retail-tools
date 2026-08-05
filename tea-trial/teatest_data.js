@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-05 20:57:14）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-05 20:59:27）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -1037,6 +1037,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 14:45:21"
   },
   {
+    "recordId": "DMIanTFfWH",
+    "store": "武汉银泰创意城游园会店",
+    "register_date": "2026-08-05",
+    "tea_name": "天生我材/小金桂茶",
+    "taster": "崔海洋",
+    "remark": "",
+    "created_at": "2026-08-05 12:58:50"
+  },
+  {
     "recordId": "DaGxJeSBir",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -1359,6 +1368,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "GiQZ5Z2oEL",
+    "store": "武汉银泰创意城游园会店",
+    "register_date": "2026-08-05",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "崔海洋",
+    "remark": "",
+    "created_at": "2026-08-05 12:58:50"
   },
   {
     "recordId": "HHLGkkAPiZ",
@@ -2151,6 +2169,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "QYRFwBpUAe",
+    "store": "武汉银泰创意城游园会店",
+    "register_date": "2026-08-05",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "崔海洋",
+    "remark": "",
+    "created_at": "2026-08-05 12:58:50"
   },
   {
     "recordId": "QgolF9joIW",
@@ -4385,6 +4412,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 03:46:52"
   },
   {
+    "recordId": "sILyX9ZMFT",
+    "store": "武汉银泰创意城游园会店",
+    "register_date": "2026-08-05",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "崔海洋",
+    "remark": "",
+    "created_at": "2026-08-05 12:58:50"
+  },
+  {
     "recordId": "sSb10KUEOk",
     "store": "武穴武商购物中心一楼茶叶子",
     "register_date": "2026-08-05",
@@ -4430,6 +4466,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "swTaHGkyzl",
+    "store": "武汉银泰创意城游园会店",
+    "register_date": "2026-08-05",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "崔海洋",
+    "remark": "",
+    "created_at": "2026-08-05 12:58:50"
+  },
+  {
     "recordId": "tVFmKFKNCp",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -4446,6 +4491,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "tcbpaomwqb",
+    "store": "武汉银泰创意城游园会店",
+    "register_date": "2026-08-05",
+    "tea_name": "浮生半日/闲时茶",
+    "taster": "崔海洋",
+    "remark": "",
+    "created_at": "2026-08-05 12:58:50"
   },
   {
     "recordId": "td0cLPz0hz",

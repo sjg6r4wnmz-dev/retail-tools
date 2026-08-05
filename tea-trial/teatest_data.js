@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-05 17:21:16）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-05 17:26:19）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -1215,6 +1215,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "FuZTVNJcpR",
+    "store": "武汉大悦城负一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "大",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-05 09:25:49"
   },
   {
     "recordId": "FujC6J3khC",
@@ -3627,6 +3636,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "jwXxDWC6E3",
+    "store": "武汉大悦城负一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "大",
+    "taster": "刘聪",
+    "remark": "",
+    "created_at": "2026-08-05 09:25:57"
   },
   {
     "recordId": "k17RbMgRFp",

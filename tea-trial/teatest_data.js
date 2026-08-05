@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-05 17:13:16）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-05 17:17:19）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -3780,6 +3780,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "mrG1hK6LfB",
+    "store": "武汉大悦城负一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "半日普洱闲时茶",
+    "taster": "刘聪",
+    "remark": "",
+    "created_at": "2026-08-05 09:17:01"
   },
   {
     "recordId": "n20HNkB5ew",

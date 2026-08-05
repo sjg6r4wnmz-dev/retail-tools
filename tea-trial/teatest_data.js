@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-05 17:34:18）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-05 17:35:17）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -1206,6 +1206,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "FRDFKb3o8G",
+    "store": "武汉大悦城负一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "天生我材/小金桂茶",
+    "taster": "刘聪",
+    "remark": "",
+    "created_at": "2026-08-05 09:34:58"
   },
   {
     "recordId": "FRKV3UEXyE",
@@ -3600,6 +3609,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "igFtrdvNKw",
+    "store": "武汉大悦城负一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "刘聪",
+    "remark": "",
+    "created_at": "2026-08-05 09:34:24"
   },
   {
     "recordId": "ir4Nc2mGLf",

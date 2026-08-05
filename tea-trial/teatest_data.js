@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-05 11:53:38）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-05 11:54:33）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -180,6 +180,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "雷丽霞",
     "remark": "",
     "created_at": "2026-08-04 16:59:42"
+  },
+  {
+    "recordId": "21lq9WeHSp",
+    "store": "武穴武商购物中心一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "吴鹏刚",
+    "remark": "",
+    "created_at": "2026-08-05 03:46:52"
   },
   {
     "recordId": "22r6aHZSjD",
@@ -668,6 +677,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "8ooVPhvvjb",
+    "store": "武穴武商购物中心一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "少年心气/茉莉窨花茶",
+    "taster": "吴鹏刚",
+    "remark": "",
+    "created_at": "2026-08-05 03:46:52"
+  },
+  {
     "recordId": "8p9muG6GmX",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -1023,6 +1041,15 @@ window.TEATEST_CLOUD_DATA = [
     "store": "武穴武商购物中心一楼茶叶子",
     "register_date": "2026-08-05",
     "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "吴鹏刚",
+    "remark": "",
+    "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "EiWtYk9eYY",
+    "store": "武穴武商购物中心一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "大四喜手信茶礼3.0",
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
@@ -1604,6 +1631,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 07:50:19"
   },
   {
+    "recordId": "LyddKupJyn",
+    "store": "武穴武商购物中心一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "吴鹏刚",
+    "remark": "",
+    "created_at": "2026-08-05 03:46:52"
+  },
+  {
     "recordId": "M6Ne1OIv2r",
     "store": "深圳海上世界游园会店",
     "register_date": "2026-08-03",
@@ -2162,6 +2198,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "UpV4FoQzRI",
+    "store": "武穴武商购物中心一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "半日普洱闲时茶",
+    "taster": "吴鹏刚",
+    "remark": "",
+    "created_at": "2026-08-05 03:46:52"
+  },
+  {
     "recordId": "V311S0kMIe",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -2250,6 +2295,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "WrkiRX91w7",
+    "store": "武穴武商购物中心一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "吴鹏刚",
+    "remark": "",
+    "created_at": "2026-08-05 03:46:52"
   },
   {
     "recordId": "WuGiweKybo",
@@ -2819,6 +2873,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "dTQap0oO9M",
+    "store": "武穴武商购物中心一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "天生我材/小金桂茶",
+    "taster": "吴鹏刚",
+    "remark": "",
+    "created_at": "2026-08-05 03:46:52"
+  },
+  {
     "recordId": "dWrxWaAiT9",
     "store": "武汉太和里茶叶子",
     "register_date": "2026-08-04",
@@ -2826,6 +2889,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "雷丽霞",
     "remark": "",
     "created_at": "2026-08-04 16:59:42"
+  },
+  {
+    "recordId": "dYw7zbUX9q",
+    "store": "武穴武商购物中心一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "吴鹏刚",
+    "remark": "",
+    "created_at": "2026-08-05 03:46:52"
   },
   {
     "recordId": "dsOSH7z92G",
@@ -3744,6 +3816,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "qeJuOopirv",
+    "store": "武穴武商购物中心一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "吴鹏刚",
+    "remark": "",
+    "created_at": "2026-08-05 03:46:52"
   },
   {
     "recordId": "qet1cm12kV",

@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-05 17:31:18）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-05 17:33:19）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -2198,6 +2198,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "SPP9TZ7ZwD",
+    "store": "武汉大悦城负一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "少年心气/茉莉花香茶",
+    "taster": "刘聪",
+    "remark": "",
+    "created_at": "2026-08-05 09:32:36"
+  },
+  {
     "recordId": "SUCA9CAmQy",
     "store": "深圳海上世界游园会店",
     "register_date": "2026-08-03",
@@ -3726,6 +3735,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "lTsh9XvVyh",
+    "store": "武汉大悦城负一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "刘聪",
+    "remark": "",
+    "created_at": "2026-08-05 09:32:54"
   },
   {
     "recordId": "lcwRepTsyC",

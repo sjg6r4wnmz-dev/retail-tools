@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-05 17:33:19）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-05 17:34:18）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -468,6 +468,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "67TlI5SP4T",
+    "store": "武汉大悦城负一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "刘聪",
+    "remark": "",
+    "created_at": "2026-08-05 09:33:38"
   },
   {
     "recordId": "6P2nVwZI99",
@@ -2646,6 +2655,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "YFdoY0Km0g",
+    "store": "武汉大悦城负一楼茶叶子",
+    "register_date": "2026-08-05",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "刘聪",
+    "remark": "",
+    "created_at": "2026-08-05 09:34:00"
   },
   {
     "recordId": "YJ8tW3uYdZ",

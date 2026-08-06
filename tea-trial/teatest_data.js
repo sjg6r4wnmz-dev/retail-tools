@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 21:46:19）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 21:48:47）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -279,6 +279,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "2GuGrkP1q6",
+    "store": "武汉黎黄陂路游园会店",
+    "register_date": "2026-01-22",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "宋菲燕",
+    "remark": "",
+    "created_at": "2026-08-06 13:48:07"
   },
   {
     "recordId": "2HtxdkVAQT",
@@ -747,6 +756,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "6ynzuOLID3",
+    "store": "武汉黎黄陂路游园会店",
+    "register_date": "2026-01-22",
+    "tea_name": "心意茶",
+    "taster": "宋菲燕",
+    "remark": "",
+    "created_at": "2026-08-06 13:47:03"
   },
   {
     "recordId": "703fXYpANr",
@@ -1334,6 +1352,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:35:01"
   },
   {
+    "recordId": "D3dqVVMJHL",
+    "store": "武汉黎黄陂路游园会店",
+    "register_date": "2026-01-22",
+    "tea_name": "半日普洱闲时茶",
+    "taster": "宋菲燕",
+    "remark": "",
+    "created_at": "2026-08-06 13:48:07"
+  },
+  {
     "recordId": "D6JEHRPt4a",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -1818,6 +1845,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "崔海洋",
     "remark": "",
     "created_at": "2026-08-05 12:58:50"
+  },
+  {
+    "recordId": "HAeACSyKIL",
+    "store": "武汉黎黄陂路游园会店",
+    "register_date": "2026-01-22",
+    "tea_name": "同心瓶",
+    "taster": "宋菲燕",
+    "remark": "",
+    "created_at": "2026-08-06 13:46:45"
   },
   {
     "recordId": "HHLGkkAPiZ",
@@ -3249,6 +3285,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "VMTBr2skMh",
+    "store": "武汉黎黄陂路游园会店",
+    "register_date": "2026-01-22",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "宋菲燕",
+    "remark": "",
+    "created_at": "2026-08-06 13:48:07"
   },
   {
     "recordId": "VMmLbJTrZJ",
@@ -4934,6 +4979,24 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 11:28:54"
   },
   {
+    "recordId": "kpP8W70HBF",
+    "store": "武汉黎黄陂路游园会店",
+    "register_date": "2026-01-22",
+    "tea_name": "鸳央手冲挂耳茶咖2.0",
+    "taster": "宋菲燕",
+    "remark": "",
+    "created_at": "2026-08-06 13:48:07"
+  },
+  {
+    "recordId": "kqtO8PQSTD",
+    "store": "武汉黎黄陂路游园会店",
+    "register_date": "2026-01-22",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "宋菲燕",
+    "remark": "",
+    "created_at": "2026-08-06 13:48:07"
+  },
+  {
     "recordId": "kv0s8xWWkp",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -5067,6 +5130,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "m80DjubEpe",
+    "store": "武汉黎黄陂路游园会店",
+    "register_date": "2026-01-22",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "宋菲燕",
+    "remark": "",
+    "created_at": "2026-08-06 13:48:07"
   },
   {
     "recordId": "mDjmYIfdkk",
@@ -6167,6 +6239,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 02:20:00"
   },
   {
+    "recordId": "x8xpvJVFXy",
+    "store": "武汉黎黄陂路游园会店",
+    "register_date": "2026-01-22",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "宋菲燕",
+    "remark": "",
+    "created_at": "2026-08-06 13:48:07"
+  },
+  {
     "recordId": "xH9lrxwWbj",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -6372,6 +6453,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "杨力娜",
     "remark": "",
     "created_at": "2026-08-06 11:31:33"
+  },
+  {
+    "recordId": "zVNEbVir0w",
+    "store": "武汉黎黄陂路游园会店",
+    "register_date": "2026-01-22",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "宋菲燕",
+    "remark": "",
+    "created_at": "2026-08-06 13:48:07"
   },
   {
     "recordId": "zhiAZ8kLe7",

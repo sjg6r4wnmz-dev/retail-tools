@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 20:19:32）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 20:21:38）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -99,6 +99,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "侯钰轩",
     "remark": "",
     "created_at": "2026-08-06 02:20:00"
+  },
+  {
+    "recordId": "0e7YrTwvGj",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "天生我材/小金桂茶",
+    "taster": "陈丹",
+    "remark": "",
+    "created_at": "2026-08-06 12:18:20"
   },
   {
     "recordId": "10h4qEByei",
@@ -468,6 +477,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "徐啸",
     "remark": "",
     "created_at": "2026-08-06 05:52:17"
+  },
+  {
+    "recordId": "4veyYLOpun",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "半日普洱闲时茶",
+    "taster": "陈丹",
+    "remark": "",
+    "created_at": "2026-08-06 12:18:20"
   },
   {
     "recordId": "4vp0ujCBAd",
@@ -1251,6 +1269,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "钟丽",
     "remark": "",
     "created_at": "2026-08-06 08:25:55"
+  },
+  {
+    "recordId": "CfntmTm3V0",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "陈丹",
+    "remark": "",
+    "created_at": "2026-08-06 12:18:20"
   },
   {
     "recordId": "CjkbmTK7HA",
@@ -4214,6 +4241,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "eZ3597asdt",
+    "store": "重庆S95超次元中心2号门茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "少年心气/茉莉花香茶",
+    "taster": "陈柄屹",
+    "remark": "",
+    "created_at": "2026-08-06 12:18:26"
+  },
+  {
     "recordId": "ebSNNqA2ek",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -4349,6 +4385,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "fuOQtWzzog",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "陈丹",
+    "remark": "",
+    "created_at": "2026-08-06 12:18:20"
+  },
+  {
     "recordId": "fx6FbjaOQS",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -4482,6 +4527,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "侯钰轩",
     "remark": "",
     "created_at": "2026-08-06 02:15:04"
+  },
+  {
+    "recordId": "h331hoF1yB",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "陈丹",
+    "remark": "",
+    "created_at": "2026-08-06 12:18:20"
   },
   {
     "recordId": "h9c6Ah53Lj",
@@ -5067,6 +5121,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "雷丽霞",
     "remark": "",
     "created_at": "2026-08-04 16:59:42"
+  },
+  {
+    "recordId": "oQQeRZavDg",
+    "store": "重庆S95超次元中心2号门茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "陈柄屹",
+    "remark": "",
+    "created_at": "2026-08-06 12:17:15"
   },
   {
     "recordId": "odAx3hzXSb",
@@ -5697,6 +5760,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "ux58P0WmHk",
+    "store": "重庆S95超次元中心2号门茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "陈柄屹",
+    "remark": "",
+    "created_at": "2026-08-06 12:17:55"
   },
   {
     "recordId": "v2Tb0bNApj",

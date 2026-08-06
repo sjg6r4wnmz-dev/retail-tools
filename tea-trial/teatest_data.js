@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 23:30:39）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 23:32:24）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -3053,6 +3053,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 15:22:57"
   },
   {
+    "recordId": "OfsFYRQsHg",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "单品SOE冻萃咖啡",
+    "taster": "杨春城",
+    "remark": "",
+    "created_at": "2026-08-06 15:30:45"
+  },
+  {
     "recordId": "OnbP4mL24W",
     "store": "武汉老通城茶叶子",
     "register_date": "2026-08-04",
@@ -3717,6 +3726,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "Uryzr6lkmS",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "鸳央手冲挂耳茶咖2.0",
+    "taster": "杨春城",
+    "remark": "",
+    "created_at": "2026-08-06 15:30:24"
   },
   {
     "recordId": "UuHNcbvbus",

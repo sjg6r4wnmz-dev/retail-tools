@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 22:40:18）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 22:45:34）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -297,6 +297,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "2IhwI0G5yb",
+    "store": "阜埠河地铁6号口游园会",
+    "register_date": "2026-08-06",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "杨丽莲",
+    "remark": "",
+    "created_at": "2026-08-06 14:44:52"
   },
   {
     "recordId": "2YgumqGXxH",
@@ -1575,6 +1584,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "EpdmUEyytX",
+    "store": "阜埠河地铁6号口游园会",
+    "register_date": "2026-08-06",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "杨丽莲",
+    "remark": "",
+    "created_at": "2026-08-06 14:44:52"
   },
   {
     "recordId": "EtcCZmLjYe",
@@ -3746,6 +3764,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 03:46:52"
   },
   {
+    "recordId": "ZE5TOJwxOI",
+    "store": "阜埠河地铁6号口游园会",
+    "register_date": "2026-08-06",
+    "tea_name": "弗兰茶/弗想连篇",
+    "taster": "杨丽莲",
+    "remark": "",
+    "created_at": "2026-08-06 14:44:52"
+  },
+  {
     "recordId": "ZKKmjkWH7S",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -3852,6 +3879,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "ZhgBGrIqxX",
+    "store": "阜埠河地铁6号口游园会",
+    "register_date": "2026-08-06",
+    "tea_name": "浮生半日/闲时茶",
+    "taster": "杨丽莲",
+    "remark": "",
+    "created_at": "2026-08-06 14:44:52"
   },
   {
     "recordId": "ZksF1x3wrQ",
@@ -4455,6 +4491,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "eecYuxRaFH",
+    "store": "阜埠河地铁6号口游园会",
+    "register_date": "2026-08-06",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "杨丽莲",
+    "remark": "",
+    "created_at": "2026-08-06 14:44:52"
   },
   {
     "recordId": "eesZvxSS7O",

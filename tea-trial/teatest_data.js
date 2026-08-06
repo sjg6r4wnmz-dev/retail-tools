@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 19:26:18）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 19:27:30）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -1298,6 +1298,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "DvrTBjYbkA",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/菠萝啤味乌龙",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:26:34"
+  },
+  {
     "recordId": "DymHr2wLkZ",
     "store": "武汉湖经学院茶叶子",
     "register_date": "2026-08-04",
@@ -1305,6 +1314,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "李星悦",
     "remark": "样品茶叶到期时间",
     "created_at": "2026-08-04 11:09:36"
+  },
+  {
+    "recordId": "EElLoRwYml",
+    "store": "深圳前海壹方城游园会店",
+    "register_date": "2026-07-22",
+    "tea_name": "习惯茶/岭南佳荔",
+    "taster": "杨力娜",
+    "remark": "",
+    "created_at": "2026-08-06 11:26:28"
   },
   {
     "recordId": "EP1xRSFYLv",
@@ -2099,6 +2117,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 03:46:52"
   },
   {
+    "recordId": "M42UBUCelL",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/李子味乌龙",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:26:34"
+  },
+  {
     "recordId": "M6Ne1OIv2r",
     "store": "深圳海上世界游园会店",
     "register_date": "2026-08-03",
@@ -2214,6 +2241,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "NJ3UkJqxAq",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/清茉",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:26:34"
   },
   {
     "recordId": "NRoyQGPLRu",
@@ -2916,6 +2952,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "VaQgDjxl6P",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/玫瑰油切绿茶",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:26:34"
   },
   {
     "recordId": "ViGjP8ulM9",
@@ -4763,6 +4808,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 03:46:52"
   },
   {
+    "recordId": "pJ20VXVvdQ",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/芒果红茶",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:26:34"
+  },
+  {
     "recordId": "pJl8nlvYec",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -5337,6 +5391,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "龙艳丽",
     "remark": "",
     "created_at": "2026-08-06 08:45:40"
+  },
+  {
+    "recordId": "vYjgld1S46",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/岭南佳荔",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:26:34"
   },
   {
     "recordId": "vdk2cRAAZm",

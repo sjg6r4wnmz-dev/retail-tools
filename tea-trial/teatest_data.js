@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 13:48:22）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 13:51:30）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -2142,6 +2142,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "崔海洋",
     "remark": "",
     "created_at": "2026-08-05 13:01:54"
+  },
+  {
+    "recordId": "Mz4Ur5BLFl",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "少年心气/茉莉花香茶",
+    "taster": "徐啸",
+    "remark": "",
+    "created_at": "2026-08-06 05:51:09"
   },
   {
     "recordId": "N8qSxfv0VE",
@@ -4961,6 +4970,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 12:58:50"
   },
   {
+    "recordId": "sLsdHa64lS",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "自摇沫泡奶茶/声声乌龙（1杯装）",
+    "taster": "徐啸",
+    "remark": "",
+    "created_at": "2026-08-06 05:49:05"
+  },
+  {
     "recordId": "sSb10KUEOk",
     "store": "武穴武商购物中心一楼茶叶子",
     "register_date": "2026-08-05",
@@ -5085,6 +5103,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "崔海洋",
     "remark": "",
     "created_at": "2026-08-05 13:01:54"
+  },
+  {
+    "recordId": "u6oj34uwBO",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "单品SOE冻萃咖啡",
+    "taster": "徐啸",
+    "remark": "",
+    "created_at": "2026-08-06 05:49:24"
   },
   {
     "recordId": "u7iIrjYvRe",
@@ -5553,6 +5580,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "李星悦",
     "remark": "样品茶叶到期时间",
     "created_at": "2026-08-04 11:09:36"
+  },
+  {
+    "recordId": "zjct288JFr",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "自摇沫泡奶茶/幽兰拿铁（1杯装）",
+    "taster": "徐啸",
+    "remark": "",
+    "created_at": "2026-08-06 05:49:05"
   },
   {
     "recordId": "ztMlE3Sr6C",

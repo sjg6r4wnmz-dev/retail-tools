@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 23:54:26）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 23:57:22）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -4799,6 +4799,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 11:26:34"
   },
   {
+    "recordId": "d2Ybcoailt",
+    "store": "黄冈奥康步行街茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-06 15:54:16"
+  },
+  {
     "recordId": "d3wxfFxoD4",
     "store": "武汉太和里茶叶子",
     "register_date": "2026-08-04",
@@ -6804,6 +6813,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "崔海洋",
     "remark": "",
     "created_at": "2026-08-05 12:58:50"
+  },
+  {
+    "recordId": "t8kVxpHpl4",
+    "store": "黄冈奥康步行街茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-06 15:54:16"
   },
   {
     "recordId": "tAUdKfTEIf",

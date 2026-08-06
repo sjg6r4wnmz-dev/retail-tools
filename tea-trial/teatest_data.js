@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-07 00:39:28）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-07 00:57:41）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -1523,6 +1523,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 15:30:10"
   },
   {
+    "recordId": "CW2IDepwVF",
+    "store": "武汉斗级营茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/苹果乌龙",
+    "taster": "陈洁文",
+    "remark": "",
+    "created_at": "2026-08-06 16:49:44"
+  },
+  {
     "recordId": "CaaD0bCdHM",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -2108,6 +2117,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 02:19:15"
   },
   {
+    "recordId": "GGF2QpEyh5",
+    "store": "武汉斗级营茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/苹果乌龙",
+    "taster": "陈洁文",
+    "remark": "",
+    "created_at": "2026-08-06 16:47:04"
+  },
+  {
     "recordId": "GHOmoxfExy",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-06",
@@ -2556,6 +2574,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:35:01"
+  },
+  {
+    "recordId": "JhBTIXp0Rl",
+    "store": "襄阳民发广场长虹路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "单品SOE冻萃咖啡",
+    "taster": "冯坤",
+    "remark": "",
+    "created_at": "2026-08-06 16:50:42"
   },
   {
     "recordId": "JjCYoPrxK3",
@@ -4923,6 +4950,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "颜丽",
     "remark": "",
     "created_at": "2026-08-06 16:17:07"
+  },
+  {
+    "recordId": "csHrGcGEug",
+    "store": "襄阳民发广场长虹路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "金观音",
+    "taster": "冯坤",
+    "remark": "",
+    "created_at": "2026-08-06 16:50:42"
   },
   {
     "recordId": "ct3pjVB1LI",

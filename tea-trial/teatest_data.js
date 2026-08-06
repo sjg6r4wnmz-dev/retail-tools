@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-07 00:11:23）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-07 00:14:51）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -2124,6 +2124,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "GRMoJRYExq",
+    "store": "黄石",
+    "register_date": "2026-08-06",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "乐高文",
+    "remark": "",
+    "created_at": "2026-08-06 16:13:37"
   },
   {
     "recordId": "GSL7zHpebu",
@@ -4511,6 +4520,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "Zw17ojAFrD",
+    "store": "潜江万达广场一楼茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "少年心气/茉莉窨花茶",
+    "taster": "颜丽",
+    "remark": "",
+    "created_at": "2026-08-06 16:13:23"
+  },
+  {
     "recordId": "ZyXp8YGTsX",
     "store": "襄阳民发广场长虹路茶叶子",
     "register_date": "2026-08-06",
@@ -5535,6 +5553,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘聪",
     "remark": "",
     "created_at": "2026-08-05 09:20:47"
+  },
+  {
+    "recordId": "gsTfuSg0Ax",
+    "store": "潜江万达广场一楼茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "颜丽",
+    "remark": "",
+    "created_at": "2026-08-06 16:14:05"
   },
   {
     "recordId": "gxs790pygN",

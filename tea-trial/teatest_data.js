@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 23:26:07）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 23:28:22）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -7461,6 +7461,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "何科",
     "remark": "",
     "created_at": "2026-08-06 11:28:54"
+  },
+  {
+    "recordId": "yyHByNlcOS",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "少年",
+    "taster": "杨春城",
+    "remark": "",
+    "created_at": "2026-08-06 15:27:51"
   },
   {
     "recordId": "z6VfwGvqTW",

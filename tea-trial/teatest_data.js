@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 10:15:23）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 10:20:21）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -1323,6 +1323,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "GDkznZ19rm",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "鸳央手冲挂耳茶咖2.0",
+    "taster": "侯钰轩",
+    "remark": "",
+    "created_at": "2026-08-06 02:19:15"
   },
   {
     "recordId": "GI6ktRENEJ",
@@ -3593,6 +3602,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "gNU3yll3k0",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "侯钰轩",
+    "remark": "",
+    "created_at": "2026-08-06 02:19:15"
+  },
+  {
     "recordId": "gOVMyz7lsG",
     "store": "深圳海上世界游园会店",
     "register_date": "2026-08-03",
@@ -3708,6 +3726,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "i12yB4VxA2",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "侯钰轩",
+    "remark": "",
+    "created_at": "2026-08-06 02:20:00"
   },
   {
     "recordId": "i3Kdlj8QHj",
@@ -3897,6 +3924,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "欧阳菁",
     "remark": "",
     "created_at": "2026-08-03 07:11:12"
+  },
+  {
+    "recordId": "lDBX52xTPi",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "少年心气/茉莉窨花茶",
+    "taster": "侯钰轩",
+    "remark": "",
+    "created_at": "2026-08-06 02:19:15"
   },
   {
     "recordId": "lLDsu0kcmO",

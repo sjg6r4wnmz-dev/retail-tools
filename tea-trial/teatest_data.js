@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 22:55:26）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 22:57:27）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -351,6 +351,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "2i8hI10HJZ",
+    "store": "阜埠河地铁6号口游园会",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/玫瑰油切绿茶",
+    "taster": "杨丽莲",
+    "remark": "",
+    "created_at": "2026-08-06 14:43:46"
   },
   {
     "recordId": "2jWBuK5GV4",
@@ -1937,6 +1946,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 12:58:50"
   },
   {
+    "recordId": "H3dV0TfSW7",
+    "store": "阜埠河地铁6号口游园会",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/李子味乌龙",
+    "taster": "杨丽莲",
+    "remark": "",
+    "created_at": "2026-08-06 14:43:46"
+  },
+  {
     "recordId": "HAeACSyKIL",
     "store": "武汉黎黄陂路游园会店",
     "register_date": "2026-01-22",
@@ -2799,6 +2817,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "PP0MKLli9j",
+    "store": "阜埠河地铁6号口游园会",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/岭南佳荔",
+    "taster": "杨丽莲",
+    "remark": "",
+    "created_at": "2026-08-06 14:43:46"
   },
   {
     "recordId": "PRazzjKD6B",
@@ -4113,6 +4140,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "张亮",
     "remark": "",
     "created_at": "2026-08-04 10:58:50"
+  },
+  {
+    "recordId": "aoiqsb8zpX",
+    "store": "阜埠河地铁6号口游园会",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/青梅乌龙",
+    "taster": "杨丽莲",
+    "remark": "",
+    "created_at": "2026-08-06 14:43:46"
   },
   {
     "recordId": "ax0az3giFW",
@@ -5589,6 +5625,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "陈柄屹",
     "remark": "",
     "created_at": "2026-08-06 12:17:15"
+  },
+  {
+    "recordId": "oVnxThowjJ",
+    "store": "恩施九立方国际购物中心茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "同心瓶",
+    "taster": "薛冬",
+    "remark": "",
+    "created_at": "2026-08-06 14:55:52"
   },
   {
     "recordId": "odAx3hzXSb",

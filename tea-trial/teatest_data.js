@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 23:17:29）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 23:19:24）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -2792,6 +2792,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 15:06:35"
   },
   {
+    "recordId": "NqeYOb3ll0",
+    "store": "襄阳民发广场长虹路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "同心",
+    "taster": "冯坤",
+    "remark": "",
+    "created_at": "2026-08-06 15:18:09"
+  },
+  {
     "recordId": "O0ieVnK3I7",
     "store": "武穴武商购物中心一楼茶叶子",
     "register_date": "2026-08-05",
@@ -4194,6 +4203,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "ZyXp8YGTsX",
+    "store": "襄阳民发广场长虹路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "同心",
+    "taster": "冯坤",
+    "remark": "",
+    "created_at": "2026-08-06 15:17:53"
   },
   {
     "recordId": "a0wSMCI6Gi",

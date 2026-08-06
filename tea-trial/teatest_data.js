@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 22:59:24）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 23:01:30）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -2900,6 +2900,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 09:26:24"
   },
   {
+    "recordId": "Pw499yvt8G",
+    "store": "阜埠河地铁6号口游园会",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/李子味乌龙",
+    "taster": "杨丽莲",
+    "remark": "",
+    "created_at": "2026-08-06 14:43:46"
+  },
+  {
     "recordId": "Q2cP6nW307",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-06",
@@ -4466,6 +4475,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 03:46:52"
   },
   {
+    "recordId": "dbecRuBcrM",
+    "store": "阜埠河地铁6号口游园会",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/玫瑰油切绿茶",
+    "taster": "杨丽莲",
+    "remark": "",
+    "created_at": "2026-08-06 14:43:46"
+  },
+  {
     "recordId": "dm3bjhakI1",
     "store": "武汉银泰创意城游园会店",
     "register_date": "2026-08-05",
@@ -6014,6 +6032,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-03 11:20:33"
   },
   {
+    "recordId": "ri19yngsqw",
+    "store": "阜埠河地铁6号口游园会",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/青梅乌龙",
+    "taster": "杨丽莲",
+    "remark": "",
+    "created_at": "2026-08-06 14:43:46"
+  },
+  {
     "recordId": "rj2qKSZpXq",
     "store": "深圳海上世界游园会店",
     "register_date": "2026-08-03",
@@ -6543,6 +6570,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘世琦",
     "remark": "",
     "created_at": "2026-08-03 10:29:23"
+  },
+  {
+    "recordId": "wMDkjSw7BA",
+    "store": "阜埠河地铁6号口游园会",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/岭南佳荔",
+    "taster": "杨丽莲",
+    "remark": "",
+    "created_at": "2026-08-06 14:43:46"
   },
   {
     "recordId": "wSu37tH7xk",

@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-07 01:34:35）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-07 01:40:30）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -3107,6 +3107,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "O4j2SFVjRP",
+    "store": "武汉永旺金桥茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "邬明珠",
+    "remark": "",
+    "created_at": "2026-08-06 17:39:56"
+  },
+  {
     "recordId": "O8FGgkuRqb",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -3357,6 +3366,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "杨丽莲",
     "remark": "",
     "created_at": "2026-08-06 14:43:46"
+  },
+  {
+    "recordId": "PwAgo3wl2t",
+    "store": "武汉永旺金桥茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "天生我材/小金桂茶",
+    "taster": "邬明珠",
+    "remark": "",
+    "created_at": "2026-08-06 17:39:56"
   },
   {
     "recordId": "Q2cP6nW307",

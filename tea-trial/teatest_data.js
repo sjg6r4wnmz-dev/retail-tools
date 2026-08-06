@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 20:01:19）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 20:03:32）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -1577,6 +1577,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 03:46:52"
   },
   {
+    "recordId": "Fl5PUkQook",
+    "store": "鄂州新世界购物中心茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "刘凯",
+    "remark": "",
+    "created_at": "2026-08-06 12:02:33"
+  },
+  {
     "recordId": "Fr8oeGQdzm",
     "store": "武汉高铁站C2到达口茶叶子",
     "register_date": "2026-08-06",
@@ -1881,6 +1890,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "Ih0tSL527s",
+    "store": "鄂州新世界购物中心茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "刘凯",
+    "remark": "",
+    "created_at": "2026-08-06 12:01:15"
   },
   {
     "recordId": "IipsY8PwLH",
@@ -2477,6 +2495,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 02:20:00"
   },
   {
+    "recordId": "OTHnoCVwXp",
+    "store": "鄂州新世界购物中心茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "刘凯",
+    "remark": "",
+    "created_at": "2026-08-06 12:02:33"
+  },
+  {
     "recordId": "OXglfuA2mR",
     "store": "武汉汉秀剧场茶叶子",
     "register_date": "2026-08-04",
@@ -2900,6 +2927,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "Tr1UhqmPlC",
+    "store": "鄂州新世界购物中心茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "刘凯",
+    "remark": "",
+    "created_at": "2026-08-06 12:01:15"
+  },
+  {
     "recordId": "TzPpyB1G1f",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -2988,6 +3024,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "UmEG6A70hE",
+    "store": "鄂州新世界购物中心茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "刘凯",
+    "remark": "",
+    "created_at": "2026-08-06 12:01:15"
   },
   {
     "recordId": "UpV4FoQzRI",
@@ -3123,6 +3168,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "WPQaZuvNji",
+    "store": "鄂州新世界购物中心茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "半日普洱闲时茶",
+    "taster": "刘凯",
+    "remark": "",
+    "created_at": "2026-08-06 12:02:33"
   },
   {
     "recordId": "WflWB0zlWr",

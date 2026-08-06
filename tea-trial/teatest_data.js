@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 23:28:22）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 23:30:39）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -315,6 +315,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "2BuIf4pSEA",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "杨春城",
+    "remark": "",
+    "created_at": "2026-08-06 15:29:52"
   },
   {
     "recordId": "2GV5xXD26M",
@@ -846,6 +855,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "6hkUegxfaH",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "杨春城",
+    "remark": "",
+    "created_at": "2026-08-06 15:29:07"
   },
   {
     "recordId": "6irDDPyi8p",
@@ -1467,6 +1485,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:35:01"
+  },
+  {
+    "recordId": "CVQRDC5a9F",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "杨春城",
+    "remark": "",
+    "created_at": "2026-08-06 15:30:10"
   },
   {
     "recordId": "CaaD0bCdHM",
@@ -2232,6 +2259,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "周帮铃",
     "remark": "",
     "created_at": "2026-08-06 15:15:52"
+  },
+  {
+    "recordId": "HjaYaC5nJ6",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "杨春城",
+    "remark": "",
+    "created_at": "2026-08-06 15:29:35"
   },
   {
     "recordId": "HlBCs6kogn",
@@ -6842,6 +6878,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "uCJValjQaU",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "少年心气/茉莉花香茶",
+    "taster": "杨春城",
+    "remark": "",
+    "created_at": "2026-08-06 15:28:32"
+  },
+  {
     "recordId": "uGq36aMLMc",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -7560,6 +7605,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "zyOadk3nTX",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "杨春城",
+    "remark": "",
+    "created_at": "2026-08-06 15:28:54"
   },
   {
     "recordId": "zyrvy7SUqN",

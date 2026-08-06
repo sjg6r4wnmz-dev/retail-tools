@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-07 02:08:43）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-07 02:10:46）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -8001,6 +8001,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "xMehR4uSdk",
+    "store": "武汉永旺金桥茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "大红袍（乌龙茶）",
+    "taster": "邬明珠",
+    "remark": "",
+    "created_at": "2026-08-06 17:41:18"
   },
   {
     "recordId": "xREJCV576r",

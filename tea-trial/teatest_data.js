@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-07 01:56:42）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-07 01:58:42）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -5888,6 +5888,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 11:26:34"
   },
   {
+    "recordId": "hLqhSr69fR",
+    "store": "武汉永旺金桥茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "邬明珠",
+    "remark": "",
+    "created_at": "2026-08-06 17:56:32"
+  },
+  {
     "recordId": "hM4t4bevNp",
     "store": "泰州兴化英莱达茶叶子",
     "register_date": "2026-06-24",
@@ -6534,6 +6543,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "n6l9F05phn",
+    "store": "武汉永旺金桥茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/清新乌龙",
+    "taster": "邬明珠",
+    "remark": "",
+    "created_at": "2026-08-06 17:56:32"
   },
   {
     "recordId": "n7OkVIyTvC",
@@ -7812,6 +7830,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "陈柄屹",
     "remark": "",
     "created_at": "2026-08-06 12:16:53"
+  },
+  {
+    "recordId": "wXW08f2KBq",
+    "store": "武汉永旺金桥茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "大红袍（乌龙茶）",
+    "taster": "邬明珠",
+    "remark": "",
+    "created_at": "2026-08-06 17:41:18"
   },
   {
     "recordId": "wgzJLhsEYB",

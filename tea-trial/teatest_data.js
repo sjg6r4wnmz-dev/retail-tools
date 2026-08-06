@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 19:28:36）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 19:30:49）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -81,6 +81,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "0ZGsLPsMd8",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/玫瑰油切绿茶",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:26:34"
   },
   {
     "recordId": "0aAoQ30Lxj",
@@ -171,6 +180,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "1ahCnYZj0Z",
+    "store": "深圳前海壹方城游园会店",
+    "register_date": "2026-07-22",
+    "tea_name": "习惯茶/橘香冻顶乌龙",
+    "taster": "杨力娜",
+    "remark": "",
+    "created_at": "2026-08-06 11:29:22"
   },
   {
     "recordId": "1ahtcbVJPd",
@@ -387,6 +405,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "4FrtfZ40nL",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/清茉",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:26:34"
   },
   {
     "recordId": "4KPaW6SXHk",
@@ -756,6 +783,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "7cKSKHjKxx",
+    "store": "深圳前海壹方城游园会店",
+    "register_date": "2026-07-22",
+    "tea_name": "习惯茶/清茉",
+    "taster": "杨力娜",
+    "remark": "",
+    "created_at": "2026-08-06 11:29:58"
   },
   {
     "recordId": "7ccAf1Y4Ki",
@@ -1503,6 +1539,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "FTIUNkK0Z2",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:28:54"
   },
   {
     "recordId": "FbwZTMz6Ds",
@@ -2531,6 +2576,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 09:26:24"
   },
   {
+    "recordId": "Q3q7J008ZY",
+    "store": "深圳前海壹方城游园会店",
+    "register_date": "2026-07-22",
+    "tea_name": "习惯茶/槐花青苹果乌龙",
+    "taster": "杨力娜",
+    "remark": "",
+    "created_at": "2026-08-06 11:29:05"
+  },
+  {
     "recordId": "Q8nFEJJktX",
     "store": "深圳海上世界游园会店",
     "register_date": "2026-08-03",
@@ -2747,6 +2801,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "SqTGqE0KHV",
+    "store": "深圳前海壹方城游园会店",
+    "register_date": "2026-07-22",
+    "tea_name": "习惯茶/清新乌龙",
+    "taster": "杨力娜",
+    "remark": "",
+    "created_at": "2026-08-06 11:29:41"
+  },
+  {
     "recordId": "SseCZnw3wK",
     "store": "泰州兴化英莱达茶叶子",
     "register_date": "2026-08-06",
@@ -2871,6 +2934,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "UV8wUIA8ym",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:28:54"
   },
   {
     "recordId": "UWrXGm4rL0",
@@ -3305,6 +3377,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:45:11"
   },
   {
+    "recordId": "YpdK93iVAu",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/菠萝啤味乌龙",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:26:34"
+  },
+  {
     "recordId": "YsQW9AHH7R",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -3447,6 +3528,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "ZfC7RoxVb3",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:28:54"
   },
   {
     "recordId": "ZfDlyuwBpc",
@@ -3753,6 +3843,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "d12VaBdnLx",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/岭南佳荔",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:26:34"
   },
   {
     "recordId": "d3wxfFxoD4",
@@ -4106,6 +4205,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "fgxgXWXZ5X",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/李子味乌龙",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:26:34"
+  },
+  {
     "recordId": "ftBfwuoXBw",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -4275,6 +4383,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:44:16"
+  },
+  {
+    "recordId": "hIHSxryTB3",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/芒果红茶",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:26:34"
   },
   {
     "recordId": "hM4t4bevNp",
@@ -4500,6 +4617,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "kSHzIHPZcq",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:28:54"
   },
   {
     "recordId": "kv0s8xWWkp",
@@ -5832,6 +5958,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "yv9zBLxdc9",
+    "store": "武汉高铁站C2到达口茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "鸳央手冲挂耳茶咖2.0",
+    "taster": "何科",
+    "remark": "",
+    "created_at": "2026-08-06 11:28:54"
   },
   {
     "recordId": "zFXbI4An0i",

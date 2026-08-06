@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 20:21:38）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 20:23:32）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -189,6 +189,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "1PjuxenpmR",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "陈丹",
+    "remark": "",
+    "created_at": "2026-08-06 12:22:45"
   },
   {
     "recordId": "1ahCnYZj0Z",
@@ -1694,6 +1703,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 02:19:15"
   },
   {
+    "recordId": "GHOmoxfExy",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/岭南佳荔",
+    "taster": "陈丹",
+    "remark": "",
+    "created_at": "2026-08-06 12:22:45"
+  },
+  {
     "recordId": "GI6ktRENEJ",
     "store": "武穴武商购物中心一楼茶叶子",
     "register_date": "2026-08-05",
@@ -2558,6 +2576,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 14:43:44"
   },
   {
+    "recordId": "P4BD5GTUMk",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/玫瑰油切绿茶",
+    "taster": "陈丹",
+    "remark": "",
+    "created_at": "2026-08-06 12:22:45"
+  },
+  {
     "recordId": "P7tlgHc6Uq",
     "store": "武穴武商购物中心一楼茶叶子",
     "register_date": "2026-08-05",
@@ -2655,6 +2682,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘聪",
     "remark": "",
     "created_at": "2026-08-05 09:26:24"
+  },
+  {
+    "recordId": "Q2cP6nW307",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/茉莉红茶",
+    "taster": "陈丹",
+    "remark": "",
+    "created_at": "2026-08-06 12:22:45"
   },
   {
     "recordId": "Q3q7J008ZY",
@@ -4124,6 +4160,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "dzgziDaRwm",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "陈丹",
+    "remark": "",
+    "created_at": "2026-08-06 12:22:45"
+  },
+  {
     "recordId": "e0GyqY6OsM",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -4871,6 +4916,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 02:19:15"
   },
   {
+    "recordId": "lEVsC2cljU",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "陈丹",
+    "remark": "",
+    "created_at": "2026-08-06 12:22:45"
+  },
+  {
     "recordId": "lLDsu0kcmO",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -4959,6 +5013,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "mHENWt1rR2",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "茗优习惯茶/茉莉春芽",
+    "taster": "陈丹",
+    "remark": "",
+    "created_at": "2026-08-06 12:22:45"
   },
   {
     "recordId": "mPqnBj81dM",
@@ -5913,6 +5976,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "w3vahCq5pB",
+    "store": "武汉江汉二路茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "鸳央手冲挂耳茶咖2.0",
+    "taster": "陈丹",
+    "remark": "",
+    "created_at": "2026-08-06 12:22:45"
   },
   {
     "recordId": "w4CSVhF8am",

@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 20:14:16）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 20:17:20）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -5823,6 +5823,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "侯钰轩",
     "remark": "",
     "created_at": "2026-08-06 02:20:00"
+  },
+  {
+    "recordId": "wT2muAe5Da",
+    "store": "重庆S95超次元中心2号门茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "陈柄屹",
+    "remark": "",
+    "created_at": "2026-08-06 12:16:53"
   },
   {
     "recordId": "wgzJLhsEYB",

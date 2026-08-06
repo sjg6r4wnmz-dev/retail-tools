@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 15:42:20）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 15:49:18）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -1809,6 +1809,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "JIW79sIjnN",
+    "store": "武汉大学茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "钟丽",
+    "remark": "",
+    "created_at": "2026-08-06 07:46:39"
   },
   {
     "recordId": "JOLaOuTDtA",
@@ -5283,6 +5292,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "vdk2cRAAZm",
+    "store": "武汉大学茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "天生我材/小金桂茶",
+    "taster": "钟丽",
+    "remark": "",
+    "created_at": "2026-08-06 07:46:39"
   },
   {
     "recordId": "vlTdg4jTRw",

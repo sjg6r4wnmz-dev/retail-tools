@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-07 00:14:51）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-07 00:17:56）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -549,6 +549,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "4KgUESc27i",
+    "store": "潜江万达广场一楼茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "颜丽",
+    "remark": "",
+    "created_at": "2026-08-06 16:14:54"
   },
   {
     "recordId": "4QCWEJvLeT",
@@ -1640,6 +1649,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 12:58:50"
   },
   {
+    "recordId": "DQo1OIYlcr",
+    "store": "黄石",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/李子味乌龙",
+    "taster": "乐高文",
+    "remark": "",
+    "created_at": "2026-08-06 16:16:25"
+  },
+  {
     "recordId": "DaGxJeSBir",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -2648,6 +2666,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 03:46:52"
   },
   {
+    "recordId": "KWluUWyB1o",
+    "store": "黄石",
+    "register_date": "2026-08-06",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（黑乌龙）",
+    "taster": "乐高文",
+    "remark": "",
+    "created_at": "2026-08-06 16:16:25"
+  },
+  {
     "recordId": "KaZp6EVgpG",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -3134,6 +3161,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 14:43:44"
   },
   {
+    "recordId": "OnynsQyf7y",
+    "store": "黄石",
+    "register_date": "2026-08-06",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（茉莉绿茶）",
+    "taster": "乐高文",
+    "remark": "",
+    "created_at": "2026-08-06 16:16:25"
+  },
+  {
     "recordId": "OtNht4FGY0",
     "store": "仙桃银泰商城大厦茶叶子",
     "register_date": "2026-08-06",
@@ -3474,6 +3510,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:44:16"
+  },
+  {
+    "recordId": "RdSqh1Pw6u",
+    "store": "潜江万达广场一楼茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "颜丽",
+    "remark": "",
+    "created_at": "2026-08-06 16:16:40"
   },
   {
     "recordId": "S6kXtyYCkt",
@@ -4826,6 +4871,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "cFZr2gJL8r",
+    "store": "黄石",
+    "register_date": "2026-08-06",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "乐高文",
+    "remark": "",
+    "created_at": "2026-08-06 16:13:37"
+  },
+  {
     "recordId": "cLpaqPSz7v",
     "store": "深圳海上世界游园会店",
     "register_date": "2026-08-03",
@@ -4851,6 +4905,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "cmT3VY3Mpw",
+    "store": "潜江万达广场一楼茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "闲时",
+    "taster": "颜丽",
+    "remark": "",
+    "created_at": "2026-08-06 16:17:07"
   },
   {
     "recordId": "ct3pjVB1LI",
@@ -5220,6 +5283,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "侯钰轩",
     "remark": "",
     "created_at": "2026-08-06 02:20:00"
+  },
+  {
+    "recordId": "ehbCRIjmdJ",
+    "store": "黄石",
+    "register_date": "2026-08-06",
+    "tea_name": "原叶冻萃茶/蜜桃乌龙茶",
+    "taster": "乐高文",
+    "remark": "",
+    "created_at": "2026-08-06 16:16:25"
   },
   {
     "recordId": "eiRHrjWG2y",
@@ -6212,6 +6284,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 09:17:01"
   },
   {
+    "recordId": "n0fpi9lN9Z",
+    "store": "黄石",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/山茶花香乌龙",
+    "taster": "乐高文",
+    "remark": "",
+    "created_at": "2026-08-06 16:16:25"
+  },
+  {
     "recordId": "n20HNkB5ew",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -6426,6 +6507,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "徐啸",
     "remark": "",
     "created_at": "2026-08-06 05:53:17"
+  },
+  {
+    "recordId": "ohc0VrGy5o",
+    "store": "人信汇",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/栀晓绿",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-06 16:15:22"
   },
   {
     "recordId": "oiDm3OArQu",
@@ -6824,6 +6914,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "sD3pcUZChF",
+    "store": "黄石",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/清新乌龙",
+    "taster": "乐高文",
+    "remark": "",
+    "created_at": "2026-08-06 16:16:25"
+  },
+  {
     "recordId": "sHSVc3N4kt",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -7031,6 +7130,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 16:59:42"
   },
   {
+    "recordId": "twXmNqwb4H",
+    "store": "潜江万达广场一楼茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "少年心气/茉莉窨花茶",
+    "taster": "颜丽",
+    "remark": "",
+    "created_at": "2026-08-06 16:15:52"
+  },
+  {
     "recordId": "u6mSBLBUwQ",
     "store": "武汉银泰创意城游园会店",
     "register_date": "2026-08-05",
@@ -7137,6 +7245,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "uuprM3Py3Z",
+    "store": "黄石",
+    "register_date": "2026-08-06",
+    "tea_name": "单品SOE冻萃咖啡",
+    "taster": "乐高文",
+    "remark": "",
+    "created_at": "2026-08-06 16:16:25"
   },
   {
     "recordId": "uv1g6NOiHk",
@@ -7535,6 +7652,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 02:20:00"
   },
   {
+    "recordId": "xsYbd9sdNO",
+    "store": "黄石",
+    "register_date": "2026-08-06",
+    "tea_name": "茗优原叶冻萃茶/茶小匣清减装（浓香金观音)",
+    "taster": "乐高文",
+    "remark": "",
+    "created_at": "2026-08-06 16:16:25"
+  },
+  {
     "recordId": "xwV8FIWjNB",
     "store": "恩施九立方国际购物中心茶叶子",
     "register_date": "2026-08-06",
@@ -7776,6 +7902,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "周子豪",
     "remark": "",
     "created_at": "2026-08-06 15:06:35"
+  },
+  {
+    "recordId": "zrubMub95u",
+    "store": "黄石",
+    "register_date": "2026-08-06",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（栀香绿茶）",
+    "taster": "乐高文",
+    "remark": "",
+    "created_at": "2026-08-06 16:16:25"
   },
   {
     "recordId": "ztMlE3Sr6C",

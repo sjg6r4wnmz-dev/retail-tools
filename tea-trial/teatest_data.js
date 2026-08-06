@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 13:51:30）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 13:53:26）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -299,6 +299,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "2xq89LOli8",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "徐啸",
+    "remark": "",
+    "created_at": "2026-08-06 05:53:02"
+  },
+  {
     "recordId": "399qXLFJKr",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -405,6 +414,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "4pItn2imGw",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "徐啸",
+    "remark": "",
+    "created_at": "2026-08-06 05:52:17"
   },
   {
     "recordId": "4vp0ujCBAd",
@@ -2783,6 +2801,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 03:46:52"
   },
   {
+    "recordId": "UuHNcbvbus",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "徐啸",
+    "remark": "",
+    "created_at": "2026-08-06 05:51:59"
+  },
+  {
     "recordId": "UyUXsBwEaY",
     "store": "泰州兴化英莱达茶叶子",
     "register_date": "2026-08-06",
@@ -3267,6 +3294,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "ZXh2510kfE",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "徐啸",
+    "remark": "",
+    "created_at": "2026-08-06 05:52:39"
   },
   {
     "recordId": "ZbfSVjDuAn",
@@ -5301,6 +5337,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "",
     "remark": "",
     "created_at": "2026-08-04 08:31:28"
+  },
+  {
+    "recordId": "w6ZL1Usjtk",
+    "store": "深圳布吉万象汇茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "徐啸",
+    "remark": "",
+    "created_at": "2026-08-06 05:51:34"
   },
   {
     "recordId": "w7hEYuk58G",

@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 15:30:18）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 15:36:24）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -684,6 +684,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "7BxSKA9p8F",
+    "store": "武汉大学茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "天生我材",
+    "taster": "钟丽",
+    "remark": "",
+    "created_at": "2026-08-06 07:36:09"
   },
   {
     "recordId": "7DIwNAeh2R",

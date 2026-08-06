@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-07 01:46:39）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-07 01:48:55）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -938,6 +938,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 15:24:00"
   },
   {
+    "recordId": "750O5NzX0u",
+    "store": "武汉永旺金桥茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "邬明珠",
+    "remark": "",
+    "created_at": "2026-08-06 17:46:14"
+  },
+  {
     "recordId": "7BxSKA9p8F",
     "store": "武汉大学茶叶子",
     "register_date": "2026-08-06",
@@ -1368,6 +1377,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "BTGlJY9rYX",
+    "store": "武汉永旺金桥茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "大红袍（乌龙茶）",
+    "taster": "邬明珠",
+    "remark": "",
+    "created_at": "2026-08-06 17:41:18"
   },
   {
     "recordId": "BVvpnaKZ4S",
@@ -3674,6 +3692,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "Skiyzc0wmn",
+    "store": "武汉永旺金桥茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "邬明珠",
+    "remark": "",
+    "created_at": "2026-08-06 17:46:14"
+  },
+  {
     "recordId": "SqTGqE0KHV",
     "store": "深圳前海壹方城游园会店",
     "register_date": "2026-07-22",
@@ -4023,6 +4050,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "宋菲燕",
     "remark": "",
     "created_at": "2026-08-06 13:48:07"
+  },
+  {
+    "recordId": "VMchKjoGUU",
+    "store": "武汉永旺金桥茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/玫瑰油切绿茶",
+    "taster": "邬明珠",
+    "remark": "",
+    "created_at": "2026-08-06 17:47:23"
   },
   {
     "recordId": "VMmLbJTrZJ",
@@ -4430,6 +4466,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 14:43:46"
   },
   {
+    "recordId": "Yn9iybUweO",
+    "store": "武汉老通城茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "此刻如常/心愿茶",
+    "taster": "胡郁薇",
+    "remark": "",
+    "created_at": "2026-08-06 17:47:31"
+  },
+  {
     "recordId": "YpdK93iVAu",
     "store": "武汉高铁站C2到达口茶叶子",
     "register_date": "2026-08-06",
@@ -4725,6 +4770,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "aKEoRMG1VN",
+    "store": "武汉老通城茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "天生我材/小金桂茶",
+    "taster": "胡郁薇",
+    "remark": "",
+    "created_at": "2026-08-06 17:47:31"
   },
   {
     "recordId": "aPqRAC1G7y",
@@ -6203,6 +6257,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "lLWE12BFzC",
+    "store": "武汉永旺金桥茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/玫珑香乌龙",
+    "taster": "邬明珠",
+    "remark": "",
+    "created_at": "2026-08-06 17:47:23"
+  },
+  {
     "recordId": "lN3WM1akWE",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -6725,6 +6788,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 16:59:42"
   },
   {
+    "recordId": "pUemXxwEhv",
+    "store": "武汉老通城茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "少年心气/茉莉窨花茶",
+    "taster": "胡郁薇",
+    "remark": "",
+    "created_at": "2026-08-06 17:47:31"
+  },
+  {
     "recordId": "pVUfcUTar5",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -6948,6 +7020,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "李星悦",
     "remark": "样品茶叶到期时间",
     "created_at": "2026-08-04 11:09:36"
+  },
+  {
+    "recordId": "rPqYETzEgu",
+    "store": "武汉永旺金桥茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "邬明珠",
+    "remark": "",
+    "created_at": "2026-08-06 17:46:14"
   },
   {
     "recordId": "rUKSwJD2wm",
@@ -7497,6 +7578,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "钟丽",
     "remark": "",
     "created_at": "2026-08-06 07:46:39"
+  },
+  {
+    "recordId": "vkURuzRW00",
+    "store": "武汉永旺金桥茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/柚子乌龙",
+    "taster": "邬明珠",
+    "remark": "",
+    "created_at": "2026-08-06 17:47:23"
   },
   {
     "recordId": "vlTdg4jTRw",

@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 21:54:18）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 21:56:21）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -4275,6 +4275,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "e8py07tP2Q",
+    "store": "歌笛湖",
+    "register_date": "2026-02-28",
+    "tea_name": "少年心气/茉莉窨花茶",
+    "taster": "",
+    "remark": "",
+    "created_at": "2026-08-06 13:54:22"
   },
   {
     "recordId": "eEhThQG3VZ",

@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 19:30:49）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 19:32:30）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -333,6 +333,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "3AYhJieAFy",
+    "store": "深圳前海壹方城游园会店",
+    "register_date": "2026-07-22",
+    "tea_name": "习惯茶/菠萝啤味乌龙",
+    "taster": "杨力娜",
+    "remark": "",
+    "created_at": "2026-08-06 11:32:03"
   },
   {
     "recordId": "3MQnZenGxM",
@@ -1683,6 +1692,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "GU8LyBt7jh",
+    "store": "深圳前海壹方城游园会店",
+    "register_date": "2026-07-22",
+    "tea_name": "习惯茶/碎银子普洱",
+    "taster": "杨力娜",
+    "remark": "",
+    "created_at": "2026-08-06 11:30:53"
   },
   {
     "recordId": "GYd9s92BtF",
@@ -4367,6 +4385,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 02:15:04"
   },
   {
+    "recordId": "h9c6Ah53Lj",
+    "store": "深圳前海壹方城游园会店",
+    "register_date": "2026-07-22",
+    "tea_name": "习惯茶/竹叶香乌龙",
+    "taster": "杨力娜",
+    "remark": "",
+    "created_at": "2026-08-06 11:31:14"
+  },
+  {
     "recordId": "hGH0jibzls",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -4419,6 +4446,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "created_at": "2026-08-03 11:24:18"
+  },
+  {
+    "recordId": "hmbMCws7q9",
+    "store": "深圳前海壹方城游园会店",
+    "register_date": "2026-07-22",
+    "tea_name": "习惯茶/茉莉红茶",
+    "taster": "杨力娜",
+    "remark": "",
+    "created_at": "2026-08-06 11:31:48"
   },
   {
     "recordId": "hnfaKMqzm4",
@@ -4617,6 +4653,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "kDZVz4aChR",
+    "store": "深圳前海壹方城游园会店",
+    "register_date": "2026-07-22",
+    "tea_name": "习惯茶/玫瑰油切绿茶",
+    "taster": "杨力娜",
+    "remark": "",
+    "created_at": "2026-08-06 11:30:40"
   },
   {
     "recordId": "kSHzIHPZcq",
@@ -5976,6 +6021,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "zJkhRtJN1N",
+    "store": "深圳前海壹方城游园会店",
+    "register_date": "2026-07-22",
+    "tea_name": "习惯茶/芒果红茶",
+    "taster": "杨力娜",
+    "remark": "",
+    "created_at": "2026-08-06 11:31:33"
   },
   {
     "recordId": "zhiAZ8kLe7",

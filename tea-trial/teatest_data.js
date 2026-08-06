@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-07 00:02:23）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-07 00:04:25）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -1944,6 +1944,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "杨丽莲",
     "remark": "",
     "created_at": "2026-08-06 14:43:46"
+  },
+  {
+    "recordId": "FXj0bsI96o",
+    "store": "潜江万达广场一楼茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "浮生半日/闲时茶",
+    "taster": "颜丽",
+    "remark": "",
+    "created_at": "2026-08-06 16:04:03"
   },
   {
     "recordId": "FbwZTMz6Ds",

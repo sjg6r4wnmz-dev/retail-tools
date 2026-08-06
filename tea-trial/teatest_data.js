@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 19:21:19）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 19:26:18）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -3303,6 +3303,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "ZOk0hLRRjs",
+    "store": "深圳前海壹方城游园会店",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/山茶花香乌龙",
+    "taster": "杨力娜",
+    "remark": "",
+    "created_at": "2026-08-06 11:25:50"
   },
   {
     "recordId": "ZRPMgg61jd",

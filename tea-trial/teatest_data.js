@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 23:01:30）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 23:07:45）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -1062,6 +1062,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "9EJmb9Xplo",
+    "store": "仙桃银泰商城大厦茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/岭南佳荔",
+    "taster": "周子豪",
+    "remark": "",
+    "created_at": "2026-08-06 15:06:35"
   },
   {
     "recordId": "9MEP5PJFYo",
@@ -2297,6 +2306,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 14:16:30"
   },
   {
+    "recordId": "K1wDuLSyHA",
+    "store": "恩施九立方国际购物中心茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（栀香绿茶）",
+    "taster": "薛冬",
+    "remark": "",
+    "created_at": "2026-08-06 15:06:58"
+  },
+  {
     "recordId": "K49DcZvEYl",
     "store": "深圳海上世界游园会店",
     "register_date": "2026-08-03",
@@ -2682,6 +2700,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "NnJh0SAzjb",
+    "store": "仙桃银泰商城大厦茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/菠萝啤味乌龙",
+    "taster": "周子豪",
+    "remark": "",
+    "created_at": "2026-08-06 15:06:35"
   },
   {
     "recordId": "O0ieVnK3I7",
@@ -3224,6 +3251,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "TVQA9qHaAC",
+    "store": "仙桃银泰商城大厦茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/清茉",
+    "taster": "周子豪",
+    "remark": "",
+    "created_at": "2026-08-06 15:06:35"
+  },
+  {
     "recordId": "TaabtUfCbq",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -3260,6 +3296,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "ToHJCX0iyF",
+    "store": "恩施九立方国际购物中心茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "原叶冻萃茶/蜜桃乌龙茶",
+    "taster": "薛冬",
+    "remark": "",
+    "created_at": "2026-08-06 15:06:58"
+  },
+  {
     "recordId": "Tr1UhqmPlC",
     "store": "鄂州新世界购物中心茶叶子",
     "register_date": "2026-08-06",
@@ -3276,6 +3321,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "U6R2t307ON",
+    "store": "恩施九立方国际购物中心茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（茉莉绿茶）",
+    "taster": "薛冬",
+    "remark": "",
+    "created_at": "2026-08-06 15:06:58"
   },
   {
     "recordId": "UADeyxZ4wc",
@@ -4907,6 +4961,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-03 11:25:10"
   },
   {
+    "recordId": "gQwuKrQlSZ",
+    "store": "恩施九立方国际购物中心茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（陌桂）",
+    "taster": "薛冬",
+    "remark": "",
+    "created_at": "2026-08-06 15:06:58"
+  },
+  {
     "recordId": "gRdXkD02Tj",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -4959,6 +5022,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "gft6YDbD1T",
+    "store": "仙桃银泰商城大厦茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/清新乌龙",
+    "taster": "周子豪",
+    "remark": "",
+    "created_at": "2026-08-06 15:06:35"
   },
   {
     "recordId": "grgFHCPCT8",
@@ -5112,6 +5184,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "iIdBxpBBe1",
+    "store": "恩施九立方国际购物中心茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（黑乌龙）",
+    "taster": "薛冬",
+    "remark": "",
+    "created_at": "2026-08-06 15:06:58"
   },
   {
     "recordId": "iK4UFNN5qG",
@@ -6167,6 +6248,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 02:20:00"
   },
   {
+    "recordId": "sv0z3DHDBa",
+    "store": "仙桃银泰商城大厦茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶之女儿红/葡萄乌龙",
+    "taster": "周子豪",
+    "remark": "",
+    "created_at": "2026-08-06 15:06:35"
+  },
+  {
     "recordId": "svo4WX0O8V",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -6408,6 +6498,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "崔海洋",
     "remark": "",
     "created_at": "2026-08-05 13:01:54"
+  },
+  {
+    "recordId": "vHgKxAf1Wc",
+    "store": "恩施九立方国际购物中心茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "原叶冻萃茶/荔枝乌龙茶",
+    "taster": "薛冬",
+    "remark": "",
+    "created_at": "2026-08-06 15:06:58"
   },
   {
     "recordId": "vM1YnzrbOM",
@@ -6912,6 +7011,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "杨丽莲",
     "remark": "",
     "created_at": "2026-08-06 14:43:46"
+  },
+  {
+    "recordId": "znOnJD2wID",
+    "store": "仙桃银泰商城大厦茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/芒果红茶",
+    "taster": "周子豪",
+    "remark": "",
+    "created_at": "2026-08-06 15:06:35"
   },
   {
     "recordId": "ztMlE3Sr6C",

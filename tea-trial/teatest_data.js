@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-06 10:48:21）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-06 10:49:22）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -522,6 +522,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘聪",
     "remark": "",
     "created_at": "2026-08-05 09:33:38"
+  },
+  {
+    "recordId": "6EtaJhlI3c",
+    "store": "泰州兴化英莱达茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "侯钰轩",
+    "remark": "",
+    "created_at": "2026-08-06 02:20:00"
   },
   {
     "recordId": "6P2nVwZI99",

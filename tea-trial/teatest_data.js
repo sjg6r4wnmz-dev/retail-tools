@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-07 01:48:55）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-07 01:50:42）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -2891,6 +2891,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 03:46:52"
   },
   {
+    "recordId": "M1l4hnt0Up",
+    "store": "武汉永旺金桥茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "大红袍（乌龙茶）",
+    "taster": "邬明珠",
+    "remark": "",
+    "created_at": "2026-08-06 17:41:18"
+  },
+  {
     "recordId": "M42UBUCelL",
     "store": "武汉高铁站C2到达口茶叶子",
     "register_date": "2026-08-06",
@@ -4961,6 +4970,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "boabDX2R52",
+    "store": "武汉老通城茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "胡郁薇",
+    "remark": "",
+    "created_at": "2026-08-06 17:48:27"
+  },
+  {
     "recordId": "bqUOAOl2Jt",
     "store": "阜埠河地铁6号口游园会",
     "register_date": "2026-08-06",
@@ -5463,6 +5481,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "李星悦",
     "remark": "样品茶叶到期时间",
     "created_at": "2026-08-04 11:09:36"
+  },
+  {
+    "recordId": "evYWNv02yz",
+    "store": "武汉老通城茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "胡郁薇",
+    "remark": "",
+    "created_at": "2026-08-06 17:48:27"
   },
   {
     "recordId": "ew8IUZVsWb",
@@ -6455,6 +6482,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 09:17:01"
   },
   {
+    "recordId": "mvO8VULfWP",
+    "store": "武汉老通城茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "胡郁薇",
+    "remark": "",
+    "created_at": "2026-08-06 17:48:27"
+  },
+  {
     "recordId": "n0fpi9lN9Z",
     "store": "黄石",
     "register_date": "2026-08-06",
@@ -6741,6 +6777,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "何科",
     "remark": "",
     "created_at": "2026-08-06 11:26:34"
+  },
+  {
+    "recordId": "p09SElOyUw",
+    "store": "武汉老通城茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "胡郁薇",
+    "remark": "",
+    "created_at": "2026-08-06 17:48:27"
   },
   {
     "recordId": "pF8ncqPszi",

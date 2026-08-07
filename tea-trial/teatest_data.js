@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-07 13:26:22）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-07 13:32:22）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -198,6 +198,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "侯钰轩",
     "remark": "",
     "created_at": "2026-08-04 07:39:30"
+  },
+  {
+    "recordId": "1EOQcc7ody",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "1IC5wHpXbg",
@@ -470,6 +479,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 11:32:03"
   },
   {
+    "recordId": "3JsJ7ukJZT",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "3MQnZenGxM",
     "store": "泰州兴化英莱达茶叶子",
     "register_date": "2026-08-06",
@@ -477,6 +495,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "侯钰轩",
     "remark": "",
     "created_at": "2026-08-06 02:20:00"
+  },
+  {
+    "recordId": "3Np0qCKT7Y",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "3WAbqwlyTz",
@@ -956,6 +983,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "6uiYMhAL1y",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "6ynzuOLID3",
     "store": "武汉黎黄陂路游园会店",
     "register_date": "2026-01-22",
@@ -1325,6 +1361,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 02:20:00"
   },
   {
+    "recordId": "ADDiHIL4mW",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "AH5ciFwcY0",
     "store": "武穴武商购物中心一楼茶叶子",
     "register_date": "2026-08-05",
@@ -1397,6 +1442,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "AtbPA8J5PN",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "B93E33N19Y",
     "store": "泰州兴化英莱达茶叶子",
     "register_date": "2026-08-06",
@@ -1433,6 +1487,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 02:20:00"
   },
   {
+    "recordId": "BKLSJAowha",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "BLmfMXVtz6",
     "store": "深圳海上世界游园会店",
     "register_date": "2026-08-03",
@@ -1467,6 +1530,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:35:01"
+  },
+  {
+    "recordId": "BWfNK7KnUm",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "BbKjLvLSQc",
@@ -1712,6 +1784,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:35:01"
   },
   {
+    "recordId": "D3ReDG1Qd6",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "D3dqVVMJHL",
     "store": "武汉黎黄陂路游园会店",
     "register_date": "2026-01-22",
@@ -1719,6 +1800,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "宋菲燕",
     "remark": "",
     "created_at": "2026-08-06 13:48:07"
+  },
+  {
+    "recordId": "D4cI3zARKJ",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": "",
+    "created_at": "2026-08-01 11:21:08"
   },
   {
     "recordId": "D6JEHRPt4a",
@@ -1757,6 +1847,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 12:58:50"
   },
   {
+    "recordId": "DP84K8mKvl",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "DQo1OIYlcr",
     "store": "黄石",
     "register_date": "2026-08-06",
@@ -1764,6 +1863,24 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "乐高文",
     "remark": "",
     "created_at": "2026-08-06 16:16:25"
+  },
+  {
+    "recordId": "DUmumtHE2M",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
+    "recordId": "DVerbyKvM9",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "DaGxJeSBir",
@@ -1829,6 +1946,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 11:26:34"
   },
   {
+    "recordId": "DwacDLAMuw",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "DymHr2wLkZ",
     "store": "武汉湖经学院茶叶子",
     "register_date": "2026-08-04",
@@ -1845,6 +1971,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "何科",
     "remark": "",
     "created_at": "2026-08-06 11:26:34"
+  },
+  {
+    "recordId": "E6R1vgK7BI",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "EElLoRwYml",
@@ -2016,6 +2151,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "FIejqJMCeU",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "FIr4XBKCBB",
@@ -2594,6 +2738,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "IX6pFvnKr0",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "IZ68nBdE9u",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -2846,6 +2999,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "KBk1cvNCI8",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "KKKuVdgaP8",
     "store": "武穴武商购物中心一楼茶叶子",
     "register_date": "2026-08-05",
@@ -2963,6 +3125,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 17:56:32"
   },
   {
+    "recordId": "LHeUI8tlAi",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "LKURyoQok8",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -3033,6 +3204,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "LqtIJNACH3",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "LuhuQ0qYx3",
@@ -3206,6 +3386,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "NAoQuBr4zh",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "NFb7uPiUPV",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -3303,6 +3492,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "冯坤",
     "remark": "",
     "created_at": "2026-08-06 15:19:42"
+  },
+  {
+    "recordId": "NzXj1YxCLI",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "O0ieVnK3I7",
@@ -3519,6 +3717,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "PUxYOcp8Jb",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "PVVLDWlNbK",
@@ -3818,6 +4025,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 03:46:52"
   },
   {
+    "recordId": "SBZbxGfca9",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "SEdtaPd1rT",
     "store": "泰州兴化英莱达茶叶子",
     "register_date": "2026-08-06",
@@ -3899,6 +4115,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 17:46:14"
   },
   {
+    "recordId": "SlGjSTg9zb",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "SqTGqE0KHV",
     "store": "深圳前海壹方城游园会店",
     "register_date": "2026-07-22",
@@ -3915,6 +4140,24 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "侯钰轩",
     "remark": "",
     "created_at": "2026-08-06 02:20:00"
+  },
+  {
+    "recordId": "SwtcBVJG4D",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
+    "recordId": "T2rRzSbK7q",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "T6Q2F2uSPH",
@@ -3969,6 +4212,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:45:11"
+  },
+  {
+    "recordId": "TeBX6APdx3",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "Tf7FXdoY67",
@@ -4050,6 +4302,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "UEjmCmWAL2",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "UJdoB6wNxk",
@@ -4313,6 +4574,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "WMU1Yp7htT",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": "",
+    "created_at": "2026-08-01 11:21:08"
+  },
+  {
     "recordId": "WNd1x3l15s",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -4439,6 +4709,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "XNGXGyAf5w",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "XTQAtbL9e2",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -4527,6 +4806,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "Y4raHuT3g8",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "Y641Sa1zQw",
@@ -5078,6 +5366,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 02:20:00"
   },
   {
+    "recordId": "b2NYDUmUlI",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "b30Ym0Q9dW",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -5103,6 +5400,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "bMfw9LAd3i",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "bS78PYL3Vw",
@@ -5157,6 +5463,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "bgUFY0GmKd",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "bghv4GcEO9",
@@ -5420,6 +5735,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 03:46:52"
   },
   {
+    "recordId": "dTihoNb4IK",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "dWrxWaAiT9",
     "store": "武汉太和里茶叶子",
     "register_date": "2026-08-04",
@@ -5436,6 +5760,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "dZtJgke09H",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "dbecRuBcrM",
@@ -5690,6 +6023,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 13:45:53"
   },
   {
+    "recordId": "eonr7W6u2i",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "epzJzU32j3",
     "store": "仙桃银泰商城大厦茶叶子",
     "register_date": "2026-08-06",
@@ -5706,6 +6048,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "李星悦",
     "remark": "样品茶叶到期时间",
     "created_at": "2026-08-04 11:09:36"
+  },
+  {
+    "recordId": "etMVu3k4rm",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "evYWNv02yz",
@@ -5769,6 +6120,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "杨丽莲",
     "remark": "",
     "created_at": "2026-08-06 14:43:46"
+  },
+  {
+    "recordId": "fAIFpNaWhR",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "fAUNzDk5gh",
@@ -6149,6 +6509,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-03 11:24:18"
   },
   {
+    "recordId": "hecTjRgsuM",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "hmbMCws7q9",
     "store": "深圳前海壹方城游园会店",
     "register_date": "2026-07-22",
@@ -6444,6 +6813,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "杨丽莲",
     "remark": "",
     "created_at": "2026-08-06 14:43:46"
+  },
+  {
+    "recordId": "k2sKWOrpl4",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "kCdF7mQcID",
@@ -7427,6 +7805,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 14:43:46"
   },
   {
+    "recordId": "rtwSkNhtx6",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "ruTHdfFoEC",
     "store": "泰州兴化英莱达茶叶子",
     "register_date": "2026-08-06",
@@ -7488,6 +7875,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "崔海洋",
     "remark": "",
     "created_at": "2026-08-05 12:58:50"
+  },
+  {
+    "recordId": "sIPxdi9Ohs",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "sLsdHa64lS",
@@ -7670,6 +8066,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 16:59:42"
   },
   {
+    "recordId": "tiMJlGBZ2p",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "tlxiZCcPLm",
     "store": "武汉太和里茶叶子",
     "register_date": "2026-08-04",
@@ -7686,6 +8091,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "颜丽",
     "remark": "",
     "created_at": "2026-08-06 16:15:52"
+  },
+  {
+    "recordId": "tyBMJzOS47",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "u6mSBLBUwQ",
@@ -7749,6 +8163,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "ufqASmKzkk",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "ui7gVlMfVN",
@@ -7875,6 +8298,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "薛冬",
     "remark": "",
     "created_at": "2026-08-06 15:06:58"
+  },
+  {
+    "recordId": "vIijkgdPRt",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "草本茶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "vKDQqetJ9d",
@@ -8246,6 +8678,24 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 02:20:00"
   },
   {
+    "recordId": "xelRJZa6N9",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
+    "recordId": "xghlXnc8aj",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "大四喜",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "xsYbd9sdNO",
     "store": "黄石",
     "register_date": "2026-08-06",
@@ -8345,6 +8795,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-03 10:26:04"
   },
   {
+    "recordId": "yVOKcQhZPx",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "yW2AAimdEu",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -8417,6 +8876,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 11:28:54"
   },
   {
+    "recordId": "yxDK1IBedB",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
+  },
+  {
     "recordId": "yyHByNlcOS",
     "store": "深圳布吉万象汇茶叶子",
     "register_date": "2026-08-06",
@@ -8478,6 +8946,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "李星悦",
     "remark": "样品茶叶到期时间",
     "created_at": "2026-08-04 11:09:36"
+  },
+  {
+    "recordId": "ziVFSlnLNr",
+    "store": "重庆方圆live商场B1层茶叶子",
+    "register_date": "2026-08-01",
+    "tea_name": "同心瓶",
+    "taster": "易勇军",
+    "remark": ".",
+    "created_at": "2026-08-01 08:15:39"
   },
   {
     "recordId": "zjct288JFr",

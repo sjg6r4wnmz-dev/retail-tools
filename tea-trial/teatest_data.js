@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-07 08:00:36）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-07 08:01:40）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -846,6 +846,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "李星悦",
     "remark": "样品茶叶到期时间",
     "created_at": "2026-08-04 11:09:36"
+  },
+  {
+    "recordId": "6QnvDbTa0R",
+    "store": "咸宁中商百货茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/岭南佳荔",
+    "taster": "谢雨佳",
+    "remark": "",
+    "created_at": "2026-08-07 00:00:10"
   },
   {
     "recordId": "6TvbLAvI6C",
@@ -4700,6 +4709,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 02:15:04"
   },
   {
+    "recordId": "Z1GdobSTIg",
+    "store": "咸宁中商百货茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶之桃花坞/蜜桃乌龙",
+    "taster": "谢雨佳",
+    "remark": "",
+    "created_at": "2026-08-07 00:00:10"
+  },
+  {
     "recordId": "Z3AkRGm4qO",
     "store": "泰州兴化英莱达茶叶子",
     "register_date": "2026-03-14",
@@ -5490,6 +5508,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "",
     "remark": "",
     "created_at": "2026-08-06 13:54:22"
+  },
+  {
+    "recordId": "eE23KdZQjy",
+    "store": "咸宁中商百货茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/芒果红茶",
+    "taster": "谢雨佳",
+    "remark": "",
+    "created_at": "2026-08-07 00:00:10"
   },
   {
     "recordId": "eEhThQG3VZ",
@@ -7560,6 +7587,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "",
     "remark": "",
     "created_at": "2026-08-06 18:16:39"
+  },
+  {
+    "recordId": "t2elET5XKy",
+    "store": "咸宁中商百货茶叶子",
+    "register_date": "2026-08-06",
+    "tea_name": "习惯茶/玫瑰油切绿茶",
+    "taster": "谢雨佳",
+    "remark": "",
+    "created_at": "2026-08-07 00:00:10"
   },
   {
     "recordId": "t8kVxpHpl4",

@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-10 09:37:27）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-10 14:09:28）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -650,15 +650,6 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 05:52:17"
   },
   {
-    "recordId": "4srYrIKLvQ",
-    "store": "武汉永旺金桥茶叶子",
-    "register_date": "2026-08-06",
-    "tea_name": "大红袍（乌龙茶）",
-    "taster": "邬明珠",
-    "remark": "",
-    "created_at": "2026-08-06 17:41:18"
-  },
-  {
     "recordId": "4veyYLOpun",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-06",
@@ -1116,15 +1107,6 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "杨丽莲",
     "remark": "",
     "created_at": "2026-08-06 14:43:46"
-  },
-  {
-    "recordId": "7kwCpMNnC3",
-    "store": "武汉永旺金桥茶叶子",
-    "register_date": "2026-08-06",
-    "tea_name": "大红袍（乌龙茶）",
-    "taster": "邬明珠",
-    "remark": "",
-    "created_at": "2026-08-06 17:41:18"
   },
   {
     "recordId": "7oo1PIdztV",
@@ -2369,15 +2351,6 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 02:20:00"
   },
   {
-    "recordId": "FxRrg7zbbV",
-    "store": "武汉永旺金桥茶叶子",
-    "register_date": "2026-08-06",
-    "tea_name": "大红袍（乌龙茶）",
-    "taster": "邬明珠",
-    "remark": "",
-    "created_at": "2026-08-06 17:41:18"
-  },
-  {
     "recordId": "FyCbOM1Z1D",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -3143,15 +3116,6 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
-    "recordId": "LQfO1jgLya",
-    "store": "武汉永旺金桥茶叶子",
-    "register_date": "2026-08-06",
-    "tea_name": "大红袍（乌龙茶）",
-    "taster": "邬明珠",
-    "remark": "",
-    "created_at": "2026-08-06 17:41:18"
-  },
-  {
     "recordId": "LTc79OcnVZ",
     "store": "阜埠河地铁6号口游园会",
     "register_date": "2026-08-06",
@@ -3240,15 +3204,6 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
-  },
-  {
-    "recordId": "M1l4hnt0Up",
-    "store": "武汉永旺金桥茶叶子",
-    "register_date": "2026-08-06",
-    "tea_name": "大红袍（乌龙茶）",
-    "taster": "邬明珠",
-    "remark": "",
-    "created_at": "2026-08-06 17:41:18"
   },
   {
     "recordId": "M42UBUCelL",
@@ -3818,15 +3773,6 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 11:29:05"
   },
   {
-    "recordId": "Q49KIhdeqk",
-    "store": "武汉永旺金桥茶叶子",
-    "register_date": "2026-08-06",
-    "tea_name": "大红袍（乌龙茶）",
-    "taster": "邬明珠",
-    "remark": "",
-    "created_at": "2026-08-06 17:41:18"
-  },
-  {
     "recordId": "Q8nFEJJktX",
     "store": "深圳海上世界游园会店",
     "register_date": "2026-08-03",
@@ -3942,15 +3888,6 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
-  },
-  {
-    "recordId": "R297pHAmZf",
-    "store": "武汉永旺金桥茶叶子",
-    "register_date": "2026-08-06",
-    "tea_name": "大红袍（乌龙茶）",
-    "taster": "邬明珠",
-    "remark": "",
-    "created_at": "2026-08-06 17:41:18"
   },
   {
     "recordId": "RCRQhtBzLB",
@@ -6579,15 +6516,6 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
-  },
-  {
-    "recordId": "iB7MMd9S74",
-    "store": "武汉永旺金桥茶叶子",
-    "register_date": "2026-08-06",
-    "tea_name": "大红袍（乌龙茶）",
-    "taster": "邬明珠",
-    "remark": "",
-    "created_at": "2026-08-06 17:41:18"
   },
   {
     "recordId": "iCvuxXUHjO",

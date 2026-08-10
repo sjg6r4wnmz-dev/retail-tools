@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>行销物拍照识别（云端版）</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#d4382c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="行销识别">
+<style>
+  :root{
+    --red:#d4382c; --red-l:#fff1f0; --red-b:#ffccc7;
+    --amber:#d48806; --amber-l:#fffbe6; --amber-b:#ffe58f;
+    --green:#389e0d; --green-l:#f6ffed; --green-b:#b7eb8f;
+    --blue:#1677ff; --bg:#f5f6f8; --card:#fff; --txt:#1f2329; --mut:#8a9099;
+    --line:#eceef0;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",Arial,sans-serif;
+    background:var(--bg);color:var(--txt);padding:env(safe-area-inset-top) 12px calc(20px + env(safe-area-inset-bottom));max-width:560px;margin:0 auto}
+  h1{font-size:19px;margin:14px 4px 4px}
+  .sub{color:var(--mut);font-size:12px;margin:0 4px 12px}
+  .card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  label{display:block;font-size:13px;color:var(--mut);margin-bottom:6px}
+  input,select{width:100%;padding:11px 12px;font-size:15px;border:1px solid var(--line);border-radius:10px;background:#fafbfc;color:var(--txt)}
+  input:focus,select:focus{outline:none;border-color:var(--blue);background:#fff}
+  .row{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+  .row>*{flex:1}
+  .row label{flex:0 0 44px;margin:0}
+  button{width:100%;padding:13px;border:none;border-radius:11px;font-size:15px;font-weight:600;cursor:pointer;background:var(--blue);color:#fff}
+  button:disabled{background:#c9d3df;cursor:not-allowed}
+  button.ghost{background:#eef2f7;color:var(--blue)}
+  .cam-box{margin:8px 0;border:2px dashed var(--line);border-radius:12px;min-height:160px;display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:14px;overflow:hidden;background:#fafbfc}
+  .cam-box img{width:100%;display:block}
+  #result .card{padding:0;overflow:hidden}
+  .verdict{padding:18px 16px;text-align:center}
+  .verdict .tag{display:inline-block;font-size:19px;font-weight:800;padding:8px 16px;border-radius:14px;max-width:92%;line-height:1.35;white-space:normal}
+  .verdict.exp .tag{background:var(--red-l);color:var(--red);border:1px solid var(--red-b)}
+  .verdict.soon .tag{background:var(--amber-l);color:var(--amber);border:1px solid var(--amber-b)}
+  .verdict.ok .tag{background:var(--green-l);color:var(--green);border:1px solid var(--green-b)}
+  .verdict .reason{margin-top:10px;font-size:14px;color:var(--txt);line-height:1.5}
+  .detail{padding:0 16px 16px;font-size:13px;color:var(--mut);line-height:1.6;border-top:1px solid var(--line);padding-top:12px}
+  .detail b{color:var(--txt)}
+  .cand{margin-top:8px;padding-left:16px}
+  .cand li{margin-bottom:3px}
+  .tip{font-size:12px;color:var(--mut);line-height:1.5;margin-top:8px}
+  .err{background:var(--red-l);border:1px solid var(--red-b);color:var(--red);padding:12px;border-radius:10px;font-size:13px;line-height:1.5}
+  .divider{text-align:center;color:var(--mut);font-size:12px;margin:4px 0}
+  .divider::before,.divider::after{content:"";display:inline-block;width:30px;border-top:1px solid var(--line);vertical-align:middle;margin:0 8px}
+  .pill{display:inline-block;font-size:11px;background:#eef2f7;color:var(--mut);padding:2px 8px;border-radius:999px;margin-left:6px}
+  #statusBar{font-size:12px;padding:8px 12px;border-radius:10px;margin-bottom:12px;display:none}
+  #statusBar.show{display:block}
+</style>
+<script src="https://beacon.cdn.qq.com/sdk/4.5.9/beacon_web.min.js"></script>
+<script>
+(function(){
+  try{
+    var beacon=new BeaconAction({
+      appkey:'0WEB06U85YBSLJNL',
+      versionCode:'1.0.0',
+      channelID:'share',
+      delay:1000,
+      sessionDuration:30*60*1000,
+      isOversea:false,
+      needReportRqdEvent:false
+    });
+    beacon.onDirectUserAction('preview_page_view',{
+      'url':location.href,
+      'referrer':document.referrer,
+      'title':document.title,
+      'sandbox_id':'85c62167e10a48179f9e19310ec76e32'
+    });
+  }catch(e){}
+})();
+</script></head>
+<body>
+<h1>行销物拍照识别</h1>
+<p class="sub">拍一拍，马上知道该报废还是在用</p>
+
+<details style="margin:0 0 12px;background:#f0f5ff;border:1px solid #bae0ff;border-radius:12px;padding:0;overflow:hidden">
+  <summary style="cursor:pointer;padding:12px 14px;font-size:14px;font-weight:600;color:#1677ff;list-style:none;display:flex;align-items:center;justify-content:space-between">
+    <span>📖 使用说明（点开查看）</span>
+    <span style="font-size:12px;color:var(--mut)">必看 ▼</span>
+  </summary>
+  <div style="padding:0 14px 14px;font-size:13px;line-height:1.7;color:var(--txt)">
+    <div style="margin-bottom:10px">
+      <b>这个工具是什么？</b><br>
+      拍一张店内行销物照片，自动判断它在<b>报废清单</b>还是<b>在用清单</b>中，还是两份清单都不在。
+    </div>
+    <div style="margin-bottom:10px">
+      <b>怎么用？三步：</b><br>
+      ① 选择品牌（坚果栈/茶馆等子品牌都选「茶颜」）<br>
+      ② 点「现拍一张」或「从相册选」行销物照片<br>
+      ③ 点「识别是否报废」查看结果
+    </div>
+    <div style="margin-bottom:10px">
+      <b>结果怎么看？</b>
+      <table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:4px">
+        <tr><td style="padding:3px 0"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--red-l);border:1px solid var(--red-b);vertical-align:middle;margin-right:6px"></span><b style="color:var(--red)">红色</b></td><td>命中报废清单，请马上报废</td></tr>
+        <tr><td style="padding:3px 0"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--green-l);border:1px solid var(--green-b);vertical-align:middle;margin-right:6px"></span><b style="color:var(--green)">绿色</b></td><td>命中在用清单，该物料正常在用</td></tr>
+        <tr><td style="padding:3px 0"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--amber-l);border:1px solid var(--amber-b);vertical-align:middle;margin-right:6px"></span><b style="color:var(--amber)">橙色</b></td><td>两清单均未命中，需人工复核</td></tr>
+        <tr><td style="padding:3px 0"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#e6f4ff;border:1px solid #bae0ff;vertical-align:middle;margin-right:6px"></span><b style="color:var(--blue)">蓝色</b></td><td>拍到的不是行销物（如店招/slogan）</td></tr>
+      </table>
+    </div>
+    <div>
+      <b>拍不出来？</b><br>
+      拍照识别失败时，可滑到页面下方「手动模式」，直接输入图中大字进行匹配。
+    </div>
+  </div>
+</details>
+
+<div id="dingtalkTip" class="tip" style="display:none;background:#fff7e6;border:1px solid #ffb84d;border-radius:10px;padding:10px 12px;margin:8px 0 12px;font-size:13px;line-height:1.6;color:#7a4a00">
+  📌 检测到你在 <b>钉钉内置浏览器</b> 中打开，<b>选图功能可能受限</b>。建议：<br>
+  &nbsp;&nbsp;• 点右上角 <b>「···」→「在浏览器中打开」</b>，相册选图才正常<br>
+  &nbsp;&nbsp;• 或长按链接→复制→粘贴到手机 Safari/Chrome 打开
+</div>
+
+<script>
+// 钉钉环境检测
+(function(){
+  var ua = navigator.userAgent || "";
+  if(/DingTalk/i.test(ua) || /AliApp\(DingTalk/i.test(ua)){
+    var el = document.getElementById("dingtalkTip");
+    if(el) el.style.display = "block";
+  }
+})();
+</script>
+<div id="statusBar"></div>
+<div class="card" id="installTip" style="display:none;background:var(--blue);color:#fff">
+  <b>📲 添加到主屏幕，像 App 一样使用</b>
+  <div id="installTipText" style="font-size:13px;margin-top:6px;line-height:1.5"></div>
+  <button class="ghost" id="installClose" style="margin-top:10px;background:rgba(255,255,255,.22);color:#fff">知道了</button>
+</div>
+
+<div class="card">
+  <label>① 选择品牌（务必选对：清单按品牌分开）</label>
+  <select id="brand">
+    <option value="茶颜">茶颜</option>
+    <option value="鸳央">鸳央</option>
+    <option value="墨柠">墨柠</option>
+    <option value="昼夜">昼夜</option>
+  </select>
+  <div class="tip" style="color:var(--amber);font-weight:600;margin-top:6px">⚠️ 选错品牌一定识别不出。<br>📌 <b>坚果栈/茶馆/茶颜悦色</b> 等子品牌都归在 <b>「茶颜」</b> 下，<b>不确定就选「茶颜」</b>。匹配未命中时系统会在全品牌自动兜底。</div>
+</div>
+
+<div class="card">
+  <label>② 拍照 / 选图（自动识别是否报废）</label>
+  <div class="btn-row" style="display:flex;gap:8px;margin:6px 0 8px">
+    <button class="ghost" id="cameraBtn" style="flex:1;margin:0">📷 现拍一张</button>
+    <button class="ghost" id="albumBtn" style="flex:1;margin:0">🖼 从相册选</button>
+  </div>
+  <input type="file" id="fileCamera" accept="image/*" capture="environment" style="display:none">
+  <input type="file" id="fileAlbum" accept="image/*" style="display:none">
+  <div class="cam-box" id="camBox">点击上方按钮拍照或从相册选择行销物照片</div>
+  <button id="recog" disabled style="margin-top:10px">🔍 识别是否报废</button>
+</div>
+
+<div class="divider">或手动输入图中文字</div>
+
+<div class="card">
+  <label>③ 手动模式（离线匹配，无需拍照）</label>
+  <input id="manualText" placeholder="例如：同心瓶 / 游园会价签 / 新弗兰系列">
+  <button class="ghost" id="manualBtn" style="margin-top:10px">🔎 匹配报废清单</button>
+</div>
+
+<div id="result"></div>
+
+<script>
+
+/* ============ 配置 ============ */
+// 后端 Cloudflare Worker 地址（识别/匹配/判定都在后端，前端无 Key/无清单/无算法）
+// 部署 Worker 后改成真实域名，例如 https://posm-scrap-recog.xxx.workers.dev
+var WORKER_URL = "https://posm-recog-posm-scap-recog-oopugfimug.cn-hangzhou.fcapp.run";
+var AUTH_TOKEN = "posm_5fa4761ff06d7c89d189faf93574f248";
+
+/* ============ 品牌 ============ */
+document.getElementById("brand").onchange = function(){ state.brand = this.value; };
+
+/* ============ 状态 ============ */
+var state = { brand:"茶颜", image:null };
+var STATUS = document.getElementById("statusBar");
+function setStatus(msg, ok){
+  STATUS.textContent = msg;
+  STATUS.style.display="block";
+  STATUS.style.background = ok? "var(--green-l)":"var(--red-l)";
+  STATUS.style.color = ok? "var(--green)":"var(--red)";
+  STATUS.style.border = "1px solid "+(ok?"var(--green-b)":"var(--red-b)");
+}
+
+
+/* ============ 拍照/选图 ============ */
+var fileCamera = document.getElementById("fileCamera");
+var fileAlbum  = document.getElementById("fileAlbum");
+var camBox = document.getElementById("camBox");
+var recogBtn = document.getElementById("recog");
+
+function compressImage(dataUrl, maxWidth, quality, callback){
+  var img = new Image();
+  img.onload = function(){
+    var w = img.width, h = img.height;
+    if(w > maxWidth){ h = Math.round(h * maxWidth / w); w = maxWidth; }
+    var canvas = document.createElement("canvas");
+    canvas.width = w; canvas.height = h;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, w, h);
+    var out = canvas.toDataURL("image/jpeg", quality);
+    callback(out);
+  };
+  img.onerror = function(){ callback(dataUrl); };
+  img.src = dataUrl;
+}
+
+function onPickFile(e){
+  var f = e.target.files[0]; if(!f) return;
+  camBox.innerHTML = "图片处理中…";
+  var r = new FileReader();
+  r.onload = function(ev){
+    // 手机原图通常 2~5MB，base64 后更大，iOS/钉钉容易 Load failed，先压缩
+    compressImage(ev.target.result, 1280, 0.82, function(compressed){
+      state.image = compressed;
+      camBox.innerHTML = '<img src="'+state.image+'">';
+      recogBtn.disabled = false;
+    });
+  };
+  r.onerror = function(){
+    camBox.innerHTML = "读取图片失败，请重试";
+  };
+  r.readAsDataURL(f);
+  // 复位：让同一文件能再次触发
+  e.target.value = "";
+}
+
+document.getElementById("cameraBtn").onclick = function(){ fileCamera.click(); };
+document.getElementById("albumBtn").onclick  = function(){ fileAlbum.click(); };
+fileCamera.onchange = onPickFile;
+fileAlbum.onchange  = onPickFile;
+
+/* ============ 直连通义千问 VL ============ */
+/* ============ 调后端 Worker（前端无 Key / 无清单 / 无算法） ============ */
+async function callAPI(imageDataUrl, brand){
+  var resp = await fetch(WORKER_URL + "/api/recognize", {
+    method:"POST",
+    headers:{"Content-Type":"application/json","X-Auth-Token":AUTH_TOKEN},
+    body: JSON.stringify({image: imageDataUrl, brand: brand})
+  });
+  if(!resp.ok){
+    var et = await resp.text();
+    var msg = "服务错误 "+resp.status;
+    try{ var j = JSON.parse(et); if(j.error) msg = j.error; }catch(e){}
+    throw new Error(msg);
+  }
+  return await resp.json();
+    var _r = await resp.json(); _r = applyScrapOverride(_r) || _r; return _r;
+}
+
+/* ============ 反馈：把误判推给后端 ============ */
+async function sendFeedback(brand, mainName, ocrText, verdict, matchedName, feedback, comment){
+  try{
+    await fetch(WORKER_URL + "/api/feedback", {
+      method:"POST",
+      headers:{"Content-Type":"application/json","X-Auth-Token":AUTH_TOKEN},
+      body: JSON.stringify({brand, mainName, ocrText, verdict, matchedName, feedback, comment, source:"posm-recog"})
+    });
+  }catch(e){ console.warn("反馈失败：", e); }
+}
+
+/* ============ 渲染：单条结果卡片（含反馈按钮）============ */
+function escapeHtml(s){
+  return (s==null?"":String(s)).replace(/[&<>"']/g, function(c){
+    ret
+// === 本地报废覆盖（2026-08-10 人工补充） ===
+// 这些物料在报废清单中缺失，通过客户端强制覆盖为"已报废"
+var POSM_SCRAP_OVERRIDES = ["吊牌/托特通勤包/顺应植觉系列/CY"];
+function applyScrapOverride(result) {
+    if (!result) return result;
+    // 检查 matchedInuse
+    if (result.matchedInuse && POSM_SCRAP_OVERRIDES.includes(result.matchedInuse.name)) {
+        console.log("[覆盖] 强制报废:", result.matchedInuse.name);
+        result.verdict = "hit";
+        result.matchedItem = {
+            name: result.matchedInuse.name,
+            brand: result.matchedInuse.brand || "茶颜",
+            month: "202607"
+        };
+        result.reason = "该物料已报废（人工补充清单），请马上报废处理";
+        result.score = 1.0;
+        // 同时检查 results 数组
+    }
+    if (result.results && Array.isArray(result.results)) {
+        result.results.forEach(function(r) {
+            if (r.matchedInuse && POSM_SCRAP_OVERRIDES.includes(r.matchedInuse.name)) {
+                console.log("[覆盖·多物] 强制报废:", r.matchedInuse.name);
+                r.verdict = "hit";
+                r.matchedItem = {
+                    name: r.matchedInuse.name,
+                    brand: r.matchedInuse.brand || "茶颜",
+                    month: "202607"
+                };
+                r.reason = "该物料已报废（人工补充清单），请马上报废处理";
+                r.score = 1.0;
+            }
+        });
+        // 重新计算 summary
+        if (result.summary) {
+            var hit = 0, safe = 0, suspect = 0, review = 0;
+            result.results.forEach(function(r) {
+                if (r.verdict === "hit") hit++;
+                else if (r.verdict === "safe") safe++;
+                else if (r.verdict === "suspect") suspect++;
+                else review++;
+            });
+            result.summary = {hit: hit, safe: safe, suspect: suspect, review: review};
+        }
+    }
+    return result;
+}
+
+urn {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];
+  });
+}
+function renderOne(result, idx, ocrText, brand, multi){
+  var map = {
+    hit:{cls:"exp", tag:"该物料已报废，请马上报废处理", color:"var(--red)"},
+    suspect:{cls:"soon", tag:"疑似报废 · 请复核", color:"var(--amber)"},
+    safe:{cls:"ok", tag:"未报废 · 正常在用", color:"var(--green)"},
+    review:{cls:"soon", tag:"两清单均未命中 · 需人工复核", color:"var(--amber)"},
+    noresult:{cls:"soon", tag:"⚠️ 未识别到行销物", color:"var(--amber)"},
+    notposm:{cls:"soon", tag:"📌 拍到的不是行销物", color:"var(--blue)"}
+  };
+  var m = map[result.verdict] || map.review;
+  var html = '<div class="card">';
+  // 序号
+  if(multi){
+    html += '<div style="font-size:12px;color:var(--mut);margin-bottom:6px">第 '+(idx+1)+' 个行销物 · 名称：<b style="color:var(--txt)">'+escapeHtml(result.main_name||"未识别")+'</b></div>';
+  }
+  html += '<div class="verdict '+m.cls+'">'
+    + '<span class="tag">'+m.tag+'</span>'
+    + (result.reason? '<div class="reason">'+escapeHtml(result.reason)+'</div>':'')
+    + (result.bestNote? '<div class="reason" style="color:var(--amber);font-weight:600">⚠️ '+escapeHtml(result.bestNote)+'</div>':'')
+    + '</div>';
+  if(result.matchedInuse){
+    html += '<div class="detail" style="color:var(--green)"><b>在用清单命中：</b>'+escapeHtml(result.matchedInuse.name)
+      + '<span class="pill">'+escapeHtml(result.matchedInuse.brand||'茶颜')+'</span>'
+      + (result.matchedInuse.category ? '<span class="pill">'+escapeHtml(result.matchedInuse.category)+'</span>' : '')
+      + '<br>匹配度：'+((result.score||0)*100).toFixed(0)+'%</div>';
+  }
+  if(result.matchedItem){
+    html += '<div class="detail"><b>命中项：</b>'+escapeHtml(result.matchedItem.name)
+      + '<span class="pill">'+escapeHtml(result.matchedItem.brand)+'</span><span class="pill">来源 '+escapeHtml(result.matchedItem.month)+'</span>'
+      + '<br>匹配度：'+((result.score||0)*100).toFixed(0)+'%</div>';
+  }
+  if(result.candidates && result.candidates.length){
+    var candTitle = (result.verdict==="review" || result.verdict==="suspect")
+      ? "以下清单项与拍摄的物料有一定相似度，供参考："
+      : "候选清单项：";
+    html += '<div class="detail">'+candTitle+'<ul class="cand">';
+    result.candidates.forEach(function(c){
+      html += '<li>'+escapeHtml(c.item.name)+'（'+((c.score||0)*100).toFixed(0)+'%）</li>';
+    });
+    html += '</ul></div>';
+  }
+  // 反馈按钮（所有 verdict 都给用户机会标"我看到的不是这个"）
+  if(result.main_name){
+    var mainName = result.main_name, matchedName = (result.matchedItem && result.matchedItem.name) || (result.matchedInuse && result.matchedInuse.name) || "";
+    var fbId = 'fb-'+idx;
+    html += '<div id="'+fbId+'" class="detail" style="border-top:1px dashed var(--line);padding-top:10px">'
+      + '<div style="color:var(--mut);font-size:12px;margin-bottom:6px">识别对吗？反馈帮我们越用越准：</div>'
+      + '<div style="display:flex;gap:6px;flex-wrap:wrap">'
+      + '<button class="ghost" style="flex:1;min-width:80px;padding:8px 4px;font-size:12px" data-fb="should_scrap">应该报废</button>'
+      + '<button class="ghost" style="flex:1;min-width:80px;padding:8px 4px;font-size:12px" data-fb="should_safe">应该安全</button>'
+      + '<button class="ghost" style="flex:1;min-width:80px;padding:8px 4px;font-size:12px" data-fb="wrong_match">识别错了</button>'
+      + '</div></div>';
+  }
+  html += '</div>';
+  return {html:html, mainName: result.main_name, matchedName: (result.matchedItem && result.matchedItem.name) || (result.matchedInuse && result.matchedInuse.name) || "", verdict: result.verdict};
+}
+
+/* ============ 渲染：多物入口（兼容单物）============ */
+function render(data){
+  var html = '';
+  var meta = []; // 用于绑定反馈
+  // 多物：列表展示 + 顶部汇总
+  if(data.multi && data.results && data.results.length > 1){
+    var sum = data.summary || {};
+    html += '<div class="card" style="background:linear-gradient(135deg,#f0f5ff 0%,#fff 100%)">'
+      + '<div style="font-size:14px;font-weight:700;color:#1677ff;margin-bottom:6px">📷 共识别到 '+data.total+' 个行销物</div>'
+      + '<div style="font-size:12px;color:var(--mut);line-height:1.6">'
+      + (sum.hit? '<span style="display:inline-block;background:var(--red-l);color:var(--red);padding:2px 8px;border-radius:999px;margin:2px">🔴 '+sum.hit+' 已报废</span>':'')
+      + (sum.suspect? '<span style="display:inline-block;background:var(--amber-l);color:var(--amber);padding:2px 8px;border-radius:999px;margin:2px">🟡 '+sum.suspect+' 疑似报废</span>':'')
+      + (sum.safe? '<span style="display:inline-block;background:var(--green-l);color:var(--green);padding:2px 8px;border-radius:999px;margin:2px">🟢 '+sum.safe+' 正常在用</span>':'')
+      + (sum.review? '<span style="display:inline-block;background:#fafafa;color:var(--mut);padding:2px 8px;border-radius:999px;margin:2px">⚪ '+sum.review+' 待复核</span>':'')
+      + '</div></div>';
+    data.results.forEach(function(r, idx){
+      var out = renderOne(r, idx, data.recognized, data.brand, true);
+      html += out.html;
+      meta.push({idx:idx, mainName:out.mainName, matchedName:out.matchedName, verdict:out.verdict});
+    });
+  } else {
+    // 单物：直接走 renderOne，结果在 data.results[0]
+    var head = (data.results && data.results[0]) || {};
+    var r = {
+      verdict: data.verdict || head.verdict,
+      main_name: head.main_name || "",
+      matchedItem: data.matchedItem || head.matchedItem,
+      matchedInuse: data.matchedInuse || head.matchedInuse,
+      score: data.score != null ? data.score : head.score,
+      reason: data.reason || head.reason,
+      candidates: data.candidates || head.candidates,
+      bestNote: data.bestNote || head.bestNote
+    };
+    var out = renderOne(r, 0, data.recognized, data.brand, false);
+    html += out.html;
+    meta.push({idx:0, mainName:out.mainName, matchedName:out.matchedName, verdict:out.verdict});
+  }
+  // OCR 原文
+  if(data.recognized){
+    html += '<div class="card" style="color:#1565c0;font-size:13px;font-weight:600;background:#e6f4ff;border:1px solid #bae0ff">模型识别到的文字：<br>'+escapeHtml(data.recognized)+'</div>';
+  }
+  document.getElementById("result").innerHTML = html;
+  // 绑定反馈按钮
+  var brand = data.brand || (document.getElementById('brand') || {}).value || "茶颜";
+  var ocrText = data.recognized || "";
+  meta.forEach(function(m){
+    var box = document.getElementById('fb-'+m.idx);
+    if(!box) return;
+    var btns = box.querySelectorAll('button[data-fb]');
+    btns.forEach(function(b){
+      b.onclick = function(){
+        var fb = this.getAttribute('data-fb');
+        var allBtns = box.querySelectorAll('button[data-fb]');
+        allBtns.forEach(function(x){ x.disabled = true; x.style.opacity = 0.5; });
+        this.style.opacity = 1;
+        this.style.background = "var(--blue)";
+        this.style.color = "#fff";
+        sendFeedback(brand, m.mainName, ocrText, m.verdict, m.matchedName, fb, "");
+        box.innerHTML = '<div style="color:var(--green);font-size:12px">✓ 反馈已收到（'+m.mainName+' · '+fb+'），谢谢！</div>';
+      };
+    });
+  });
+}
+
+/* ============ 自动识别 ============ */
+recogBtn.onclick = async function(){
+  if(!state.image){ alert("请先拍照/选图"); return; }
+  recogBtn.disabled = true; recogBtn.textContent="识别中…";
+  try{
+    var data = await callAPI(state.image, state.brand);
+    // 注入 brand 给 render 用（反馈需要）
+    data.brand = data.brand || state.brand;
+    render(data);
+  }catch(e){
+    var detail = e && e.message ? e.message : String(e);
+    var name = e && e.name ? e.name : "Error";
+    var hint = "";
+    if(/load failed|failed to fetch|network|timeout/i.test(detail+" "+name)){
+      hint = "常见原因：① 图片太大被网络/浏览器拦截；② 钉钉内置浏览器限制；③ 当前网络不稳定。<br>建议：换手机浏览器打开、切换 WiFi/4G、或用「手动模式」输入图中文字。";
+    }
+    document.getElementById("result").innerHTML = '<div class="err">⚠️ 识别失败：'+detail
+      + (name && name!=="Error" ? ' <span style="opacity:.7">('+name+')</span>':'')
+      + (hint ? '<div style="margin-top:8px">'+hint+'</div>':'')
+      + '<div style="margin-top:8px">请稍后重试，或改用「手动模式」输入图中文字匹配。</div></div>';
+  }finally{
+    recogBtn.disabled = false; recogBtn.textContent="🔍 识别是否报废";
+  }
+};
+
+/* ============ 手动模式 ============ */
+document.getElementById("manualBtn").onclick = function(){
+  var t = document.getElementById("manualText").value.trim();
+  if(!t){ alert("请输入图中文字"); return; }
+  fetch(WORKER_URL + "/api/manual", {
+    method:"POST",
+    headers:{"Content-Type":"application/json","X-Auth-Token":AUTH_TOKEN},
+    body: JSON.stringify({text:t, brand:state.brand})
+  }).then(function(r){ return r.json(); }).then(function(data){ return applyScrapOverride(data) || data; }).then(function(data){
+    // manual 接口返回的是旧的单物格式，转成新结构
+    if(!data.results){
+      data.results = [{
+        verdict: data.verdict,
+        main_name: t,
+        matchedItem: data.matchedItem,
+        matchedInuse: data.matchedInuse,
+        score: data.score,
+        reason: data.reason,
+        candidates: data.candidates,
+        bestNote: data.bestNote
+      }];
+      data.multi = false;
+      data.total = 1;
+      data.summary = { hit: data.verdict==="hit"?1:0, suspect: data.verdict==="suspect"?1:0, safe: data.verdict==="safe"?1:0, review: data.verdict==="review"?1:0 };
+    }
+    data.brand = state.brand;
+    data.recognized = t;
+    render(data);
+  }).catch(function(e){
+    document.getElementById("result").innerHTML = '<div class="err">⚠️ 手动匹配失败：'+e.message+'</div>';
+  });
+};
+
+/* ============ 启动检查 ============ */
+(function(){
+  setStatus("已连接云端识别服务，可直接拍照识别", true);
+})();
+
+/* ============ PWA：安装提示 + Service Worker ============ */
+(function(){
+  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  var isStandalone = window.navigator.standalone || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches);
+  if(!isStandalone && !localStorage.getItem("posm_install_tip")){
+    var tip = document.getElementById("installTip");
+    var txt = document.getElementById("installTipText");
+    txt.innerHTML = isIOS
+      ? "点击 Safari 底部「分享」按钮 → 选择「添加到主屏幕」即可生成桌面图标。"
+      : "点击浏览器菜单（右上角 ⋮ 或 ⋯）→「安装应用 / 添加到主屏幕」即可生成桌面图标。";
+    tip.style.display = "block";
+    document.getElementById("installClose").onclick = function(){
+      tip.style.display = "none";
+      localStorage.setItem("posm_install_tip", "1");
+    };
+  }
+})();
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load", function(){
+    navigator.serviceWorker.register("posm-sw.js").catch(function(e){ console.warn("SW 注册失败", e); });
+  });
+}
+</script>
+</body>
+</html>

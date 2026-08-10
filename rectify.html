@@ -866,7 +866,7 @@
 
       const resultEl = $('submitAllResult');
       if (failCount === 0) {
-        resultEl.textContent = "全部提交成功，约3分钟内同步到表格";
+        resultEl.textContent = "全部提交成功，等待同步..."; pollSyncStatus(Date.now(), resultEl);
         resultEl.className = "submit-result success";
         resultEl.style.display = "block";
         showToast("全部提交成功", "success");
@@ -895,6 +895,45 @@
       t.className = "toast show " + (type || "");
       setTimeout(() => t.classList.remove("show"), 2500);
     }
+    // === 提交后实时轮询同步状态 ===
+    let _pollTimer = null;
+    function pollSyncStatus(submitTime, resultEl) {
+      var maxRetries = 40;  // 120秒超时
+      var retryCount = 0;
+      var statusTexts = ["已提交", "同步中", "即将完成", "已同步"];
+      var statusIdx = 0;
+      if (_pollTimer) clearInterval(_pollTimer);
+      _pollTimer = setInterval(function() {
+        retryCount++;
+        try {
+          fetch(LOCAL_URL + "/rectify/last-sync").then(function(r) { return r.json(); }).then(function(d) {
+            if (!d.ok) return;
+            if (d.lastSyncTs > submitTime) {
+              // 同步完成！
+              clearInterval(_pollTimer);
+              _pollTimer = null;
+              resultEl.textContent = "已同步到管理后台，可在后台查看";
+              resultEl.className = "submit-result success";
+              resultEl.style.display = "block";
+              showToast("数据已同步到管理后台", "success");
+            } else if (d.lastSubmitTs > submitTime) {
+              // 有新提交但还没同步完成
+              var elapsed = Math.floor((Date.now() - submitTime) / 1000);
+              resultEl.textContent = "已提交，同步中 (" + elapsed + "s)...";
+              resultEl.className = "submit-result info";
+              resultEl.style.display = "block";
+            } else if (retryCount > maxRetries) {
+              clearInterval(_pollTimer);
+              _pollTimer = null;
+              resultEl.textContent = "已提交，同步超时，稍后刷新管理后台即可";
+              resultEl.className = "submit-result warning";
+              resultEl.style.display = "block";
+            }
+          }).catch(function() { /* 轮询失败静默，等待下次 */ });
+        } catch(e) {}
+      }, 3000);  // 每3秒轮询
+    }
+
     function openImgModal(url) {
       if (!url) return;
       $('imgModalImg').src = url;

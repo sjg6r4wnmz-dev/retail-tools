@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -230,6 +230,7 @@
     const FC_URL = "https://posm-recog-posm-scap-recog-oopugfimug.cn-hangzhou.fcapp.run";
     const BACKUP_URLS = []; // 备用隧道（loca.lt 已废弃，移除避免拖垮请求）
     const AUTH_TOKEN = "posm_5fa4761ff06d7c89d189faf93574f248";
+    const LOCAL_URL = "http://127.0.0.1:8766"; // 本地队列服务（同网络可用，用于图片代理）
 
     // 带超时的 fetch：防止某个端点 hang 死整个流程
     function fetchWithTimeout(url, options, timeoutMs) {
@@ -250,50 +251,77 @@
     let batchSubmitting = false; // 批量提交中
 
     // ====== 钉钉附件 URL 兜底刷新：图片加载失败时自动换 URL ======
-    // 钉钉表格附件 URL 默认 1-2 小时过期，data.js 缓存更新前用户打开页面就会看到破图
-    // 这里做懒刷新：图片 onerror → 调 refresh-bp API → 替换 src
-    const __bpRefreshCache = {};          // auditId -> [新 urls]
-    const __bpRefreshPending = {};        // auditId -> Promise（防并发）
-    const __bpRefreshTried = new Set();   // 已经试过 refresh 但仍失败的 auditId（避免无限重试）
+    // 钉钉 alidocs OSS 附件 URL 带 Content-Disposition: attachment + x-oss-force-download
+    // 导致手机/钉钉浏览器强制下载而非内联显示。<img> onerror 时依次尝试：
+    // 1) 本地队列服务图片代理（同网络可用，剥离下载头）
+    // 2) wsrv.nl 公共图片代理（跨网络可用，剥离下载头）
+    // 3) FC refresh-bp 获取新 URL（FC 端点可能不存在，静默失败）
+    // 不再 dim 图片或显示"刷新失败"——避免误伤可恢复的图片
+    const __bpRefreshCache = {};
+    const __bpRefreshPending = {};
+    const __bpRefreshTried = new Set();
+    const __bpProxyTried = new Set(); // 已尝试过代理的 img.src，避免循环
     window.__rectifyRefreshBpImg = async function(img) {
       if (!img || !img.dataset) return;
       const auditId = img.dataset.auditId;
       const idx = parseInt(img.dataset.idx, 10);
       if (!auditId || isNaN(idx)) return;
-      // 已有 cache → 直接换 src，不打 API
+
+      // 步骤1：尝试本地队列服务图片代理（剥离 Content-Disposition）
+      const origSrc = img.dataset.origSrc || img.src;
+      img.dataset.origSrc = origSrc;
+      if (!__bpProxyTried.has(origSrc)) {
+        __bpProxyTried.add(origSrc);
+        const proxyUrl = LOCAL_URL + "/rectify/img-proxy?url=" + encodeURIComponent(origSrc);
+        const testImg = new Image();
+        testImg.onload = function() {
+          img.src = proxyUrl;
+        };
+        testImg.onerror = function() {
+          // 步骤2：尝试 wsrv.nl 公共图片代理
+          const wsrvUrl = "https://wsrv.nl/?url=" + encodeURIComponent(origSrc) + "&w=400&output=jpg&q=70";
+          const testImg2 = new Image();
+          testImg2.onload = function() { img.src = wsrvUrl; };
+          testImg2.onerror = function() {
+            // 步骤3：所有代理都失败，静默处理——不 dim 图片
+            console.warn("[rectify] all image proxies failed for", auditId, origSrc.substring(0, 80));
+          };
+          testImg2.src = wsrvUrl;
+        };
+        testImg.src = proxyUrl;
+        return;
+      }
+
+      // 已尝试过代理，再试 FC refresh-bp 获取新 URL
       const cached = __bpRefreshCache[auditId];
-      if (cached && cached[idx] && img.src !== cached[idx]) {
-        img.src = cached[idx];
+      if (cached && cached[idx]) {
+        const newUrl = cached[idx];
+        if (img.src !== newUrl) {
+          __bpProxyTried.delete(newUrl); // 允许新 URL 再走代理
+          img.src = newUrl;
+        }
         return;
       }
-      // 已经失败过且没新 cache → 标个占位提示，不无限重试
-      if (__bpRefreshTried.has(auditId) && !cached) {
-        img.alt = "刷新失败，请稍后重试";
-        img.style.opacity = 0.4;
-        return;
-      }
-      // 防并发：同一 auditId 只打一次 API
+      if (__bpRefreshTried.has(auditId)) return; // 静默失败
       if (!__bpRefreshPending[auditId]) {
         __bpRefreshPending[auditId] = (async () => {
           try {
             const resp = await fetchWithTimeout(FC_URL + "/rectify/refresh-bp", {
               method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "X-Auth-Token": AUTH_TOKEN,
-                "Bypass-Tunnel-Reminder": "go"
-              },
+              headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN, "Bypass-Tunnel-Reminder": "go" },
               body: JSON.stringify({ recordId: auditId })
             }, 8000);
             if (!resp.ok) throw new Error("HTTP " + resp.status);
             const data = await resp.json();
             if (!data.ok || !Array.isArray(data.bp)) throw new Error("bad response");
             __bpRefreshCache[auditId] = data.bp;
-            // 找到当前页所有同 auditId 的 img，刷新 src
             document.querySelectorAll('img[data-audit-id="' + auditId + '"]').forEach(im => {
               const i = parseInt(im.dataset.idx, 10);
               const newUrl = data.bp[i];
-              if (newUrl && im.src !== newUrl) im.src = newUrl;
+              if (newUrl && im.src !== newUrl) {
+                __bpProxyTried.delete(newUrl);
+                im.src = newUrl;
+              }
             });
             return true;
           } catch (e) {
@@ -304,14 +332,11 @@
         })();
       }
       await __bpRefreshPending[auditId];
-      // 完成后清理 pending（让后续刷新请求能再打 API）
       const ok = __bpRefreshCache[auditId];
       if (ok && ok[idx]) {
         // 成功路径已在 fetch 回调里替换 src
-      } else if (__bpRefreshTried.has(auditId)) {
-        img.alt = "刷新失败，请稍后重试";
-        img.style.opacity = 0.4;
       }
+      // 失败时不再 dim 图片——静默处理
     };
 
     if (DATA.updatedAt) { $('updatedInfo').textContent = "数据更新：" + DATA.updatedAt; }
@@ -887,3 +912,4 @@
   </script>
 </body>
 </html>
+

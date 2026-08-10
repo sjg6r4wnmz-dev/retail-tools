@@ -602,7 +602,7 @@
         }
         let sigHtml = "";
         if (rec.signature) {
-          sigHtml = `<div class="detail-sig prob-sig"><img src="${esc(rec.signature)}" alt="签名"></div>`;
+          sigHtml = `<div class="detail-sig prob-sig"><img src="${esc(rec.signature)}" data-orig-src="${esc(rec.signature)}" onerror="window.__adminRefreshImg(this)" alt="签名"></div>`;
         } else {
           sigHtml = '<div class="detail-sig prob-sig"><div class="empty">原表未保存签名</div></div>';
         }

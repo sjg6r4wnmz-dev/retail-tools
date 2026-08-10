@@ -787,33 +787,44 @@
     async function submitOneProblem(i) {
       const p = problems[i];
       const photoData = p.photos.map(p => p);
-      try {
-        const resp = await fetchWithTimeout(FC_URL + "/rectify/submit", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN, "Bypass-Tunnel-Reminder": "go" },
-          body: JSON.stringify({
-            storeId: selectedStore.id,
-            storeName: selectedStore.n,
-            auditId: currentAudit.id || "",
-            problem: p.text,
-            status: p.status,
-            photos: photoData,
-            signature: globalSignature,
-            submitterName: submitterInput.value.trim(),
-            expectedDate: p.status === "不能立即整改" ? p.expectedDate : "",
-          })
-        }, 15000);
-        const data = await resp.json();
-        if (data.ok) {
-          p.submitted = true; p.resultMsg = { text: "已提交", success: true };
-          return { success: true };
-        } else {
-          throw new Error(data.error || "提交失败");
+      var lastErr = null;
+      // 最多重试3次（FC偶发性挂掉，自动恢复通常 <30秒）
+      for (var retry = 0; retry < 3; retry++) {
+        try {
+          var resp = await fetchWithTimeout(FC_URL + "/rectify/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN, "Bypass-Tunnel-Reminder": "go" },
+            body: JSON.stringify({
+              storeId: selectedStore.id,
+              storeName: selectedStore.n,
+              auditId: currentAudit.id || "",
+              problem: p.text,
+              status: p.status,
+              photos: photoData,
+              signature: globalSignature,
+              submitterName: submitterInput.value.trim(),
+              expectedDate: p.status === "不能立即整改" ? p.expectedDate : "",
+            })
+          }, 15000);
+          var data = await resp.json();
+          if (data.ok) {
+            p.submitted = true; p.resultMsg = { text: retry > 0 ? "已提交(重试" + retry + "次)" : "已提交", success: true };
+            return { success: true };
+          } else {
+            lastErr = data.error || "提交失败";
+          }
+        } catch(e) {
+          lastErr = e.message;
         }
-      } catch(e) {
-        p.resultMsg = { text: "失败：" + e.message, success: false };
-        return { success: false, error: e.message };
+        // 不是最后一次则等待2秒后重试
+        if (retry < 2) {
+          p.resultMsg = { text: "重试中(" + (retry+1) + "/3)…", success: false };
+          renderProblems();
+          await new Promise(function(r) { setTimeout(r, 2000); });
+        }
       }
+      p.resultMsg = { text: "失败（重试3次后）: " + (lastErr || "未知错误"), success: false };
+      return { success: false, error: lastErr };
     }
 
     async function submitAll() {

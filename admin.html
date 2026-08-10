@@ -330,6 +330,35 @@
 
     function esc(s) { return (s || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 
+    
+
+    /* === 图片代理：处理OSS Content-Disposition:attachment导致浏览器不显示 === */
+    var ADMIN_LOCAL_URL = "http://127.0.0.1:8766";
+    var ADMIN_IMG_PROXY_TRIED = new Set();
+
+    window.__adminRefreshImg = async function(img) {
+      if (!img) return;
+      var origSrc = img.dataset.origSrc || img.src;
+      if (!origSrc || origSrc.startsWith("data:")) return;
+      img.dataset.origSrc = origSrc;
+
+      if (ADMIN_IMG_PROXY_TRIED.has(origSrc)) return;
+      ADMIN_IMG_PROXY_TRIED.add(origSrc);
+
+      var wsrvUrl = "https://wsrv.nl/?url=" + encodeURIComponent(origSrc) + "&w=400&output=jpg&q=70";
+      var testImg1 = new Image();
+      testImg1.onload = function() { img.src = wsrvUrl; };
+      testImg1.onerror = function() {
+        var localUrl = ADMIN_LOCAL_URL + "/rectify/img-proxy?url=" + encodeURIComponent(origSrc);
+        var testImg2 = new Image();
+        testImg2.onload = function() { img.src = localUrl; };
+        testImg2.onerror = function() {
+          console.warn("[admin] all image proxies failed for", origSrc.substring(0, 80));
+        };
+        testImg2.src = localUrl;
+      };
+      testImg1.src = wsrvUrl;
+    };
     function getStatusClass(status) {
       if (status === "已整改") return "status-done";
       if (status === "不能立即整改") return "status-later";
@@ -595,7 +624,7 @@
         let photosHtml = "";
         if (photos.length > 0) {
           photosHtml = '<div class="detail-photos prob-photos">' +
-            photos.map(u => `<div class="thumb" data-url="${esc(u)}"><img src="${esc(u)}"></div>`).join("") +
+            photos.map((u, pk) => `<div class="thumb" data-url="${esc(u)}"><img src="${esc(u)}"></div>`).join("") +
             '</div>';
         } else {
           photosHtml = '<div class="detail-photos prob-photos"><div class="thumb empty">未上传照片</div></div>';

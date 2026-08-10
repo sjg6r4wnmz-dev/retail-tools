@@ -253,8 +253,7 @@ async function callAPI(imageDataUrl, brand){
     try{ var j = JSON.parse(et); if(j.error) msg = j.error; }catch(e){}
     throw new Error(msg);
   }
-  return await resp.json();
-    var _r = await resp.json(); _r = applyScrapOverride(_r) || _r; return _r;
+  var _r = await resp.json(); _r = applyScrapOverride(_r) || _r; return _r;
 }
 
 /* ============ 反馈：把误判推给后端 ============ */

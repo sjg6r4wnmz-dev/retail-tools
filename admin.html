@@ -345,19 +345,19 @@
       if (ADMIN_IMG_PROXY_TRIED.has(origSrc)) return;
       ADMIN_IMG_PROXY_TRIED.add(origSrc);
 
-      var wsrvUrl = "https://wsrv.nl/?url=" + encodeURIComponent(origSrc) + "&w=400&output=jpg&q=70";
+      var localUrl = ADMIN_LOCAL_URL + "/rectify/img-proxy?url=" + encodeURIComponent(origSrc);
       var testImg1 = new Image();
-      testImg1.onload = function() { img.src = wsrvUrl; };
+      testImg1.onload = function() { img.src = localUrl; };
       testImg1.onerror = function() {
-        var localUrl = ADMIN_LOCAL_URL + "/rectify/img-proxy?url=" + encodeURIComponent(origSrc);
+        var wsrvUrl = "https://wsrv.nl/?url=" + encodeURIComponent(origSrc) + "&w=400&output=jpg&q=70";
         var testImg2 = new Image();
-        testImg2.onload = function() { img.src = localUrl; };
+        testImg2.onload = function() { img.src = wsrvUrl; };
         testImg2.onerror = function() {
           console.warn("[admin] all image proxies failed for", origSrc.substring(0, 80));
         };
-        testImg2.src = localUrl;
+        testImg2.src = wsrvUrl;
       };
-      testImg1.src = wsrvUrl;
+      testImg1.src = localUrl;
     };
     
 

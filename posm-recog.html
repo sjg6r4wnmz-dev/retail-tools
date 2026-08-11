@@ -56,6 +56,7 @@
   #statusBar.show{display:block}
 </style>
 <script src="https://beacon.cdn.qq.com/sdk/4.5.9/beacon_web.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script>
 (function(){
   try{
@@ -152,10 +153,15 @@
   <div class="btn-row" style="display:flex;gap:8px;margin:6px 0 8px">
     <button class="ghost" id="cameraBtn" style="flex:1;margin:0">📷 现拍一张</button>
     <button class="ghost" id="albumBtn" style="flex:1;margin:0">🖼 从相册选</button>
+    <button class="ghost" id="barcodeBtn" style="flex:1;margin:0;color:#d4382c">📱 扫条形码</button>
   </div>
   <input type="file" id="fileCamera" accept="image/*" capture="environment" style="display:none">
   <input type="file" id="fileAlbum" accept="image/*" style="display:none">
   <div class="cam-box" id="camBox">点击上方按钮拍照或从相册选择行销物照片</div>
+  <div class="cam-box" id="barcodeBox" style="display:none;position:relative;min-height:240px">
+    <div id="barcodeReader" style="width:100%"></div>
+    <button id="barcodeStop" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:auto;padding:6px 20px;font-size:13px;background:rgba(0,0,0,.6);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:20px;z-index:10">✕ 关闭扫码</button>
+  </div>
   <button id="recog" disabled style="margin-top:10px">🔍 识别是否报废</button>
 </div>
 
@@ -441,6 +447,128 @@ function render(data){
     });
   });
 }
+
+/* ============ 条形码扫描 ============ */
+var barcodeScanner = null;
+var barcodeActive = false;
+
+function stopBarcodeScanner(){
+  if(barcodeScanner){
+    barcodeScanner.stop().then(function(){
+      console.log("[扫码] 已停止");
+    }).catch(function(e){
+      console.warn("[扫码] 停止异常:", e);
+    });
+    barcodeScanner = null;
+  }
+  barcodeActive = false;
+  document.getElementById("barcodeBox").style.display = "none";
+  document.getElementById("camBox").style.display = "flex";
+  document.getElementById("recog").style.display = "block";
+  document.getElementById("recog").disabled = !state.image;
+}
+
+function startBarcodeScanner(){
+  if(barcodeActive) return;
+  barcodeActive = true;
+  document.getElementById("camBox").style.display = "none";
+  document.getElementById("barcodeBox").style.display = "block";
+  document.getElementById("recog").style.display = "none";
+
+  try{
+    barcodeScanner = new Html5Qrcode("barcodeReader");
+    barcodeScanner.start(
+      { facingMode: "environment" },  // 后置摄像头
+      {
+        fps: 10,
+        qrbox: { width: 250, height: 120 },
+        aspectRatio: 1.777,
+      },
+      function(decodedText, decodedResult){
+        // 扫码成功
+        console.log("[扫码] 扫描结果:", decodedText);
+        stopBarcodeScanner();
+
+        // 去掉可能的校验位或前后空格
+        var barcode = decodedText.trim();
+        setStatus("条形码: " + barcode + "，正在查询…", true);
+
+        // 调用后端条形码 API
+        fetch(WORKER_URL + "/api/barcode", {
+          method: "POST",
+          headers: {"Content-Type":"application/json","X-Auth-Token":AUTH_TOKEN},
+          body: JSON.stringify({barcode: barcode, brand: state.brand})
+        }).then(function(r){ return r.json(); }).then(function(data){
+          // 兼容旧格式
+          if(!data.results){
+            data.results = [{
+              verdict: data.verdict,
+              main_name: data.item_name || "条形码:" + barcode,
+              matchedItem: data.matchedItem,
+              matchedInuse: data.matchedInuse,
+              score: data.score,
+              reason: data.reason,
+              candidates: data.candidates,
+            }];
+            data.multi = false;
+            data.total = 1;
+            data.summary = {
+              hit: data.verdict==="hit"?1:0,
+              suspect: data.verdict==="suspect"?1:0,
+              safe: data.verdict==="safe"?1:0,
+              review: (data.verdict==="review"||data.verdict==="unknown_barcode")?1:0
+            };
+          }
+          data.brand = state.brand;
+          data.recognized = "条形码: " + barcode + (data.item_name ? " → " + data.item_name : "");
+          // 如果是未识别条形码，在 recognized 中说明
+          if(data.verdict === "unknown_barcode"){
+            data.recognized = "条形码: " + barcode + "（未录入系统）";
+          }
+          render(data);
+          setStatus("", true);
+        }).catch(function(e){
+          document.getElementById("result").innerHTML = '<div class="err">⚠️ 条形码查询失败：'+e.message+'</div>';
+          setStatus("条形码查询失败", false);
+        });
+      },
+      function(errorMessage){
+        // 扫描中（持续尝试，不报错）
+      }
+    ).catch(function(err){
+      console.error("[扫码] 启动失败:", err);
+      barcodeActive = false;
+      document.getElementById("barcodeBox").style.display = "none";
+      document.getElementById("camBox").style.display = "flex";
+      document.getElementById("recog").style.display = "block";
+      var msg = "无法启动摄像头。";
+      if(err && err.message){
+        if(/not found|not supported|not allowed|permission/i.test(err.message)){
+          msg = "无法访问摄像头，请检查浏览器权限设置。建议用 Safari/Chrome 打开。";
+        }else if(/already|busy|in use/i.test(err.message)){
+          msg = "摄像头被占用，请关闭其他使用摄像头的应用后重试。";
+        }
+      }
+      setStatus(msg, false);
+    });
+  }catch(e){
+    console.error("[扫码] 初始化失败:", e);
+    barcodeActive = false;
+    document.getElementById("barcodeBox").style.display = "none";
+    document.getElementById("camBox").style.display = "flex";
+    document.getElementById("recog").style.display = "block";
+    setStatus("扫码功能加载失败，请刷新页面重试", false);
+  }
+}
+
+document.getElementById("barcodeBtn").onclick = function(){
+  if(barcodeActive){ stopBarcodeScanner(); return; }
+  startBarcodeScanner();
+};
+
+document.getElementById("barcodeStop").onclick = function(){
+  stopBarcodeScanner();
+};
 
 /* ============ 自动识别 ============ */
 recogBtn.onclick = async function(){

@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>条形码台账管理</title>
+<style>
+:root{--red:#d4382c;--green:#389e0d;--blue:#1677ff;--bg:#f5f6f8;--card:#fff;--txt:#1f2329;--mut:#8a9099;--line:#eceef0}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--txt);padding:20px 16px;max-width:800px;margin:0 auto}
+h1{font-size:20px;margin:0 0 4px}
+h2{font-size:15px;margin:20px 0 12px}
+.sub{color:var(--mut);font-size:12px;margin:0 0 16px}
+.card{background:var(--card);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+label{display:block;font-size:13px;color:var(--mut);margin-bottom:5px}
+input,select{width:100%;padding:10px 12px;font-size:14px;border:1px solid var(--line);border-radius:10px;background:#fafbfc;color:var(--txt)}
+input:focus{outline:none;border-color:var(--blue);background:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;gap:6px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-pri{background:var(--blue);color:#fff}
+.btn-ghost{background:#eef2f7;color:var(--blue)}
+.btn-red{background:var(--red);color:#fff}
+.btn-green{background:var(--green);color:#fff}
+.btn-sm{padding:5px 10px;font-size:12px;border-radius:8px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:9px 8px;text-align:left;border-bottom:1px solid var(--line)}
+th{color:var(--mut);font-weight:500;font-size:11px;text-transform:uppercase}
+th:last-child,td:last-child{text-align:center;width:70px}
+td input{border:none;background:transparent;font-size:13px;padding:4px;width:100%}
+td input:focus{outline:none;border-bottom:2px solid var(--blue);background:transparent}
+.empty{text-align:center;padding:40px 0;color:var(--mut);font-size:14px}
+.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:999;transition:opacity .3s}
+.toast-ok{background:var(--green);color:#fff}
+.toast-err{background:var(--red);color:#fff}
+.toast-info{background:var(--blue);color:#fff}
+.hidden{display:none!important}
+.token-input{display:flex;gap:8px}
+.token-input input{flex:1;font-family:monospace;font-size:12px}
+.summary{display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.summary .chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;background:#eef2f7}
+.tab-row{display:flex;gap:0;margin-bottom:12px;border-bottom:2px solid var(--line)}
+.tab{flex:1;text-align:center;padding:10px;font-size:13px;font-weight:600;cursor:pointer;color:var(--mut);border-bottom:2px solid transparent;margin-bottom:-2px;background:none;border-top:none;border-left:none;border-right:none}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.section-title{font-size:14px;font-weight:700;margin:16px 0 8px;display:flex;align-items:center;gap:8px}
+.info-box{background:#f0f5ff;border-radius:10px;padding:12px;font-size:12px;color:var(--blue);line-height:1.6;margin-top:10px}
+.info-box code{background:rgba(22,119,255,.1);padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<h1>📱 条形码台账管理</h1>
+<p class="sub">管理行销物条形码与物料名称的映射关系 · 修改后需部署到阿里云 FC 生效</p>
+
+<div class="card">
+  <label>🔑 GitHub Token（用于读写仓库文件，仅存在本机 localStorage）</label>
+  <div class="token-input">
+    <input id="token" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+    <button class="btn btn-ghost btn-sm" onclick="saveToken()">保存</button>
+  </div>
+</div>
+
+<div class="btn-row">
+  <button class="btn btn-pri" id="btnLoad" onclick="loadData()">📥 加载台账</button>
+  <button class="btn btn-green" id="btnSave" onclick="saveData()" disabled>💾 保存到 GitHub</button>
+  <button class="btn btn-ghost" id="btnAdd" onclick="addRow()" disabled>＋ 添加一行</button>
+</div>
+
+<div class="summary">
+  <span class="chip" id="chipCount">📊 共 0 条</span>
+  <span class="chip" id="chipStatus">🔴 未加载</span>
+</div>
+
+<div style="overflow-x:auto">
+<table>
+<thead><tr><th>条形码</th><th>物料名称</th><th>品牌</th><th>操作</th></tr></thead>
+<tbody id="tableBody"><tr><td colspan="4" class="empty">请先点击「加载台账」</td></tr></tbody>
+</table>
+</div>
+
+<div class="card hidden" id="deployCard">
+  <div class="section-title">🚀 部署到阿里云 FC</div>
+  <p class="sub" style="margin:0 0 12px">CSV 和 .mjs 保存到 GitHub 后，还需要部署到 FC 才能使扫码识别生效</p>
+  <div class="btn-row">
+    <button class="btn btn-pri" id="btnDeploy" onclick="doDeploy()">⚡ 一键部署 FC</button>
+    <button class="btn btn-ghost" id="btnDownload" onclick="downloadMjs()">📥 下载 .mjs 文件</button>
+  </div>
+  <div class="info-box" id="deployLog" style="font-family:monospace;max-height:200px;overflow-y:auto;display:none"></div>
+</div>
+
+<div class="card" style="margin-top:20px">
+  <label>📋 批量导入（粘贴多行 CSV）</label>
+  <textarea id="bulkInput" rows="4" style="width:100%;font-size:13px;font-family:monospace;border:1px solid var(--line);border-radius:10px;padding:10px;resize:vertical" placeholder="格式：barcode,name,brand&#10;6901234567890,同心瓶,茶颜&#10;6901234567891,游园会价签,茶颜"></textarea>
+  <button class="btn btn-ghost btn-sm" style="margin-top:6px" id="btnBulk" onclick="bulkImport()" disabled>📥 批量导入</button>
+</div>
+
+<script>
+/* ============ 常量 ============ */
+var REPO = 'sjg6r4wnmz-dev/retail-tools';
+var CSV_PATH = 'barcode_map.csv';
+var MJS_PATH = 'barcode_map.mjs';
+var API = 'https://api.github.com/repos/' + REPO + '/contents/';
+var rows = [];
+var csvSha = null;
+var mjsSha = null;
+var loaded = false;
+
+/* ============ Token ============ */
+function getToken(){ return document.getElementById('token').value.trim() || localStorage.getItem('barcode_token') || ''; }
+function saveToken(){ var t = document.getElementById('token').value.trim(); if(t){ localStorage.setItem('barcode_token', t); toast('Token 已保存到本机','ok'); } }
+(function(){ var t = localStorage.getItem('barcode_token'); if(t) document.getElementById('token').value = t; })();
+
+/* ============ Toast ============ */
+function toast(msg, type){
+  var el = document.createElement('div');
+  el.className = 'toast toast-' + (type||'info');
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(function(){ el.style.opacity = '0'; setTimeout(function(){ el.remove(); }, 300); }, 2500);
+}
+
+/* ============ GitHub API ============ */
+async function gh(method, path, body){
+  var token = getToken();
+  if(!token) throw new Error('请先输入 GitHub Token');
+  var opts = { method: method, headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'BarcodeAdmin' } };
+  if(body){ opts.headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(body); }
+  var res = await fetch(API + path, opts);
+  var data = await res.json();
+  if(!res.ok) throw new Error(data.message || 'HTTP ' + res.status);
+  return data;
+}
+
+/* ============ 加载数据 ============ */
+async function loadData(){
+  var btn = document.getElementById('btnLoad');
+  btn.disabled = true; btn.textContent = '加载中…';
+  try{
+    // 加载 CSV
+    var csvData = await gh('GET', CSV_PATH);
+    csvSha = csvData.sha;
+    var csvText = atob(csvData.content.replace(/\n/g,''));
+    // 解析 CSV
+    rows = [];
+    var lines = csvText.split(/\r?\n/);
+    for(var i=0; i<lines.length; i++){
+      var line = lines[i].trim();
+      if(!line || i===0) continue; // 跳过表头和空行
+      var parts = line.split(',');
+      if(parts.length>=2){
+        rows.push({ barcode: parts[0].trim(), name: parts.slice(1, -1).join(',').trim() || parts[1].trim(), brand: parts.length>=3 ? (parts[parts.length-1]||'').trim() : '' });
+      }
+    }
+
+    // 尝试加载 .mjs SHA
+    try{ var mjsData = await gh('GET', MJS_PATH); mjsSha = mjsData.sha; } catch(e){ mjsSha = null; }
+
+    loaded = true;
+    renderTable();
+    updateStatus();
+    document.getElementById('btnSave').disabled = false;
+    document.getElementById('btnAdd').disabled = false;
+    document.getElementById('btnBulk').disabled = false;
+    document.getElementById('deployCard').classList.remove('hidden');
+    toast('加载成功：' + rows.length + ' 条条形码', 'ok');
+  }catch(e){
+    toast('加载失败：' + e.message, 'err');
+  }finally{
+    btn.disabled = false; btn.textContent = '📥 加载台账';
+  }
+}
+
+/* ============ 渲染表格 ============ */
+function renderTable(){
+  var tbody = document.getElementById('tableBody');
+  if(rows.length===0){ tbody.innerHTML = '<tr><td colspan="4" class="empty">暂无条形码数据，点击「添加一行」或「批量导入」</td></tr>'; return; }
+  var html = '';
+  for(var i=0; i<rows.length; i++){
+    var r = rows[i];
+    html += '<tr>'
+      + '<td><input value="' + escapeHtml(r.barcode) + '" data-idx="' + i + '" data-field="barcode" onchange="onCellChange(this)"></td>'
+      + '<td><input value="' + escapeHtml(r.name) + '" data-idx="' + i + '" data-field="name" onchange="onCellChange(this)"></td>'
+      + '<td><input value="' + escapeHtml(r.brand||'') + '" data-idx="' + i + '" data-field="brand" onchange="onCellChange(this)" placeholder="茶颜"></td>'
+      + '<td><button class="btn btn-red btn-sm" onclick="deleteRow(' + i + ')">删除</button></td>'
+      + '</tr>';
+  }
+  tbody.innerHTML = html;
+}
+
+function onCellChange(el){
+  var i = parseInt(el.dataset.idx);
+  var field = el.dataset.field;
+  if(rows[i]) rows[i][field] = el.value.trim();
+  updateStatus();
+}
+
+function deleteRow(i){
+  if(!confirm('确定删除「' + (rows[i].name||rows[i].barcode) + '」？')) return;
+  rows.splice(i,1);
+  renderTable();
+  updateStatus();
+}
+
+function addRow(){
+  rows.push({ barcode:'', name:'', brand:'茶颜' });
+  renderTable();
+  var inputs = document.querySelectorAll('#tableBody input');
+  if(inputs.length){ inputs[inputs.length-3].focus(); }
+}
+
+function updateStatus(){
+  document.getElementById('chipCount').textContent = '📊 共 ' + rows.length + ' 条';
+  document.getElementById('chipStatus').textContent = loaded ? '🟢 已加载（未保存）' : '🔴 未加载';
+}
+
+function escapeHtml(s){ return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+/* ============ 保存 ============ */
+async function saveData(){
+  var btn = document.getElementById('btnSave');
+  if(!confirm('确定保存 ' + rows.length + ' 条条形码到 GitHub？\n\n这将覆盖仓库中的 ' + CSV_PATH + ' 和 ' + MJS_PATH + ' 文件。')) return;
+  btn.disabled = true; btn.textContent = '保存中…';
+  try{
+    // 生成 CSV
+    var csvLines = ['barcode,name,brand'];
+    for(var i=0; i<rows.length; i++){
+      var r = rows[i];
+      csvLines.push([r.barcode, r.name, r.brand||''].join(','));
+    }
+    var csvContent = '\ufeff' + csvLines.join('\n');
+
+    // 生成 .mjs
+    var mjsContent = generateMjs();
+
+    // 上传 CSV
+    var csvBody = { message: 'update barcode_map.csv (' + rows.length + ' entries)', content: btoa(unescape(encodeURIComponent(csvContent))), branch: 'main' };
+    if(csvSha) csvBody.sha = csvSha;
+    var csvRes = await gh('PUT', CSV_PATH, csvBody);
+    csvSha = csvRes.content.sha;
+
+    // 上传 .mjs
+    var mjsBody = { message: 'update barcode_map.mjs (' + rows.length + ' entries)', content: btoa(unescape(encodeURIComponent(mjsContent))), branch: 'main' };
+    if(mjsSha) mjsBody.sha = mjsSha;
+    var mjsRes = await gh('PUT', MJS_PATH, mjsBody);
+    mjsSha = mjsRes.content.sha;
+
+    document.getElementById('chipStatus').textContent = '🟢 已保存到 GitHub';
+    toast('保存成功！CSV + .mjs 已推送到 GitHub', 'ok');
+  }catch(e){
+    toast('保存失败：' + e.message, 'err');
+  }finally{
+    btn.disabled = false; btn.textContent = '💾 保存到 GitHub';
+  }
+}
+
+function generateMjs(){
+  var lines = [
+    '// 条形码 → 行销物名称 映射表',
+    '// 自动生成于 ' + new Date().toISOString().replace('T',' ').substring(0,19),
+    '// 共 ' + rows.length + ' 条记录',
+    '// 由 barcode-admin 自动生成，请勿手动编辑',
+    '',
+    'const MAP = {',
+  ];
+  for(var i=0; i<rows.length; i++){
+    var r = rows[i];
+    lines.push('  "' + r.barcode.replace(/\\/g,'\\\\').replace(/"/g,'\\"') + '": "' + r.name.replace(/\\/g,'\\\\').replace(/"/g,'\\"') + '",');
+  }
+  lines.push('};');
+  lines.push('');
+  lines.push('// 尝试从 CSV 加载补充数据');
+  lines.push('try {');
+  lines.push("  const fs = require('fs');");
+  lines.push("  const path = require('path');");
+  lines.push("  const csvPath = path.join(__dirname, 'barcode_map.csv');");
+  lines.push("  if (fs.existsSync(csvPath)) {");
+  lines.push("    const csv = fs.readFileSync(csvPath, 'utf-8');");
+  lines.push("    const csvLines = csv.split(/\\r?\\n/);");
+  lines.push("    let count = 0;");
+  lines.push("    for (let i = 1; i < csvLines.length; i++) {");
+  lines.push("      const line = csvLines[i].trim();");
+  lines.push("      if (!line) continue;");
+  lines.push("      const parts = line.split(',');");
+  lines.push("      if (parts.length >= 2) {");
+  lines.push("        const bc = parts[0].trim();");
+  lines.push("        const nm = parts.slice(1).join(',').trim();");
+  lines.push("        if (bc && nm && !MAP[bc]) { MAP[bc] = nm; count++; }");
+  lines.push("      }");
+  lines.push("    }");
+  lines.push("    if (count > 0) console.log('[barcode] CSV loaded ' + count + ' extra entries');");
+  lines.push("  }");
+  lines.push("} catch(e) {}");
+  lines.push('');
+  lines.push('module.exports = MAP;');
+  return lines.join('\n') + '\n';
+}
+
+/* ============ 下载 .mjs ============ */
+function downloadMjs(){
+  var content = generateMjs();
+  var blob = new Blob([content], {type:'text/javascript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'barcode_map.mjs'; a.click();
+  URL.revokeObjectURL(url);
+  toast('已下载 barcode_map.mjs', 'ok');
+}
+
+/* ============ 部署 FC ============ */
+async function doDeploy(){
+  if(!confirm('即将把 barcode_map.mjs 部署到阿里云 FC，确认继续？')) return;
+  var log = document.getElementById('deployLog');
+  log.style.display = 'block';
+  log.textContent = '⏳ 正在下载最新 .mjs 并准备部署...\n';
+
+  try{
+    // 1. 下载最新的 .mjs 从 GitHub
+    var mjsData = await gh('GET', MJS_PATH);
+    var mjsContent = atob(mjsData.content.replace(/\n/g,''));
+    log.textContent += '✅ .mjs 已从 GitHub 下载\n';
+
+    // 2. 写入本地 posm_fc 目录（通过 Python 脚本）
+    // 由于浏览器不能直接写本地文件，这里改成提示用户操作
+    // 实际上我们用另一种方式：把 .mjs 上传到 GitHub 后，
+    // 用户需要手动运行本地部署脚本
+
+    // 但是！我们可以让用户直接复制这个内容到本地文件
+    log.textContent += '\n📋 请按以下步骤完成部署：\n';
+    log.textContent += '1. 打开本地目录：D:\\Claw-Windows迁移包\\posm_fc\\\n';
+    log.textContent += '2. 复制以下内容到 barcode_map.mjs（覆盖原文件）\n';
+    log.textContent += '3. 运行 FC 部署命令\n\n';
+    log.textContent += '─── 复制以下内容 ───\n';
+    log.textContent += mjsContent;
+    log.textContent += '\n─── 结束 ───\n';
+
+    // 尝试自动部署（需要本地服务）
+    try{
+      log.textContent += '\n⏳ 尝试自动部署...\n';
+      var res = await fetch('http://localhost:8767/deploy-fc', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ content: mjsContent })
+      });
+      if(res.ok){
+        var result = await res.json();
+        log.textContent += '✅ 自动部署结果：' + (result.message||'OK') + '\n';
+        toast('FC 部署成功！', 'ok');
+      } else {
+        log.textContent += '⚠️ 本地部署服务未运行，请手动部署\n';
+      }
+    }catch(e){
+      log.textContent += '⚠️ 本地部署服务未运行（' + e.message + '），请手动部署\n';
+    }
+  }catch(e){
+    log.textContent += '❌ 错误：' + e.message + '\n';
+  }
+}
+
+/* ============ 批量导入 ============ */
+function bulkImport(){
+  var text = document.getElementById('bulkInput').value.trim();
+  if(!text) return;
+  var lines = text.split(/\r?\n/);
+  var added = 0;
+  for(var i=0; i<lines.length; i++){
+    var line = lines[i].trim();
+    if(!line) continue;
+    var parts = line.split(',');
+    if(parts.length>=2 && parts[0].trim()){
+      rows.push({ barcode: parts[0].trim(), name: parts[1].trim(), brand: parts.length>=3 ? (parts[2]||'').trim() : '' });
+      added++;
+    }
+  }
+  renderTable();
+  updateStatus();
+  document.getElementById('bulkInput').value = '';
+  toast('已导入 ' + added + ' 条', 'ok');
+}
+</script>
+</body>
+</html>

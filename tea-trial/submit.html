@@ -159,11 +159,6 @@
     margin-top:4px;
   }
   .item-del:hover{background:var(--danger);color:#fff;border-color:var(--danger);}
-  /* 记录删除按钮 */
-  .btn-del-record{padding:2px 8px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--muted);cursor:pointer;font-size:14px;line-height:1.2;transition:all .15s}
-  .btn-del-record:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
-  .btn-del-record-sm{padding:2px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--muted);cursor:pointer;font-size:11px;margin-left:8px;transition:all .15s}
-  .btn-del-record-sm:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
   .item-add{
     width:100%;margin-top:4px;padding:9px;border:1px dashed var(--line);
     border-radius:8px;background:transparent;color:var(--tea-green);
@@ -371,6 +366,7 @@
         <button class="btn btn-primary" onclick="doQuery()">查询</button>
         <button class="btn btn-line" onclick="resetQuery()">重置</button>
         <button class="btn btn-ghost" onclick="exportCsv()">导出 Excel</button>
+        <button class="btn btn-ghost" id="btnSyncLocal" onclick="manualSyncLocal()" style="display:none;color:var(--warn);">同步本地记录</button>
       </div>
     </div>
 
@@ -381,11 +377,11 @@
         <thead>
           <tr>
             <th>ID</th><th>门店</th><th>登记日期</th><th>茶叶名称</th>
-            <th>登记人</th><th>预警状态</th><th>录入时间</th><th>操作</th>
+            <th>登记人</th><th>预警状态</th><th>录入时间</th>
           </tr>
         </thead>
         <tbody id="tbody">
-          <tr><td colspan="8" class="empty">暂无数据，点击「查询」加载，或先登记一条记录。</td></tr>
+          <tr><td colspan="7" class="empty">暂无数据，点击「查询」加载，或先登记一条记录。</td></tr>
         </tbody>
       </table>
     </div>
@@ -401,7 +397,7 @@
 
 <!-- AUTO_DATA_START -->
 <script>
-// 茶叶试闻台账云端数据（自动生成于 2026-08-11 09:59:19）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-11 18:58:06）
 window.TEATEST_CLOUD_DATA = [
   {
     "recordId": "00NqZ74hSr",
@@ -4004,6 +4000,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 14:16:30"
   },
   {
+    "recordId": "OwhRv7kzP1",
+    "store": "??????",
+    "register_date": "2026-08-11",
+    "tea_name": "????",
+    "taster": "????",
+    "remark": "",
+    "created_at": "2026-08-11T10:42:29.926Z"
+  },
+  {
     "recordId": "P4BD5GTUMk",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-06",
@@ -4299,6 +4304,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "崔海洋",
     "remark": "",
     "created_at": "2026-08-05 13:01:54"
+  },
+  {
+    "recordId": "RCtaS3IMy3",
+    "store": "??????",
+    "register_date": "2026-08-11",
+    "tea_name": "???",
+    "taster": "????",
+    "remark": "",
+    "created_at": "2026-08-11T10:42:29.926Z"
   },
   {
     "recordId": "RF56lTCQCv",
@@ -9372,9 +9386,15 @@ function switchTab(name){
     p.classList.toggle('active', p.id === 'panel-' + name);
   });
   // 切到查询台账时，自动加载一次数据（如果之前没加载过）
-  if(name === 'query' && !window._queryLoaded){
-    doQuery();
-    window._queryLoaded = true;
+  if(name === 'query'){
+    // 先尝试同步本地未上传记录
+    syncLocalRecords().then(res => {
+      if(res.uploaded > 0){
+        toast(`已补传 ${res.uploaded} 条本地记录到云端`, 'ok');
+      }
+      doQuery();
+    });
+    if(!window._queryLoaded) window._queryLoaded = true;
   }
   // 滚到顶部
   window.scrollTo({top: 0, behavior: 'smooth'});
@@ -9398,81 +9418,98 @@ function saveRecords(records){
   catch(e){ toast('存储空间不足，请清理旧记录', 'err'); throw e; }
 }
 
-// 已删除记录 key 管理（"store||tea_name"），云端合并时过滤
-const DEL_KEYS_KEY = 'tea_ledger_deleted_keys';
-function getDeletedKeys(){
-  try{ return JSON.parse(localStorage.getItem(DEL_KEYS_KEY) || '[]'); }
-  catch(e){ return []; }
-}
-function addDeletedKey(store, tea_name){
-  const keys = getDeletedKeys();
-  const key = store + '||' + tea_name;
-  if(!keys.includes(key)){ keys.push(key); }
-  try{ localStorage.setItem(DEL_KEYS_KEY, JSON.stringify(keys)); }
-  catch(e){}
-}
-function isDeleted(store, tea_name){
-  return getDeletedKeys().includes(store + '||' + tea_name);
-}
-
-function deleteRecord(r){
-  // 从本地 records 中移除
-  const records = loadRecords();
-  const before = records.length;
-  const filtered = records.filter(x => !(x.store === r.store && x.tea_name === r.tea_name));
-  if(filtered.length < before){
-    saveRecords(filtered);
-    addDeletedKey(r.store, r.tea_name);
-    // 如果有 recordId，异步通知后台删除钉钉记录
-    const recordId = r.recordId || '';
-    if(recordId){
-      try{
-        fetch(TUNNEL_URL + '/teatest/delete', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json', 'X-Auth-Token': AUTH_TOKEN},
-          body: JSON.stringify({recordId: recordId})
-        }).catch(()=>{});
-      }catch(e){}
-    }
-    toast('已删除: ' + r.store + ' - ' + r.tea_name, 'ok');
-    doQuery();
-  }
-}
-
 function getNextId(records){
   if(!_nextId) _nextId = records.reduce((max, r) => Math.max(max, r.id||0), 0);
   return ++_nextId;
 }
 
-function insertRecords(baseData, teaItems){
+async function insertRecords(baseData, teaItems){
   const now = new Date().toISOString().replace('T',' ').slice(0,19);
-  const records = loadRecords();
-  const newRecords = teaItems.map(it => {
-    const id = getNextId(records);
-    return { id, store: baseData.store, register_date: baseData.register_date,
-      tea_name: it.tea_name, taster: baseData.taster,
-      created_at: now };
-  });
-  records.push(...newRecords);
-  saveRecords(records);
+  const payload = {
+    store: baseData.store,
+    register_date: baseData.register_date,
+    tea_names: teaItems.map(it => it.tea_name.trim()).filter(Boolean),
+    tea_items: teaItems.map(it => ({tea_name: it.tea_name.trim()})).filter(it => it.tea_name),
+    taster: baseData.taster,
+    created_at: now
+  };
 
-  // 异步提交到云端钉钉AI表格（fire-and-forget，不阻塞UI）
+  let cloudOk = false;
   try {
-    fetch(TUNNEL_URL + '/teatest/submit', {
+    const resp = await fetch(TUNNEL_URL + '/teatest/submit', {
       method: 'POST',
       headers: {'Content-Type': 'application/json', 'X-Auth-Token': AUTH_TOKEN},
-      body: JSON.stringify({
-        store: baseData.store,
-        register_date: baseData.register_date,
-        tea_names: teaItems.map(it => it.tea_name.trim()).filter(Boolean),
-        tea_items: teaItems.map(it => ({tea_name: it.tea_name.trim()})).filter(it => it.tea_name),
-        taster: baseData.taster,
-        created_at: now
-      })
-    }).catch(() => {});
+      body: JSON.stringify(payload)
+    });
+    cloudOk = resp.ok;
   } catch(e) {}
 
-  return newRecords;
+  const records = loadRecords();
+  if(!cloudOk){
+    // 云端失败：暂存本地，稍后重试
+    const newRecords = teaItems.map(it => {
+      const id = getNextId(records);
+      return { id, store: baseData.store, register_date: baseData.register_date,
+        tea_name: it.tea_name, taster: baseData.taster,
+        created_at: now, pending: true };
+    });
+    records.push(...newRecords);
+    saveRecords(records);
+    return { records: newRecords, cloudOk: false };
+  }
+  return { records: [], cloudOk: true };
+}
+
+// 重试上传本地未同步记录
+async function syncLocalRecords(){
+  const records = loadRecords().filter(r => r.pending);
+  if(!records.length) return { uploaded: 0, failed: 0 };
+
+  // 按 (store, register_date, taster) 分组，减少请求次数
+  const groups = {};
+  records.forEach(r => {
+    const key = (r.store||'') + '||' + (r.register_date||'') + '||' + (r.taster||'');
+    if(!groups[key]) groups[key] = { store: r.store, register_date: r.register_date, taster: r.taster, created_at: r.created_at, items: [] };
+    groups[key].items.push({ tea_name: r.tea_name });
+  });
+
+  let uploaded = 0, failed = 0;
+  for(const g of Object.values(groups)){
+    try {
+      const resp = await fetch(TUNNEL_URL + '/teatest/submit', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'X-Auth-Token': AUTH_TOKEN},
+        body: JSON.stringify({
+          store: g.store,
+          register_date: g.register_date,
+          tea_names: g.items.map(it => it.tea_name.trim()).filter(Boolean),
+          tea_items: g.items.map(it => ({tea_name: it.tea_name.trim()})).filter(it => it.tea_name),
+          taster: g.taster,
+          created_at: g.created_at
+        })
+      });
+      if(resp.ok){
+        uploaded += g.items.length;
+      } else {
+        failed += g.items.length;
+      }
+    } catch(e) {
+      failed += g.items.length;
+    }
+  }
+
+  // 上传成功的从本地移除
+  if(uploaded > 0){
+    const remaining = loadRecords().filter(r => {
+      if(!r.pending) return true;
+      return !Object.values(groups).some(g =>
+        g.store === r.store && g.register_date === r.register_date && g.taster === r.taster
+      );
+    });
+    saveRecords(remaining);
+  }
+
+  return { uploaded, failed };
 }
 
 function queryRecords(storeFilter){
@@ -9517,10 +9554,6 @@ function queryRecords(storeFilter){
   });
 
   let allArray = Array.from(allMap.values());
-
-  // 5. 过滤已删除记录
-  const delKeys = getDeletedKeys();
-  allArray = allArray.filter(r => !delKeys.includes(r.store + '||' + r.tea_name));
 
   // 4. 过滤
   if(storeFilter){
@@ -9575,10 +9608,14 @@ $("form").addEventListener("submit", async e=>{
     if(!seen.has(key)){ seen.add(key); dedupedItems.push(it); }
   });
   try{
-    const newRecords = insertRecords({
+    const { records: newRecords, cloudOk } = await insertRecords({
       store, register_date, taster
     }, dedupedItems);
-    toast(`登记成功，已入库 ${newRecords.length} 条记录`, "ok");
+    if(cloudOk){
+      toast(`登记成功，已同步云端 ${dedupedItems.length} 条记录`, "ok");
+    } else {
+      toast(`网络不通，已暂存本地 ${newRecords.length} 条，稍后自动同步`, "warn");
+    }
     // 自动跳到查询台账看新记录
     setTimeout(() => switchTab('query'), 600);
     onFormReset(true);
@@ -9605,6 +9642,15 @@ function calcWarnStatus(registerDate){
 function doQuery(){
   const storeFilter = $("q_store").value.trim();
   const { data: rows, total, cloudCount, localCount } = queryRecords(storeFilter);
+
+  // 显示/隐藏 同步本地记录 按钮
+  const pendingCount = loadRecords().filter(r => r.pending).length;
+  const syncBtn = $("btnSyncLocal");
+  if(syncBtn){
+    syncBtn.style.display = pendingCount > 0 ? "inline-block" : "none";
+    if(pendingCount > 0) syncBtn.textContent = `同步本地记录 (${pendingCount})`;
+  }
+
   const bar = $("countBar");
   if(rows.length){
     bar.style.display = "block";
@@ -9627,7 +9673,7 @@ function doQuery(){
   tb.innerHTML = "";
   cards.innerHTML = "";
   if(!rows.length){
-    tb.innerHTML = '<tr><td colspan="8" class="empty">没有匹配的记录</td></tr>';
+    tb.innerHTML = '<tr><td colspan="7" class="empty">没有匹配的记录</td></tr>';
     cards.innerHTML = '<div class="empty-card">没有匹配的记录</div>';
     return;
   }
@@ -9639,17 +9685,9 @@ function doQuery(){
     tr.innerHTML = [
       displayId, esc(r.store), esc(r.register_date), esc(r.tea_name),
       esc(r.taster)||"—",
-      '<span class="' + ws.cls + '">' + ws.text + '</span>', esc(r.created_at),
-      '<button class="btn-del-record" title="删除此记录" data-store="' + esc(r.store) + '" data-tea="' + esc(r.tea_name) + '">✕</button>'
+      '<span class="' + ws.cls + '">' + ws.text + '</span>', esc(r.created_at)
     ].map(c=>"<td>"+c+"</td>").join("");
     tb.appendChild(tr);
-    // 绑定删除事件
-    tr.querySelector('.btn-del-record').addEventListener('click', function(e){
-      e.stopPropagation();
-      if(confirm('确认删除 "' + r.store + ' - ' + r.tea_name + '" 吗？\n此操作不可恢复。')){
-        deleteRecord(r);
-      }
-    });
   });
 
   // 移动端：门店分组折叠卡片
@@ -9698,24 +9736,12 @@ function doQuery(){
         </div>
         <div class="tea-item-row"><span class="${ws.cls}">${ws.text}</span></div>
         <div class="tea-item-row"><span class="tea-item-label">登记人</span><span class="tea-item-val">${esc(r.taster)||"—"}</span></div>
-        <div class="tea-item-meta"><span>#${displayId}</span><span>${esc(r.created_at)}</span><button class="btn-del-record-sm" title="删除" data-store="${esc(r.store)}" data-tea="${esc(r.tea_name)}" data-record-id="${esc(r.recordId||'')}">删除</button></div>
+        <div class="tea-item-meta"><span>#${displayId}</span><span>${esc(r.created_at)}</span></div>
       `;
       listWrap.appendChild(item);
     });
     card.appendChild(listWrap);
     cards.appendChild(card);
-  });
-
-  // 移动端卡片删除按钮事件委托
-  cards.querySelectorAll('.btn-del-record-sm').forEach(btn => {
-    btn.addEventListener('click', function(e){
-      e.stopPropagation();
-      const store = this.dataset.store;
-      const tea = this.dataset.tea;
-      if(confirm('确认删除 "' + store + ' - ' + tea + '" 吗？\n此操作不可恢复。')){
-        deleteRecord({store: store, tea_name: tea, recordId: this.dataset.recordId || ''});
-      }
-    });
   });
 }
 
@@ -9754,6 +9780,29 @@ function exportCsv(){
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
   toast('已导出 ' + allRecords.length + ' 条记录', 'ok');
+}
+
+async function manualSyncLocal(){
+  const btn = $("btnSyncLocal");
+  if(!btn) return;
+  btn.disabled = true;
+  btn.textContent = "同步中...";
+  try{
+    const res = await syncLocalRecords();
+    if(res.uploaded > 0){
+      toast(`已补传 ${res.uploaded} 条本地记录`, 'ok');
+    } else if(res.failed > 0){
+      toast(`网络仍不通，${res.failed} 条未同步`, 'warn');
+    } else {
+      toast('没有待同步的本地记录', 'ok');
+    }
+    doQuery();
+  }catch(e){
+    toast('同步失败，请检查网络', 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "同步本地记录";
+  }
 }
 
 function resetQuery(){

@@ -749,7 +749,7 @@
       for (const file of files) {
         if (!file.type.startsWith("image/")) continue;
         try {
-          const compressed = await compressImage(file, 1280, 0.7);
+          const compressed = await compressImage(file, 1280, 0.5);
           p.photos.push(compressed);
         } catch(e) { console.error("compress error", e); }
       }
@@ -911,38 +911,45 @@
     function pollSyncStatus(submitTime, resultEl) {
       var maxRetries = 40;  // 120秒超时
       var retryCount = 0;
-      var statusTexts = ["已提交", "同步中", "即将完成", "已同步"];
-      var statusIdx = 0;
+      var localFailed = false;  // 本地队列不可达标志（手机端等场景）
       if (_pollTimer) clearInterval(_pollTimer);
       _pollTimer = setInterval(function() {
         retryCount++;
         try {
-          fetch(LOCAL_URL + "/rectify/last-sync").then(function(r) { return r.json(); }).then(function(d) {
+          var checkUrl = localFailed ? (FC_URL + "/rectify/last-sync") : (LOCAL_URL + "/rectify/last-sync");
+          fetch(checkUrl).then(function(r) { return r.json(); }).then(function(d) {
             if (!d.ok) return;
             if (d.lastSyncTs > submitTime) {
-              // 同步完成！
               clearInterval(_pollTimer);
               _pollTimer = null;
-              resultEl.textContent = "已同步到管理后台，可在后台查看";
+              resultEl.textContent = "已同步到管理后台";
               resultEl.className = "submit-result success";
               resultEl.style.display = "block";
               showToast("数据已同步到管理后台", "success");
-            } else if (d.lastSubmitTs > submitTime) {
-              // 有新提交但还没同步完成
+            } else if (d.lastSubmitTs > submitTime || retryCount <= maxRetries) {
               var elapsed = Math.floor((Date.now() - submitTime) / 1000);
               resultEl.textContent = "已提交，同步中 (" + elapsed + "s)...";
               resultEl.className = "submit-result info";
               resultEl.style.display = "block";
-            } else if (retryCount > maxRetries) {
+            } else {
               clearInterval(_pollTimer);
               _pollTimer = null;
-              resultEl.textContent = "已提交，同步超时，稍后刷新管理后台即可";
+              resultEl.textContent = "已提交，稍后刷新管理后台即可查看";
               resultEl.className = "submit-result warning";
               resultEl.style.display = "block";
             }
-          }).catch(function() { /* 轮询失败静默，等待下次 */ });
+          }).catch(function() {
+            if (!localFailed) { localFailed = true; }
+            if (retryCount > maxRetries) {
+              clearInterval(_pollTimer);
+              _pollTimer = null;
+              resultEl.textContent = "已提交，稍后刷新管理后台即可查看";
+              resultEl.className = "submit-result warning";
+              resultEl.style.display = "block";
+            }
+          });
         } catch(e) {}
-      }, 3000);  // 每3秒轮询
+      }, 3000);
     }
 
     function openImgModal(url) {

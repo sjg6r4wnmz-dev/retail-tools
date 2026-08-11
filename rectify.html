@@ -146,15 +146,7 @@
     .img-modal.show { display: flex; }
     .img-modal img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 6px; }
     .img-modal .close { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; background: rgba(255,255,255,0.15); border-radius: 50%; color: #fff; font-size: 22px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    /* 照片一览 */
-    .photo-overview { background: var(--card); border-radius: var(--radius); padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 12px; }
-    .photo-overview .po-title { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; margin-bottom: 14px; }
-    .photo-overview .po-title .count { font-weight: 400; color: var(--text-3); font-size: 12px; }
-    .photo-overview .po-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .photo-overview .po-item { aspect-ratio: 1; border-radius: 10px; overflow: hidden; cursor: zoom-in; position: relative; background: #FAFAFA; border: 1px solid var(--border); }
-    .photo-overview .po-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .photo-overview .po-item .po-num { position: absolute; top: 4px; left: 4px; background: rgba(0,0,0,0.55); color: #fff; font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 4px; }
-    .photo-overview .po-empty { text-align: center; padding: 12px 0; color: var(--text-3); font-size: 13px; }
+    /* 照片一览 — 已移除，OSS 图片 URL 频繁过期维护成本过高 */
   </style>
 </head>
 <body>
@@ -257,87 +249,7 @@
     // 2) wsrv.nl 公共图片代理（跨网络可用，剥离下载头）
     // 3) FC refresh-bp 获取新 URL（FC 端点可能不存在，静默失败）
     // 不再 dim 图片或显示"刷新失败"——避免误伤可恢复的图片
-    const __bpRefreshCache = {};
-    const __bpRefreshPending = {};
-    const __bpRefreshTried = new Set();
-    const __bpProxyTried = new Set(); // 已尝试过代理的 img.src，避免循环
-    window.__rectifyRefreshBpImg = async function(img) {
-      if (!img || !img.dataset) return;
-      const auditId = img.dataset.auditId;
-      const idx = parseInt(img.dataset.idx, 10);
-      if (!auditId || isNaN(idx)) return;
-
-      // 步骤1：尝试本地队列服务图片代理（剥离 Content-Disposition）
-      const origSrc = img.dataset.origSrc || img.src;
-      img.dataset.origSrc = origSrc;
-      if (!__bpProxyTried.has(origSrc)) {
-        __bpProxyTried.add(origSrc);
-        const proxyUrl = LOCAL_URL + "/rectify/img-proxy?url=" + encodeURIComponent(origSrc);
-        const testImg = new Image();
-        testImg.onload = function() {
-          img.src = proxyUrl;
-        };
-        testImg.onerror = function() {
-          // 步骤2：尝试 wsrv.nl 公共图片代理
-          const wsrvUrl = "https://wsrv.nl/?url=" + encodeURIComponent(origSrc) + "&w=400&output=jpg&q=70";
-          const testImg2 = new Image();
-          testImg2.onload = function() { img.src = wsrvUrl; };
-          testImg2.onerror = function() {
-            // 步骤3：所有代理都失败，静默处理——不 dim 图片
-            console.warn("[rectify] all image proxies failed for", auditId, origSrc.substring(0, 80));
-          };
-          testImg2.src = wsrvUrl;
-        };
-        testImg.src = proxyUrl;
-        return;
-      }
-
-      // 已尝试过代理，再试 FC refresh-bp 获取新 URL
-      const cached = __bpRefreshCache[auditId];
-      if (cached && cached[idx]) {
-        const newUrl = cached[idx];
-        if (img.src !== newUrl) {
-          __bpProxyTried.delete(newUrl); // 允许新 URL 再走代理
-          img.src = newUrl;
-        }
-        return;
-      }
-      if (__bpRefreshTried.has(auditId)) return; // 静默失败
-      if (!__bpRefreshPending[auditId]) {
-        __bpRefreshPending[auditId] = (async () => {
-          try {
-            const resp = await fetchWithTimeout(FC_URL + "/rectify/refresh-bp", {
-              method: "POST",
-              headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN, "Bypass-Tunnel-Reminder": "go" },
-              body: JSON.stringify({ recordId: auditId })
-            }, 8000);
-            if (!resp.ok) throw new Error("HTTP " + resp.status);
-            const data = await resp.json();
-            if (!data.ok || !Array.isArray(data.bp)) throw new Error("bad response");
-            __bpRefreshCache[auditId] = data.bp;
-            document.querySelectorAll('img[data-audit-id="' + auditId + '"]').forEach(im => {
-              const i = parseInt(im.dataset.idx, 10);
-              const newUrl = data.bp[i];
-              if (newUrl && im.src !== newUrl) {
-                __bpProxyTried.delete(newUrl);
-                im.src = newUrl;
-              }
-            });
-            return true;
-          } catch (e) {
-            __bpRefreshTried.add(auditId);
-            console.warn("[rectify] refresh-bp failed for", auditId, e);
-            return false;
-          }
-        })();
-      }
-      await __bpRefreshPending[auditId];
-      const ok = __bpRefreshCache[auditId];
-      if (ok && ok[idx]) {
-        // 成功路径已在 fetch 回调里替换 src
-      }
-      // 失败时不再 dim 图片——静默处理
-    };
+    // 图片代理刷新相关 — 已移除，OSS URL 频繁过期维护成本过高
 
     if (DATA.updatedAt) { $('updatedInfo').textContent = "数据更新：" + DATA.updatedAt; }
     else { const d = new Date(); $('updatedInfo').textContent = "数据更新：" + d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); }
@@ -478,39 +390,11 @@
       updateSubmitAllUI('提交全部整改');
       setTimeout(initGlobalSignature, 0);
 
-      // 清除旧的 photo overview／照片一览
-      document.querySelectorAll('.photo-overview').forEach(el => el.remove());
+      // 照片一览已移除 — OSS 图片 URL 频繁过期，不再内嵌展示
 
       const audits = (selectedStore && STORE_AUDITS[selectedStore.id]) || [];
       const ds = audit.d ? audit.d.substring(0, 10) : "";
       $('auditDate').textContent = ds ? "(" + ds + ")" : "";
-
-      // ====== 照片一览：稽核所有不符合照片统一顶部展示 ======
-      const bp = audit.bp || [];
-      if (bp.length > 0) {
-        let gridHtml = '';
-        bp.forEach((u, k) => {
-          gridHtml += '<div class="po-item" data-url="' + u.replace(/"/g, '&quot;') + '">' +
-            '<img src="' + u.replace(/"/g, '&quot;') + '" loading="lazy" ' +
-            'data-audit-id="' + audit.id + '" data-idx="' + k + '" ' +
-            'onerror="window.__rectifyRefreshBpImg(this)">' +
-            '<span class="po-num">' + (k + 1) + '/' + bp.length + '</span>' +
-          '</div>';
-        });
-        const overview = document.createElement('div');
-        overview.className = 'photo-overview';
-        overview.innerHTML =
-          '<div class="po-title">📷 不符合照片一览 <span class="count">共 ' + bp.length + ' 张 · 点击可放大</span></div>' +
-          '<div class="po-grid">' + gridHtml + '</div>';
-        $('auditContent').insertBefore(overview, $('auditContent').firstChild);
-        // 绑定点击放大 — 用 img 当前 src（dataset.url 可能也已过期）
-        overview.querySelectorAll('.po-item').forEach(el => {
-          el.addEventListener('click', () => {
-            const img = el.querySelector('img');
-            openImgModal((img && img.src) || el.dataset.url);
-          });
-        });
-      }
 
       let tags = '';
       if (audits.length > 1) {

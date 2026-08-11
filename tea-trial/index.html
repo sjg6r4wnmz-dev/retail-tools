@@ -159,6 +159,11 @@
     margin-top:4px;
   }
   .item-del:hover{background:var(--danger);color:#fff;border-color:var(--danger);}
+  /* 记录删除按钮 */
+  .btn-del-record{padding:2px 8px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--muted);cursor:pointer;font-size:14px;line-height:1.2;transition:all .15s}
+  .btn-del-record:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
+  .btn-del-record-sm{padding:2px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--muted);cursor:pointer;font-size:11px;margin-left:8px;transition:all .15s}
+  .btn-del-record-sm:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
   .item-add{
     width:100%;margin-top:4px;padding:9px;border:1px dashed var(--line);
     border-radius:8px;background:transparent;color:var(--tea-green);
@@ -376,11 +381,11 @@
         <thead>
           <tr>
             <th>ID</th><th>门店</th><th>登记日期</th><th>茶叶名称</th>
-            <th>登记人</th><th>预警状态</th><th>录入时间</th>
+            <th>登记人</th><th>预警状态</th><th>录入时间</th><th>操作</th>
           </tr>
         </thead>
         <tbody id="tbody">
-          <tr><td colspan="7" class="empty">暂无数据，点击「查询」加载，或先登记一条记录。</td></tr>
+          <tr><td colspan="8" class="empty">暂无数据，点击「查询」加载，或先登记一条记录。</td></tr>
         </tbody>
       </table>
     </div>
@@ -396,7 +401,7 @@
 
 <!-- AUTO_DATA_START -->
 <script>
-// 茶叶试闻台账云端数据（自动生成于 2026-08-11 09:55:23）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-11 09:59:19）
 window.TEATEST_CLOUD_DATA = [
   {
     "recordId": "00NqZ74hSr",
@@ -9379,7 +9384,7 @@ const $ = id => document.getElementById(id);
 
 // ====== localStorage 数据层 + 云端钉钉AI表格同步 ======
 const LS_KEY = 'tea_ledger_records';
-const TUNNEL_URL = 'https://chayan-rectify.loca.lt';
+const TUNNEL_URL = 'https://posm-recog-posm-scap-recog-oopugfimug.cn-hangzhou.fcapp.run';
 const AUTH_TOKEN = 'posm_5fa4761ff06d7c89d189faf93574f248';
 let _nextId = 0;
 
@@ -9391,6 +9396,47 @@ function loadRecords(){
 function saveRecords(records){
   try{ localStorage.setItem(LS_KEY, JSON.stringify(records)); }
   catch(e){ toast('存储空间不足，请清理旧记录', 'err'); throw e; }
+}
+
+// 已删除记录 key 管理（"store||tea_name"），云端合并时过滤
+const DEL_KEYS_KEY = 'tea_ledger_deleted_keys';
+function getDeletedKeys(){
+  try{ return JSON.parse(localStorage.getItem(DEL_KEYS_KEY) || '[]'); }
+  catch(e){ return []; }
+}
+function addDeletedKey(store, tea_name){
+  const keys = getDeletedKeys();
+  const key = store + '||' + tea_name;
+  if(!keys.includes(key)){ keys.push(key); }
+  try{ localStorage.setItem(DEL_KEYS_KEY, JSON.stringify(keys)); }
+  catch(e){}
+}
+function isDeleted(store, tea_name){
+  return getDeletedKeys().includes(store + '||' + tea_name);
+}
+
+function deleteRecord(r){
+  // 从本地 records 中移除
+  const records = loadRecords();
+  const before = records.length;
+  const filtered = records.filter(x => !(x.store === r.store && x.tea_name === r.tea_name));
+  if(filtered.length < before){
+    saveRecords(filtered);
+    addDeletedKey(r.store, r.tea_name);
+    // 如果有 recordId，异步通知后台删除钉钉记录
+    const recordId = r.recordId || '';
+    if(recordId){
+      try{
+        fetch(TUNNEL_URL + '/teatest/delete', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'X-Auth-Token': AUTH_TOKEN},
+          body: JSON.stringify({recordId: recordId})
+        }).catch(()=>{});
+      }catch(e){}
+    }
+    toast('已删除: ' + r.store + ' - ' + r.tea_name, 'ok');
+    doQuery();
+  }
 }
 
 function getNextId(records){
@@ -9471,6 +9517,10 @@ function queryRecords(storeFilter){
   });
 
   let allArray = Array.from(allMap.values());
+
+  // 5. 过滤已删除记录
+  const delKeys = getDeletedKeys();
+  allArray = allArray.filter(r => !delKeys.includes(r.store + '||' + r.tea_name));
 
   // 4. 过滤
   if(storeFilter){
@@ -9577,7 +9627,7 @@ function doQuery(){
   tb.innerHTML = "";
   cards.innerHTML = "";
   if(!rows.length){
-    tb.innerHTML = '<tr><td colspan="7" class="empty">没有匹配的记录</td></tr>';
+    tb.innerHTML = '<tr><td colspan="8" class="empty">没有匹配的记录</td></tr>';
     cards.innerHTML = '<div class="empty-card">没有匹配的记录</div>';
     return;
   }
@@ -9589,9 +9639,17 @@ function doQuery(){
     tr.innerHTML = [
       displayId, esc(r.store), esc(r.register_date), esc(r.tea_name),
       esc(r.taster)||"—",
-      '<span class="' + ws.cls + '">' + ws.text + '</span>', esc(r.created_at)
+      '<span class="' + ws.cls + '">' + ws.text + '</span>', esc(r.created_at),
+      '<button class="btn-del-record" title="删除此记录" data-store="' + esc(r.store) + '" data-tea="' + esc(r.tea_name) + '">✕</button>'
     ].map(c=>"<td>"+c+"</td>").join("");
     tb.appendChild(tr);
+    // 绑定删除事件
+    tr.querySelector('.btn-del-record').addEventListener('click', function(e){
+      e.stopPropagation();
+      if(confirm('确认删除 "' + r.store + ' - ' + r.tea_name + '" 吗？\n此操作不可恢复。')){
+        deleteRecord(r);
+      }
+    });
   });
 
   // 移动端：门店分组折叠卡片
@@ -9640,12 +9698,24 @@ function doQuery(){
         </div>
         <div class="tea-item-row"><span class="${ws.cls}">${ws.text}</span></div>
         <div class="tea-item-row"><span class="tea-item-label">登记人</span><span class="tea-item-val">${esc(r.taster)||"—"}</span></div>
-        <div class="tea-item-meta"><span>#${displayId}</span><span>${esc(r.created_at)}</span></div>
+        <div class="tea-item-meta"><span>#${displayId}</span><span>${esc(r.created_at)}</span><button class="btn-del-record-sm" title="删除" data-store="${esc(r.store)}" data-tea="${esc(r.tea_name)}" data-record-id="${esc(r.recordId||'')}">删除</button></div>
       `;
       listWrap.appendChild(item);
     });
     card.appendChild(listWrap);
     cards.appendChild(card);
+  });
+
+  // 移动端卡片删除按钮事件委托
+  cards.querySelectorAll('.btn-del-record-sm').forEach(btn => {
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      const store = this.dataset.store;
+      const tea = this.dataset.tea;
+      if(confirm('确认删除 "' + store + ' - ' + tea + '" 吗？\n此操作不可恢复。')){
+        deleteRecord({store: store, tea_name: tea, recordId: this.dataset.recordId || ''});
+      }
+    });
   });
 }
 

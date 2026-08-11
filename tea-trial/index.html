@@ -366,6 +366,7 @@
         <button class="btn btn-primary" onclick="doQuery()">查询</button>
         <button class="btn btn-line" onclick="resetQuery()">重置</button>
         <button class="btn btn-ghost" onclick="exportCsv()">导出 Excel</button>
+        <button class="btn btn-ghost" id="btnSyncLocal" onclick="manualSyncLocal()" style="display:none;color:var(--warn);">同步本地记录</button>
       </div>
     </div>
 
@@ -396,7 +397,7 @@
 
 <!-- AUTO_DATA_START -->
 <script>
-// 茶叶试闻台账云端数据（自动生成于 2026-08-11 18:41:26）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-11 18:58:06）
 window.TEATEST_CLOUD_DATA = [
   {
     "recordId": "00NqZ74hSr",
@@ -3999,6 +4000,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 14:16:30"
   },
   {
+    "recordId": "OwhRv7kzP1",
+    "store": "??????",
+    "register_date": "2026-08-11",
+    "tea_name": "????",
+    "taster": "????",
+    "remark": "",
+    "created_at": "2026-08-11T10:42:29.926Z"
+  },
+  {
     "recordId": "P4BD5GTUMk",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-06",
@@ -4294,6 +4304,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "崔海洋",
     "remark": "",
     "created_at": "2026-08-05 13:01:54"
+  },
+  {
+    "recordId": "RCtaS3IMy3",
+    "store": "??????",
+    "register_date": "2026-08-11",
+    "tea_name": "???",
+    "taster": "????",
+    "remark": "",
+    "created_at": "2026-08-11T10:42:29.926Z"
   },
   {
     "recordId": "RF56lTCQCv",
@@ -9367,9 +9386,15 @@ function switchTab(name){
     p.classList.toggle('active', p.id === 'panel-' + name);
   });
   // 切到查询台账时，自动加载一次数据（如果之前没加载过）
-  if(name === 'query' && !window._queryLoaded){
-    doQuery();
-    window._queryLoaded = true;
+  if(name === 'query'){
+    // 先尝试同步本地未上传记录
+    syncLocalRecords().then(res => {
+      if(res.uploaded > 0){
+        toast(`已补传 ${res.uploaded} 条本地记录到云端`, 'ok');
+      }
+      doQuery();
+    });
+    if(!window._queryLoaded) window._queryLoaded = true;
   }
   // 滚到顶部
   window.scrollTo({top: 0, behavior: 'smooth'});
@@ -9379,7 +9404,7 @@ const $ = id => document.getElementById(id);
 
 // ====== localStorage 数据层 + 云端钉钉AI表格同步 ======
 const LS_KEY = 'tea_ledger_records';
-const TUNNEL_URL = 'https://chayan-rectify.loca.lt';
+const TUNNEL_URL = 'https://posm-recog-posm-scap-recog-oopugfimug.cn-hangzhou.fcapp.run';
 const AUTH_TOKEN = 'posm_5fa4761ff06d7c89d189faf93574f248';
 let _nextId = 0;
 
@@ -9398,35 +9423,93 @@ function getNextId(records){
   return ++_nextId;
 }
 
-function insertRecords(baseData, teaItems){
+async function insertRecords(baseData, teaItems){
   const now = new Date().toISOString().replace('T',' ').slice(0,19);
-  const records = loadRecords();
-  const newRecords = teaItems.map(it => {
-    const id = getNextId(records);
-    return { id, store: baseData.store, register_date: baseData.register_date,
-      tea_name: it.tea_name, taster: baseData.taster,
-      created_at: now };
-  });
-  records.push(...newRecords);
-  saveRecords(records);
+  const payload = {
+    store: baseData.store,
+    register_date: baseData.register_date,
+    tea_names: teaItems.map(it => it.tea_name.trim()).filter(Boolean),
+    tea_items: teaItems.map(it => ({tea_name: it.tea_name.trim()})).filter(it => it.tea_name),
+    taster: baseData.taster,
+    created_at: now
+  };
 
-  // 异步提交到云端钉钉AI表格（fire-and-forget，不阻塞UI）
+  let cloudOk = false;
   try {
-    fetch(TUNNEL_URL + '/teatest/submit', {
+    const resp = await fetch(TUNNEL_URL + '/teatest/submit', {
       method: 'POST',
       headers: {'Content-Type': 'application/json', 'X-Auth-Token': AUTH_TOKEN},
-      body: JSON.stringify({
-        store: baseData.store,
-        register_date: baseData.register_date,
-        tea_names: teaItems.map(it => it.tea_name.trim()).filter(Boolean),
-        tea_items: teaItems.map(it => ({tea_name: it.tea_name.trim()})).filter(it => it.tea_name),
-        taster: baseData.taster,
-        created_at: now
-      })
-    }).catch(() => {});
+      body: JSON.stringify(payload)
+    });
+    cloudOk = resp.ok;
   } catch(e) {}
 
-  return newRecords;
+  const records = loadRecords();
+  if(!cloudOk){
+    // 云端失败：暂存本地，稍后重试
+    const newRecords = teaItems.map(it => {
+      const id = getNextId(records);
+      return { id, store: baseData.store, register_date: baseData.register_date,
+        tea_name: it.tea_name, taster: baseData.taster,
+        created_at: now, pending: true };
+    });
+    records.push(...newRecords);
+    saveRecords(records);
+    return { records: newRecords, cloudOk: false };
+  }
+  return { records: [], cloudOk: true };
+}
+
+// 重试上传本地未同步记录
+async function syncLocalRecords(){
+  const records = loadRecords().filter(r => r.pending);
+  if(!records.length) return { uploaded: 0, failed: 0 };
+
+  // 按 (store, register_date, taster) 分组，减少请求次数
+  const groups = {};
+  records.forEach(r => {
+    const key = (r.store||'') + '||' + (r.register_date||'') + '||' + (r.taster||'');
+    if(!groups[key]) groups[key] = { store: r.store, register_date: r.register_date, taster: r.taster, created_at: r.created_at, items: [] };
+    groups[key].items.push({ tea_name: r.tea_name });
+  });
+
+  let uploaded = 0, failed = 0;
+  for(const g of Object.values(groups)){
+    try {
+      const resp = await fetch(TUNNEL_URL + '/teatest/submit', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'X-Auth-Token': AUTH_TOKEN},
+        body: JSON.stringify({
+          store: g.store,
+          register_date: g.register_date,
+          tea_names: g.items.map(it => it.tea_name.trim()).filter(Boolean),
+          tea_items: g.items.map(it => ({tea_name: it.tea_name.trim()})).filter(it => it.tea_name),
+          taster: g.taster,
+          created_at: g.created_at
+        })
+      });
+      if(resp.ok){
+        uploaded += g.items.length;
+      } else {
+        failed += g.items.length;
+      }
+    } catch(e) {
+      failed += g.items.length;
+    }
+  }
+
+  // 上传成功的从本地移除
+  if(uploaded > 0){
+    const remaining = loadRecords().filter(r => {
+      if(!r.pending) return true;
+      return !Object.values(groups).some(g =>
+        g.store === r.store && g.register_date === r.register_date && g.taster === r.taster
+      );
+    });
+    saveRecords(remaining);
+  }
+
+  return { uploaded, failed };
 }
 
 function queryRecords(storeFilter){
@@ -9525,10 +9608,14 @@ $("form").addEventListener("submit", async e=>{
     if(!seen.has(key)){ seen.add(key); dedupedItems.push(it); }
   });
   try{
-    const newRecords = insertRecords({
+    const { records: newRecords, cloudOk } = await insertRecords({
       store, register_date, taster
     }, dedupedItems);
-    toast(`登记成功，已入库 ${newRecords.length} 条记录`, "ok");
+    if(cloudOk){
+      toast(`登记成功，已同步云端 ${dedupedItems.length} 条记录`, "ok");
+    } else {
+      toast(`网络不通，已暂存本地 ${newRecords.length} 条，稍后自动同步`, "warn");
+    }
     // 自动跳到查询台账看新记录
     setTimeout(() => switchTab('query'), 600);
     onFormReset(true);
@@ -9555,6 +9642,15 @@ function calcWarnStatus(registerDate){
 function doQuery(){
   const storeFilter = $("q_store").value.trim();
   const { data: rows, total, cloudCount, localCount } = queryRecords(storeFilter);
+
+  // 显示/隐藏 同步本地记录 按钮
+  const pendingCount = loadRecords().filter(r => r.pending).length;
+  const syncBtn = $("btnSyncLocal");
+  if(syncBtn){
+    syncBtn.style.display = pendingCount > 0 ? "inline-block" : "none";
+    if(pendingCount > 0) syncBtn.textContent = `同步本地记录 (${pendingCount})`;
+  }
+
   const bar = $("countBar");
   if(rows.length){
     bar.style.display = "block";
@@ -9684,6 +9780,29 @@ function exportCsv(){
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
   toast('已导出 ' + allRecords.length + ' 条记录', 'ok');
+}
+
+async function manualSyncLocal(){
+  const btn = $("btnSyncLocal");
+  if(!btn) return;
+  btn.disabled = true;
+  btn.textContent = "同步中...";
+  try{
+    const res = await syncLocalRecords();
+    if(res.uploaded > 0){
+      toast(`已补传 ${res.uploaded} 条本地记录`, 'ok');
+    } else if(res.failed > 0){
+      toast(`网络仍不通，${res.failed} 条未同步`, 'warn');
+    } else {
+      toast('没有待同步的本地记录', 'ok');
+    }
+    doQuery();
+  }catch(e){
+    toast('同步失败，请检查网络', 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "同步本地记录";
+  }
 }
 
 function resetQuery(){

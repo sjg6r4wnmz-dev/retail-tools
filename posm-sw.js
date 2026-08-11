@@ -1,6 +1,6 @@
 // Service Worker — posm_cloud 前端缓存控制
 // sync_scrap.py 的 bump_sw() 会自动递增 posm-vN 版本号
-const CACHE = "posm-v2";
+const CACHE = "posm-v3";
 const ASSETS = [
   "./",
   "./index.html",

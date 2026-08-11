@@ -431,7 +431,7 @@
       try {
         const resp = await fetchWithTimeout(FC_URL + "/rectify/history", {
           method: "POST",
-          headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN, "Bypass-Tunnel-Reminder": "go" },
+          headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN },
           body: JSON.stringify({ storeName: selectedStore.n, limit: 50 })
         }, 8000);
         if (!resp.ok) return;
@@ -677,7 +677,7 @@
         try {
           var resp = await fetchWithTimeout(FC_URL + "/rectify/submit", {
             method: "POST",
-            headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN, "Bypass-Tunnel-Reminder": "go" },
+            headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN },
             body: JSON.stringify({
               storeId: selectedStore.id,
               storeName: selectedStore.n,

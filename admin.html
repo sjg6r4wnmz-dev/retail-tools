@@ -301,7 +301,7 @@
         try {
           const resp = await fetchWithTimeout(url + path, {
             method: "POST",
-            headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN, "Bypass-Tunnel-Reminder": "go" },
+            headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN },
             body: JSON.stringify(data || {}),
           }, 15000);
           const text = await resp.text();

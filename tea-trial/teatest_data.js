@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-11 18:58:06）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-12 08:53:16）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -92,6 +92,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 15:22:57"
   },
   {
+    "recordId": "0ZEFDD8iIR",
+    "store": "洞口县步步高凰腾新天地茶叶子",
+    "register_date": "2026-08-11",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "胡书鹏",
+    "remark": "",
+    "created_at": "2026-08-11 15:02:27"
+  },
+  {
     "recordId": "0ZGsLPsMd8",
     "store": "武汉高铁站C2到达口茶叶子",
     "register_date": "2026-08-06",
@@ -117,6 +126,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "陈丹",
     "remark": "",
     "created_at": "2026-08-06 12:18:20"
+  },
+  {
+    "recordId": "0e7htCQX55",
+    "store": "重庆观音桥红鼎国际C座一楼游园会店",
+    "register_date": "2026-08-11",
+    "tea_name": "习惯茶/黑乌龙",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:20:29"
   },
   {
     "recordId": "0jlNc6AgHQ",
@@ -344,6 +362,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 18:16:39"
   },
   {
+    "recordId": "288qm0YDEw",
+    "store": "洞口县步步高凰腾新天地茶叶子",
+    "register_date": "2026-08-11",
+    "tea_name": "少年心气/茉莉窨花茶",
+    "taster": "胡书鹏",
+    "remark": "",
+    "created_at": "2026-08-11 15:02:27"
+  },
+  {
     "recordId": "2BuIf4pSEA",
     "store": "深圳布吉万象汇茶叶子",
     "register_date": "2026-08-06",
@@ -468,6 +495,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "39CaBuITjy",
+    "store": "重庆观音桥红鼎国际C座一楼游园会店",
+    "register_date": "2026-08-11",
+    "tea_name": "习惯茶/岭南佳荔",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:20:29"
   },
   {
     "recordId": "3AYhJieAFy",
@@ -1226,6 +1262,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "8jHm5s9ZFL",
+    "store": "红鼎",
+    "register_date": "2026-08-11",
+    "tea_name": "草本茶/山野自在系列",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:17:39"
+  },
+  {
     "recordId": "8ooVPhvvjb",
     "store": "武穴武商购物中心一楼茶叶子",
     "register_date": "2026-08-05",
@@ -1251,6 +1296,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "93MPKLdk5p",
+    "store": "洞口县步步高凰腾新天地茶叶子",
+    "register_date": "2026-08-11",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "胡书鹏",
+    "remark": "",
+    "created_at": "2026-08-11 15:02:27"
   },
   {
     "recordId": "9464BplMpA",
@@ -1631,6 +1685,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 12:26:06"
   },
   {
+    "recordId": "CBr8ORnH6j",
+    "store": "洞口县步步高凰腾新天地茶叶子",
+    "register_date": "2026-08-11",
+    "tea_name": "自摇沫泡奶茶/筝筝纸鸢（1杯装）",
+    "taster": "胡书鹏",
+    "remark": "",
+    "created_at": "2026-08-11 15:03:52"
+  },
+  {
     "recordId": "CCwWSizKGC",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -1811,6 +1874,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "DFY6IL8CI5",
+    "store": "三联书店店",
+    "register_date": "2026-08-11",
+    "tea_name": "蜜桃乌龙&桂花乌龙/同心组合",
+    "taster": "张丹丹",
+    "remark": "",
+    "created_at": "2026-08-11 13:21:46"
+  },
+  {
     "recordId": "DLSH0ZBI5V",
     "store": "武汉老通城茶叶子",
     "register_date": "2026-08-04",
@@ -1899,6 +1971,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "DqSL0ug5O0",
+    "store": "重庆观音桥红鼎国际C座一楼游园会店",
+    "register_date": "2026-08-11",
+    "tea_name": "习惯茶/李子味乌龙",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:20:29"
   },
   {
     "recordId": "Dsp2Nep4E4",
@@ -2378,6 +2459,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 02:19:15"
   },
   {
+    "recordId": "GFiHE4XvKB",
+    "store": "红鼎",
+    "register_date": "2026-08-11",
+    "tea_name": "习惯茶/碎银子普洱",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:17:39"
+  },
+  {
     "recordId": "GGF2QpEyh5",
     "store": "武汉斗级营茶叶子",
     "register_date": "2026-08-06",
@@ -2457,6 +2547,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "杨力娜",
     "remark": "",
     "created_at": "2026-08-06 11:30:53"
+  },
+  {
+    "recordId": "GUHRmvZmsE",
+    "store": "洞口县步步高凰腾新天地茶叶子",
+    "register_date": "2026-08-11",
+    "tea_name": "原叶冻萃茶/蜜桃乌龙茶",
+    "taster": "胡书鹏",
+    "remark": "",
+    "created_at": "2026-08-11 15:03:52"
   },
   {
     "recordId": "GYd9s92BtF",
@@ -2693,6 +2792,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 10:58:50"
   },
   {
+    "recordId": "I8w2Ce93dH",
+    "store": "重庆观音桥红鼎国际C座一楼游园会店",
+    "register_date": "2026-08-11",
+    "tea_name": "习惯茶/青提茉莉绿茶",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:20:29"
+  },
+  {
     "recordId": "IFPSdqZF4e",
     "store": "深圳大运天地游园会店",
     "register_date": "2026-08-02",
@@ -2727,6 +2835,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "Icnvzqc0hL",
+    "store": "红鼎",
+    "register_date": "2026-08-11",
+    "tea_name": "天生我材/小金桂茶",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:17:39"
   },
   {
     "recordId": "Ih0tSL527s",
@@ -2972,6 +3089,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "KBeddoWjl6",
+    "store": "洞口县步步高凰腾新天地茶叶子",
+    "register_date": "2026-08-11",
+    "tea_name": "原叶冻萃茶/荔枝乌龙茶",
+    "taster": "胡书鹏",
+    "remark": "",
+    "created_at": "2026-08-11 15:03:52"
+  },
+  {
     "recordId": "KBk1cvNCI8",
     "store": "重庆方圆live商场B1层茶叶子",
     "register_date": "2026-08-01",
@@ -3069,6 +3195,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "KsXDdxdG8I",
+    "store": "红鼎",
+    "register_date": "2026-08-11",
+    "tea_name": "此刻如常/心愿茶2.0",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:17:39"
   },
   {
     "recordId": "Ky5CcefSBk",
@@ -3269,6 +3404,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-05 03:46:52"
   },
   {
+    "recordId": "MWykR9ssiO",
+    "store": "重庆观音桥红鼎国际C座一楼游园会店",
+    "register_date": "2026-08-11",
+    "tea_name": "习惯茶之桃花坞/蜜桃乌龙",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:20:29"
+  },
+  {
     "recordId": "MaA9eSUuQZ",
     "store": "潜江万达广场一楼茶叶子",
     "register_date": "2026-08-06",
@@ -3429,6 +3573,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "周子豪",
     "remark": "",
     "created_at": "2026-08-06 15:06:35"
+  },
+  {
+    "recordId": "NqSISUsPRx",
+    "store": "重庆观音桥红鼎国际C座一楼游园会店",
+    "register_date": "2026-08-11",
+    "tea_name": "习惯茶/青梅乌龙",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:22:08"
   },
   {
     "recordId": "NqeYOb3ll0",
@@ -3971,6 +4124,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 16:16:40"
   },
   {
+    "recordId": "S3ViW0d5gD",
+    "store": "洞口县步步高凰腾新天地茶叶子",
+    "register_date": "2026-08-11",
+    "tea_name": "自摇沫泡奶茶/少年时（1杯装）",
+    "taster": "胡书鹏",
+    "remark": "",
+    "created_at": "2026-08-11 15:03:52"
+  },
+  {
     "recordId": "S6kXtyYCkt",
     "store": "武穴武商购物中心一楼茶叶子",
     "register_date": "2026-08-05",
@@ -4214,6 +4376,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 12:01:15"
   },
   {
+    "recordId": "TxH8O7SiXN",
+    "store": "重庆观音桥红鼎国际C座一楼游园会店",
+    "register_date": "2026-08-11",
+    "tea_name": "习惯茶/青提茉莉绿茶",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:22:08"
+  },
+  {
     "recordId": "TzPpyB1G1f",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -4311,6 +4482,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "UeuuA0WHCl",
+    "store": "重庆观音桥红鼎国际C座一楼游园会店",
+    "register_date": "2026-08-11",
+    "tea_name": "习惯茶/栀晓绿",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:22:08"
   },
   {
     "recordId": "Uj0ur0KUGA",
@@ -4455,6 +4635,24 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "VKoLUkp6m7",
+    "store": "红鼎",
+    "register_date": "2026-08-11",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:17:39"
+  },
+  {
+    "recordId": "VLGlU2YiC3",
+    "store": "重庆观音桥红鼎国际C座一楼游园会店",
+    "register_date": "2026-08-11",
+    "tea_name": "习惯茶之女儿红/葡萄乌龙",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:20:29"
   },
   {
     "recordId": "VMTBr2skMh",
@@ -4646,6 +4844,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "XChfJkv37C",
+    "store": "三联书店店",
+    "register_date": "2026-08-11",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "张丹丹",
+    "remark": "",
+    "created_at": "2026-08-11 13:21:46"
+  },
+  {
     "recordId": "XHyUoF26ZE",
     "store": "武穴武商购物中心一楼茶叶子",
     "register_date": "2026-08-05",
@@ -4671,6 +4878,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "易勇军",
     "remark": ".",
     "created_at": "2026-08-01 08:15:39"
+  },
+  {
+    "recordId": "XRD1BzKz9z",
+    "store": "洞口县步步高凰腾新天地茶叶子",
+    "register_date": "2026-08-11",
+    "tea_name": "天生我材/小金桂茶",
+    "taster": "胡书鹏",
+    "remark": "",
+    "created_at": "2026-08-11 15:02:27"
   },
   {
     "recordId": "XTQAtbL9e2",
@@ -4725,6 +4941,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "冯坤",
     "remark": "",
     "created_at": "2026-08-06 15:22:57"
+  },
+  {
+    "recordId": "XevXbQGeBa",
+    "store": "三联书店店",
+    "register_date": "2026-08-11",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "张丹丹",
+    "remark": "",
+    "created_at": "2026-08-11 13:21:46"
   },
   {
     "recordId": "Xkz8QAaWuR",
@@ -4815,6 +5040,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "刘聪",
     "remark": "",
     "created_at": "2026-08-05 09:34:00"
+  },
+  {
+    "recordId": "YFwSpehlEo",
+    "store": "重庆观音桥红鼎国际C座一楼游园会店",
+    "register_date": "2026-08-11",
+    "tea_name": "习惯茶/槐花青苹果乌龙",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:22:08"
   },
   {
     "recordId": "YI1otELure",
@@ -5085,6 +5319,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "ZdH4L1O63w",
+    "store": "重庆观音桥红鼎国际C座一楼游园会店",
+    "register_date": "2026-08-11",
+    "tea_name": "习惯茶/玫珑香乌龙",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:22:08"
   },
   {
     "recordId": "ZfC7RoxVb3",
@@ -5735,6 +5978,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 14:43:46"
   },
   {
+    "recordId": "djFyhrroND",
+    "store": "重庆观音桥红鼎国际C座一楼游园会店",
+    "register_date": "2026-08-11",
+    "tea_name": "习惯茶/清新乌龙",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:20:29"
+  },
+  {
     "recordId": "dm3bjhakI1",
     "store": "武汉银泰创意城游园会店",
     "register_date": "2026-08-05",
@@ -6120,6 +6372,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "ffDUlvmc7z",
+    "store": "红鼎",
+    "register_date": "2026-08-11",
+    "tea_name": "蜜桃乌龙&桂花乌龙/同心组合",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:17:39"
   },
   {
     "recordId": "fgnLO1kNHi",
@@ -6527,6 +6788,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "i5kfhqrGUO",
+    "store": "重庆观音桥红鼎国际C座一楼游园会店",
+    "register_date": "2026-08-11",
+    "tea_name": "习惯茶/菠萝啤味乌龙",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:20:29"
+  },
+  {
     "recordId": "i5ndMAMh8O",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -6570,6 +6840,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "iKtIEEbRA9",
+    "store": "洞口县步步高凰腾新天地茶叶子",
+    "register_date": "2026-08-11",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "胡书鹏",
+    "remark": "",
+    "created_at": "2026-08-11 15:02:27"
   },
   {
     "recordId": "iXK4avfYb0",
@@ -6680,6 +6959,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 14:43:46"
   },
   {
+    "recordId": "jZmyrjO3J0",
+    "store": "红鼎",
+    "register_date": "2026-08-11",
+    "tea_name": "少年心气/茉莉窨花茶",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:17:39"
+  },
+  {
     "recordId": "jlAmCkpcXS",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -6779,6 +7067,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 15:24:00"
   },
   {
+    "recordId": "kD8DfB29C4",
+    "store": "洞口县步步高凰腾新天地茶叶子",
+    "register_date": "2026-08-11",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（茉莉绿茶）",
+    "taster": "胡书鹏",
+    "remark": "",
+    "created_at": "2026-08-11 15:02:27"
+  },
+  {
     "recordId": "kDZVz4aChR",
     "store": "深圳前海壹方城游园会店",
     "register_date": "2026-07-22",
@@ -6858,6 +7155,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "侯钰轩",
     "remark": "",
     "created_at": "2026-08-06 02:19:15"
+  },
+  {
+    "recordId": "lETzYLyJuX",
+    "store": "洞口县步步高凰腾新天地茶叶子",
+    "register_date": "2026-08-11",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（黑乌龙）",
+    "taster": "胡书鹏",
+    "remark": "",
+    "created_at": "2026-08-11 15:02:27"
   },
   {
     "recordId": "lEVsC2cljU",
@@ -7400,6 +7706,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 17:48:27"
   },
   {
+    "recordId": "p9Fdmw9qht",
+    "store": "红鼎",
+    "register_date": "2026-08-11",
+    "tea_name": "硕果累累5.0（果味调香茶）/祝君好",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:17:39"
+  },
+  {
     "recordId": "pF8ncqPszi",
     "store": "武穴武商购物中心一楼茶叶子",
     "register_date": "2026-08-05",
@@ -7524,6 +7839,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "陶郡龙",
     "remark": "",
     "created_at": "2026-08-06 15:22:45"
+  },
+  {
+    "recordId": "q4lKjREroc",
+    "store": "洞口县步步高凰腾新天地茶叶子",
+    "register_date": "2026-08-11",
+    "tea_name": "蜜桃乌龙&桂花乌龙/同心组合",
+    "taster": "胡书鹏",
+    "remark": "",
+    "created_at": "2026-08-11 15:02:27"
   },
   {
     "recordId": "qIEFHaMJZ1",
@@ -7677,6 +8001,24 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "李星悦",
     "remark": "样品茶叶到期时间",
     "created_at": "2026-08-04 11:09:36"
+  },
+  {
+    "recordId": "rFrW6dHKvm",
+    "store": "红鼎",
+    "register_date": "2026-08-11",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:17:39"
+  },
+  {
+    "recordId": "rOe5Rcnsiv",
+    "store": "重庆观音桥红鼎国际C座一楼游园会店",
+    "register_date": "2026-08-11",
+    "tea_name": "习惯茶/竹叶香乌龙",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:20:29"
   },
   {
     "recordId": "rPqYETzEgu",
@@ -8012,6 +8354,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 16:59:42"
   },
   {
+    "recordId": "tgWGOMtevl",
+    "store": "洞口县步步高凰腾新天地茶叶子",
+    "register_date": "2026-08-11",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（陌桂）",
+    "taster": "胡书鹏",
+    "remark": "",
+    "created_at": "2026-08-11 15:02:27"
+  },
+  {
     "recordId": "tiMJlGBZ2p",
     "store": "重庆方圆live商场B1层茶叶子",
     "register_date": "2026-08-01",
@@ -8118,6 +8469,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "易勇军",
     "remark": ".",
     "created_at": "2026-08-01 08:15:39"
+  },
+  {
+    "recordId": "ugfbcPoxVn",
+    "store": "洞口县步步高凰腾新天地茶叶子",
+    "register_date": "2026-08-11",
+    "tea_name": "自摇沫泡奶茶/幽兰拿铁（1杯装）",
+    "taster": "胡书鹏",
+    "remark": "",
+    "created_at": "2026-08-11 15:03:52"
   },
   {
     "recordId": "ui7gVlMfVN",
@@ -8298,6 +8658,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "何科",
     "remark": "",
     "created_at": "2026-08-06 11:26:34"
+  },
+  {
+    "recordId": "vZ1NPyOwmd",
+    "store": "重庆观音桥红鼎国际C座一楼游园会店",
+    "register_date": "2026-08-11",
+    "tea_name": "习惯茶/玫瑰油切绿茶",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:20:29"
   },
   {
     "recordId": "vaPIJrJiKd",
@@ -8615,6 +8984,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "xSkBCqy45u",
+    "store": "红鼎",
+    "register_date": "2026-08-11",
+    "tea_name": "半日普洱闲时茶",
+    "taster": "黄晓松",
+    "remark": "",
+    "created_at": "2026-08-11 13:17:39"
+  },
+  {
     "recordId": "xVXPhjsk3Z",
     "store": "泰州兴化英莱达茶叶子",
     "register_date": "2026-08-06",
@@ -8667,6 +9045,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "y49LVR8p3h",
+    "store": "洞口县步步高凰腾新天地茶叶子",
+    "register_date": "2026-08-11",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（栀香绿茶）",
+    "taster": "胡书鹏",
+    "remark": "",
+    "created_at": "2026-08-11 15:02:27"
   },
   {
     "recordId": "y5juO2vubN",

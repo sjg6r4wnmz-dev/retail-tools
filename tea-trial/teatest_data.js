@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-12 10:41:22）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-12 10:42:20）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -8091,6 +8091,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "created_at": "2026-08-03 11:20:33"
+  },
+  {
+    "recordId": "rhbqzHtguE",
+    "store": "常德欢乐城A馆一楼店",
+    "register_date": "2026-08-11",
+    "tea_name": "单品SOE冻萃咖啡",
+    "taster": "刘彤",
+    "remark": "",
+    "created_at": "2026-08-12 02:41:30"
   },
   {
     "recordId": "rhynDiyJuV",

@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-12 10:37:24）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-12 10:38:22）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -9083,6 +9083,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 02:20:00"
   },
   {
+    "recordId": "y6wvGkO6Em",
+    "store": "常德欢乐城A馆一楼店",
+    "register_date": "2026-08-12",
+    "tea_name": "此刻如常/心愿茶",
+    "taster": "刘彤",
+    "remark": "",
+    "created_at": "2026-08-12 02:38:11"
+  },
+  {
     "recordId": "y8LgbyvGdT",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -9126,6 +9135,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "吴鹏刚",
     "remark": "",
     "created_at": "2026-08-05 03:46:52"
+  },
+  {
+    "recordId": "yQg82Fi7sA",
+    "store": "常德欢乐城A馆一楼店",
+    "register_date": "2026-08-12",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "刘彤",
+    "remark": "",
+    "created_at": "2026-08-12 02:37:28"
   },
   {
     "recordId": "yRn0tybhga",

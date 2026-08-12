@@ -756,16 +756,22 @@
     }
 
     async function deleteRecord(record) {
-      if (!record.recordId) {
-        showToast("该记录尚未同步到表格，无法删除", "error");
-        return;
-      }
-      if (!confirm(`确定删除这条记录吗？\n\n门店：${record.storeName}\n扣分点：${record.problem}`)) return;
+      const synced = !!record.recordId;
+      const msg = synced
+        ? `确定删除这条记录吗？\n\n门店：${record.storeName}\n扣分点：${record.problem}`
+        : `该记录尚未同步到表格，删除后无法恢复。\n\n门店：${record.storeName}\n扣分点：${record.problem}`;
+      if (!confirm(msg)) return;
       try {
-        const resp = await fcPost("/rectify/delete", { id: record.id, recordId: record.recordId });
-        if (!resp.ok) throw new Error(resp.error || "删除失败");
-        showToast("删除已提交，稍后同步到表格", "success");
-        loadRecords();
+        const resp = await fcPost("/rectify/delete", { id: record.id, recordId: record.recordId || undefined });
+        // 无 recordId 的记录表格里没有，FC 移除即可；已从列表中移除也视为成功
+        if (!resp.ok && !resp.queued) throw new Error(resp.error || "删除失败");
+        // 乐观从当前列表移除，避免刷新后从缓存又出现
+        allRecords = allRecords.filter(r => r.id !== record.id && r.recordId !== record.recordId);
+        filteredRecords = filteredRecords.filter(r => r.id !== record.id && r.recordId !== record.recordId);
+        updateStats();
+        renderRecords();
+        closeDetail();
+        showToast(synced ? "删除已提交，稍后同步到表格" : "本地记录已移除", "success");
       } catch (e) {
         showToast(e.message, "error");
       }

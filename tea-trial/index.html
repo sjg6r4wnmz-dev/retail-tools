@@ -166,6 +166,37 @@
     transition:background .15s,border-color .15s;
   }
   .item-add:hover{background:var(--tea-green-light);border-color:var(--tea-green);}
+  /* ---- 删除记录 ---- */
+  .btn-del{
+    border:none;border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;
+    background:var(--danger);color:#fff;font-family:inherit;white-space:nowrap;
+    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  }
+  .btn-del:hover{opacity:.88;}
+  .td-del{text-align:center;}
+  .btn-danger{background:var(--danger);color:#fff;}
+  .btn-danger:hover{opacity:.92;}
+  .modal-mask{
+    position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);
+    display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;
+  }
+  .modal-box{
+    background:#fff;border-radius:14px;width:100%;max-width:360px;padding:20px;
+    box-shadow:0 8px 30px rgba(0,0,0,.2);animation:fadeIn .18s ease;
+  }
+  .modal-title{font-size:16px;font-weight:600;color:var(--danger);margin-bottom:12px;}
+  .modal-detail{font-size:13px;line-height:1.9;color:var(--text);}
+  .modal-detail .md-label{display:inline-block;width:62px;color:var(--muted);}
+  .modal-warn{
+    margin-top:10px;font-size:12px;color:var(--warn);background:var(--warn-bg);
+    padding:8px 10px;border-radius:8px;line-height:1.5;
+  }
+  .modal-actions{display:flex;gap:10px;margin-top:16px;}
+  .modal-actions .btn{flex:1;padding:10px;font-size:14px;}
+  @media(max-width:640px){
+    .btn-del{padding:6px 12px;font-size:12px;}
+    .modal-box{padding:16px;}
+  }
   /* ---- 查询结果：移动端卡片式布局 ---- */
   .result-cards{display:none;}
   @media(max-width:640px){
@@ -377,11 +408,11 @@
         <thead>
           <tr>
             <th>ID</th><th>门店</th><th>登记日期</th><th>茶叶名称</th>
-            <th>登记人</th><th>预警状态</th><th>录入时间</th>
+            <th>登记人</th><th>预警状态</th><th>录入时间</th><th>操作</th>
           </tr>
         </thead>
         <tbody id="tbody">
-          <tr><td colspan="7" class="empty">暂无数据，点击「查询」加载，或先登记一条记录。</td></tr>
+          <tr><td colspan="8" class="empty">暂无数据，点击「查询」加载，或先登记一条记录。</td></tr>
         </tbody>
       </table>
     </div>
@@ -395,9 +426,28 @@
 
 <div class="toast" id="toast"></div>
 
+<!-- 删除确认弹窗 -->
+<div class="modal-mask" id="modalMask" style="display:none;" onclick="if(event.target===this)closeDeleteModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-title">⚠️ 确认删除这条记录？</div>
+    <div class="modal-detail">
+      <div><span class="md-label">门店</span><span id="delStore"></span></div>
+      <div><span class="md-label">日期</span><span id="delDate"></span></div>
+      <div><span class="md-label">茶叶</span><span id="delTea"></span></div>
+      <div><span class="md-label">登记人</span><span id="delTaster"></span></div>
+      <div><span class="md-label">录入时间</span><span id="delTime"></span></div>
+    </div>
+    <div class="modal-warn" id="delHint">云端记录删除后约 1-2 分钟生效，且不可恢复。</div>
+    <div class="modal-actions">
+      <button class="btn btn-line" onclick="closeDeleteModal()">取消</button>
+      <button class="btn btn-danger" onclick="confirmDeleteRecord()">确认删除</button>
+    </div>
+  </div>
+</div>
+
 <!-- AUTO_DATA_START -->
 <script>
-// 茶叶试闻台账云端数据（自动生成于 2026-08-12 09:58:20）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-12 10:03:26）
 window.TEATEST_CLOUD_DATA = [
   {
     "recordId": "00NqZ74hSr",
@@ -9760,7 +9810,7 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   }
 ];
-window.TEATEST_DATA_TIME = "2026-08-12 09:58:20";
+window.TEATEST_DATA_TIME = "2026-08-12 10:03:26";
 </script>
 <!-- AUTO_DATA_END -->
 
@@ -9775,6 +9825,9 @@ function switchTab(name){
   });
   // 切到查询台账时，自动加载一次数据（如果之前没加载过）
   if(name === 'query'){
+    // 重试未提交的删除请求 + 清理已删除标记
+    retryDeletes();
+    cleanupDeletedIds();
     // 先尝试同步本地未上传记录
     syncLocalRecords().then(res => {
       if(res.uploaded > 0){
@@ -9912,7 +9965,11 @@ function queryRecords(storeFilter){
   // 2. 云端钉钉 AI 表格记录（由 teatest_data.js 注入 window.TEATEST_CLOUD_DATA）
   let cloudRecords = [];
   if(window.TEATEST_CLOUD_DATA && Array.isArray(window.TEATEST_CLOUD_DATA)){
-    cloudRecords = window.TEATEST_CLOUD_DATA.map(r => ({
+    // 过滤掉本机已提交删除请求、但云端尚未同步删除的记录（避免"删了又冒出来"）
+    const delIds = loadDeletedIds();
+    cloudRecords = window.TEATEST_CLOUD_DATA
+      .filter(r => !delIds.has(r.recordId))
+      .map(r => ({
       id: 0,
       recordId: r.recordId || '',
       store: r.store || '',
@@ -9967,6 +10024,120 @@ function getStoreList(){
   const stores = new Set();
   records.forEach(r => { if(r.store) stores.add(r.store); });
   return Array.from(stores).sort();
+}
+
+// ====== 删除记录 ======
+// 云端删除走 FC 队列（sync 每分钟拉取执行），本地删除直接改 localStorage
+const LS_DELETES = 'tea_ledger_deletes';
+const LS_DELETED_IDS = 'tea_ledger_deleted_ids';
+
+function loadDeletes(){
+  try{ return JSON.parse(localStorage.getItem(LS_DELETES) || '[]'); }
+  catch(e){ return []; }
+}
+function saveDeletes(arr){
+  try{ localStorage.setItem(LS_DELETES, JSON.stringify(arr)); }catch(e){}
+}
+// 已提交删除请求的 recordId 集合：用于从查询结果中隐藏，等云端真正删除后自动清除
+function loadDeletedIds(){
+  try{ return new Set(JSON.parse(localStorage.getItem(LS_DELETED_IDS) || '[]')); }
+  catch(e){ return new Set(); }
+}
+function saveDeletedIds(set){
+  try{ localStorage.setItem(LS_DELETED_IDS, JSON.stringify(Array.from(set))); }catch(e){}
+}
+
+let _delTarget = null;
+function showDeleteModal(r){
+  _delTarget = r;
+  $("delStore").textContent = r.store || '—';
+  $("delDate").textContent = r.register_date || '—';
+  $("delTea").textContent = r.tea_name || '—';
+  $("delTaster").textContent = r.taster || '—';
+  $("delTime").textContent = r.created_at || '—';
+  $("delHint").style.display = r.recordId ? "block" : "none";
+  $("modalMask").style.display = "flex";
+}
+function closeDeleteModal(){
+  $("modalMask").style.display = "none";
+  _delTarget = null;
+}
+function confirmDeleteRecord(){
+  const r = _delTarget;
+  if(!r) return;
+  closeDeleteModal();
+  if(r.recordId){
+    requestDeleteRecord(r);
+  } else {
+    // 本机 localStorage 记录（未同步或网络不通时的本地兜底）
+    const records = loadRecords().filter(x =>
+      !(x.id === r.id && x.store === r.store &&
+        x.register_date === r.register_date && x.tea_name === r.tea_name)
+    );
+    saveRecords(records);
+    toast("本地记录已删除", "ok");
+    doQuery();
+  }
+}
+
+async function requestDeleteRecord(r){
+  let queued = false;
+  try{
+    const resp = await fetch(TUNNEL_URL + '/teatest/delete', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'X-Auth-Token': AUTH_TOKEN},
+      body: JSON.stringify({ recordId: r.recordId })
+    });
+    queued = resp.ok;
+  }catch(e){ queued = false; }
+
+  // 无论是否入队成功，都标记为"已删"，先从查询结果隐藏
+  const ids = loadDeletedIds();
+  ids.add(r.recordId);
+  saveDeletedIds(ids);
+
+  if(queued){
+    toast("删除请求已提交，约 1-2 分钟云端同步生效", "ok");
+  } else {
+    // 网络不通：暂存待删队列，联网后自动重试
+    const dels = loadDeletes();
+    if(!dels.some(d => d.recordId === r.recordId)){
+      dels.push({ recordId: r.recordId, store: r.store, tea_name: r.tea_name, created_at: r.created_at, ts: Date.now() });
+      saveDeletes(dels);
+    }
+    toast("网络不通，删除请求已暂存本机，联网后自动重试", "warn");
+  }
+  doQuery();
+}
+
+// 重试未成功提交的删除请求（页面加载 / 切到查询时调用）
+async function retryDeletes(){
+  const dels = loadDeletes();
+  if(!dels.length) return;
+  const done = [];
+  for(const d of dels){
+    try{
+      const resp = await fetch(TUNNEL_URL + '/teatest/delete', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'X-Auth-Token': AUTH_TOKEN},
+        body: JSON.stringify({ recordId: d.recordId })
+      });
+      if(resp.ok) done.push(d.recordId);
+    }catch(e){}
+  }
+  if(done.length){
+    saveDeletes(dels.filter(d => !done.includes(d.recordId)));
+  }
+}
+
+// 云端数据已真正删除该记录后，清除本机"已删"标记
+function cleanupDeletedIds(){
+  const ids = loadDeletedIds();
+  if(!ids.size) return;
+  const cloudIds = new Set((window.TEATEST_CLOUD_DATA || []).map(r => r.recordId).filter(Boolean));
+  let changed = false;
+  ids.forEach(id => { if(!cloudIds.has(id)){ ids.delete(id); changed = true; } });
+  if(changed) saveDeletedIds(ids);
 }
 
 function toast(msg, type){
@@ -10084,11 +10255,16 @@ function doQuery(){
     const tr = document.createElement("tr");
     const ws = calcWarnStatus(r.register_date);
     const displayId = r.recordId ? ('☁ ' + r.recordId.slice(0, 8)) : (r.id || '—');
+    const delBtn = document.createElement("button");
+    delBtn.className = "btn-del";
+    delBtn.textContent = "删除";
+    delBtn.onclick = () => showDeleteModal(r);
     tr.innerHTML = [
       displayId, esc(r.store), esc(r.register_date), esc(r.tea_name),
       esc(r.taster)||"—",
       '<span class="' + ws.cls + '">' + ws.text + '</span>', esc(r.created_at)
-    ].map(c=>"<td>"+c+"</td>").join("");
+    ].map(c=>"<td>"+c+"</td>").join("") + '<td class="td-del"></td>';
+    tr.querySelector(".td-del").appendChild(delBtn);
     tb.appendChild(tr);
   });
 
@@ -10134,12 +10310,16 @@ function doQuery(){
       item.innerHTML = `
         <div class="tea-item-head">
           <span class="tea-item-name">${esc(r.tea_name)}</span>
-          <span class="tea-item-date">${esc(r.register_date)}</span>
+          <span style="display:flex;align-items:center;gap:8px;">
+            <span class="tea-item-date">${esc(r.register_date)}</span>
+            <button class="btn-del" type="button">删除</button>
+          </span>
         </div>
         <div class="tea-item-row"><span class="${ws.cls}">${ws.text}</span></div>
         <div class="tea-item-row"><span class="tea-item-label">登记人</span><span class="tea-item-val">${esc(r.taster)||"—"}</span></div>
         <div class="tea-item-meta"><span>#${displayId}</span><span>${esc(r.created_at)}</span></div>
       `;
+      item.querySelector(".btn-del").onclick = () => showDeleteModal(r);
       listWrap.appendChild(item);
     });
     card.appendChild(listWrap);
@@ -10392,6 +10572,10 @@ renderItems();
 // combobox 数据加载（含首次条目渲染）
 loadComboboxData();
 loadTeaList();
+
+// 删除功能初始化：清理已删标记 + 重试待删队列
+cleanupDeletedIds();
+retryDeletes();
 
 // 防止浏览器原生 reset 事件打乱 items：拦截后用我们自己的逻辑
 $("form").addEventListener("reset", e => {

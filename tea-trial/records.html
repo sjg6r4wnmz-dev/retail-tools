@@ -123,7 +123,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 <!-- 内联数据，彻底避免缓存问题 -->
 <script>
 // AUTO_DATA_START
-// 茶叶试闻台账云端数据（自动生成于 2026-08-12 10:03:26）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-12 10:09:18）
 window.TEATEST_CLOUD_DATA = [
   {
     "recordId": "00NqZ74hSr",
@@ -9486,7 +9486,7 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   }
 ];
-window.TEATEST_DATA_TIME = "2026-08-12 10:03:26";
+window.TEATEST_DATA_TIME = "2026-08-12 10:09:18";
 // AUTO_DATA_END
 </script>
 
@@ -9581,8 +9581,12 @@ function render(){
   var tasterKw = document.getElementById('tasterFilter').value.toLowerCase();
   var teaKw = document.getElementById('teaFilter').value.toLowerCase();
 
+  // 过滤已提交删除请求的记录（云端尚未同步删除前不显示）
+  var delIds = loadDeletedIds();
+
   // 筛选
   var filtered = allRecords.filter(function(r){
+    if(delIds.has(r.recordId)) return false;
     if(dateFrom && (r.register_date||'') < dateFrom) return false;
     if(dateTo && (r.register_date||'') > dateTo) return false;
     if(storeKw && !(r.store||'').toLowerCase().includes(storeKw)) return false;
@@ -9693,10 +9697,109 @@ function exportCsv(){
   a.click();
 }
 
+// ====== 删除记录（与 index.html 共用 localStorage 键）======
+var TUNNEL_URL = 'https://posm-recog-posm-scap-recog-oopugfimug.cn-hangzhou.fcapp.run';
+var AUTH_TOKEN = 'posm_5fa4761ff06d7c89d189faf93574f248';
+var LS_DELETES = 'tea_ledger_deletes';
+var LS_DELETED_IDS = 'tea_ledger_deleted_ids';
+
+function loadDeletes(){ try{ return JSON.parse(localStorage.getItem(LS_DELETES)||'[]'); }catch(e){ return []; } }
+function saveDeletes(arr){ try{ localStorage.setItem(LS_DELETES, JSON.stringify(arr)); }catch(e){} }
+function loadDeletedIds(){ try{ return new Set(JSON.parse(localStorage.getItem(LS_DELETED_IDS)||'[]')); }catch(e){ return new Set(); } }
+function saveDeletedIds(set){ try{ localStorage.setItem(LS_DELETED_IDS, JSON.stringify(Array.from(set))); }catch(e){} }
+
+function recToast(msg){
+  var t = document.getElementById('recToast');
+  if(!t){
+    t = document.createElement('div');
+    t.id = 'recToast';
+    t.style.cssText = 'position:fixed;top:18px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;z-index:99;opacity:0;transition:opacity .25s;max-width:90vw;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  setTimeout(function(){ t.style.opacity = '0'; }, 2400);
+}
+
+// 事件委托：删除按钮
+document.getElementById('container').addEventListener('click', function(e){
+  var btn = e.target && e.target.closest ? e.target.closest('.btn-del') : null;
+  if(!btn) return;
+  var recordId = btn.getAttribute('data-id');
+  if(!recordId) return;
+  var rec = null;
+  for(var i = 0; i < allRecords.length; i++){
+    if((allRecords[i].recordId || allRecords[i].id) === recordId){ rec = allRecords[i]; break; }
+  }
+  if(!rec){ render(); return; }
+  if(!confirm('确认删除这条记录？\n\n门店：' + rec.store + '\n日期：' + rec.register_date + '\n茶叶：' + rec.tea_name + '\n登记人：' + (rec.taster || '—') + '\n\n云端删除后约 1-2 分钟生效，且不可恢复。')) return;
+  requestDelete(rec);
+});
+
+function requestDelete(rec){
+  var recordId = rec.recordId || rec.id;
+  fetch(TUNNEL_URL + '/teatest/delete', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'X-Auth-Token': AUTH_TOKEN},
+    body: JSON.stringify({ recordId: recordId })
+  })
+    .then(function(resp){ return resp.ok; })
+    .catch(function(){ return false; })
+    .then(function(ok){
+      var ids = loadDeletedIds();
+      ids.add(recordId);
+      saveDeletedIds(ids);
+      if(ok){
+        recToast('删除请求已提交，约 1-2 分钟云端同步生效');
+      } else {
+        var dels = loadDeletes();
+        if(!dels.some(function(d){ return d.recordId === recordId; })){
+          dels.push({ recordId: recordId, store: rec.store, tea_name: rec.tea_name, created_at: rec.created_at, ts: Date.now() });
+          saveDeletes(dels);
+        }
+        recToast('网络不通，删除请求已暂存本机，联网后自动重试');
+      }
+      render();
+    });
+}
+
+function retryDeletes(){
+  var dels = loadDeletes();
+  if(!dels.length) return;
+  var done = [];
+  dels.forEach(function(d){
+    fetch(TUNNEL_URL + '/teatest/delete', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'X-Auth-Token': AUTH_TOKEN},
+      body: JSON.stringify({ recordId: d.recordId })
+    }).then(function(resp){ return resp.ok; })
+      .catch(function(){ return false; })
+      .then(function(ok){ if(ok){ done.push(d.recordId); } });
+  });
+  // 稍后统一清理已成功的
+  setTimeout(function(){
+    if(done.length){
+      saveDeletes(dels.filter(function(d){ return done.indexOf(d.recordId) < 0; }));
+    }
+  }, 5000);
+}
+
+function cleanupDeletedIds(){
+  var ids = loadDeletedIds();
+  if(!ids.size) return;
+  var cloudIds = {};
+  allRecords.forEach(function(r){ if(r.recordId) cloudIds[r.recordId] = 1; });
+  var changed = false;
+  ids.forEach(function(id){ if(!cloudIds[id]){ ids.delete(id); changed = true; } });
+  if(changed) saveDeletedIds(ids);
+}
+
 // 数据已内联到 HTML，直接使用
 if(window.TEATEST_CLOUD_DATA && Array.isArray(window.TEATEST_CLOUD_DATA)){
   allRecords = window.TEATEST_CLOUD_DATA;
 }
+cleanupDeletedIds();
+retryDeletes();
 render();
 </script>
 </body>

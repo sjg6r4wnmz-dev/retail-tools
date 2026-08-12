@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-12 10:42:20）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-12 10:44:21）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -3755,15 +3755,6 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 14:16:30"
   },
   {
-    "recordId": "OwhRv7kzP1",
-    "store": "??????",
-    "register_date": "2026-08-11",
-    "tea_name": "????",
-    "taster": "????",
-    "remark": "",
-    "created_at": "2026-08-11T10:42:29.926Z"
-  },
-  {
     "recordId": "P4BD5GTUMk",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-06",
@@ -4059,15 +4050,6 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "崔海洋",
     "remark": "",
     "created_at": "2026-08-05 13:01:54"
-  },
-  {
-    "recordId": "RCtaS3IMy3",
-    "store": "??????",
-    "register_date": "2026-08-11",
-    "tea_name": "???",
-    "taster": "????",
-    "remark": "",
-    "created_at": "2026-08-11T10:42:29.926Z"
   },
   {
     "recordId": "RF56lTCQCv",
@@ -9306,6 +9288,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "冯坤",
     "remark": "",
     "created_at": "2026-08-06 15:22:57"
+  },
+  {
+    "recordId": "zC4DEa5gRm",
+    "store": "常德欢乐城A馆一楼店",
+    "register_date": "2026-08-12",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "刘彤",
+    "remark": "",
+    "created_at": "2026-08-12 02:42:33"
   },
   {
     "recordId": "zFXbI4An0i",

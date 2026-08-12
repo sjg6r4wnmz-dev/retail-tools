@@ -397,7 +397,7 @@
 
 <!-- AUTO_DATA_START -->
 <script>
-// 茶叶试闻台账云端数据（自动生成于 2026-08-12 09:34:32）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-12 09:39:18）
 window.TEATEST_CLOUD_DATA = [
   {
     "recordId": "00NqZ74hSr",
@@ -9760,6 +9760,7 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   }
 ];
+window.TEATEST_DATA_TIME = "2026-08-12 09:39:18";
 </script>
 <!-- AUTO_DATA_END -->
 
@@ -9801,7 +9802,12 @@ function loadRecords(){
 }
 
 function saveRecords(records){
-  try{ localStorage.setItem(LS_KEY, JSON.stringify(records)); }
+  try{
+    // 只保留最近 90 天的本地记录，防止 localStorage 无限增长
+    const cutoff = new Date(Date.now() - 90*24*3600*1000).toISOString().slice(0,10);
+    const cleaned = records.filter(r => !r.register_date || r.register_date >= cutoff);
+    localStorage.setItem(LS_KEY, JSON.stringify(cleaned));
+  }
   catch(e){ toast('存储空间不足，请清理旧记录', 'err'); throw e; }
 }
 
@@ -9831,20 +9837,20 @@ async function insertRecords(baseData, teaItems){
     cloudOk = resp.ok;
   } catch(e) {}
 
+  // 无论云端是否成功，都写入本机 localStorage：
+  // 1) 录入后立即可在查询页看到自己的记录
+  // 2) 云端暂存有 10 分钟 TTL，若同步服务临时中断可防数据丢失
+  // 3) 云端数据同步到位后（同 key）会覆盖本机记录，不影响去重
   const records = loadRecords();
-  if(!cloudOk){
-    // 云端失败：暂存本地，稍后重试
-    const newRecords = teaItems.map(it => {
-      const id = getNextId(records);
-      return { id, store: baseData.store, register_date: baseData.register_date,
-        tea_name: it.tea_name, taster: baseData.taster,
-        created_at: now, pending: true };
-    });
-    records.push(...newRecords);
-    saveRecords(records);
-    return { records: newRecords, cloudOk: false };
-  }
-  return { records: [], cloudOk: true };
+  const newRecords = teaItems.map(it => {
+    const id = getNextId(records);
+    return { id, store: baseData.store, register_date: baseData.register_date,
+      tea_name: it.tea_name, taster: baseData.taster,
+      created_at: now, pending: !cloudOk, source: 'local' };
+  });
+  records.push(...newRecords);
+  saveRecords(records);
+  return { records: newRecords, cloudOk };
 }
 
 // 重试上传本地未同步记录
@@ -9918,12 +9924,14 @@ function queryRecords(storeFilter){
     }));
   }
 
-  // 3. 合并：以 (store, tea_name) 为 key，云端数据优先
+  // 3. 合并：以 (store, register_date, tea_name) 为 key，云端数据优先
+  //    注意 key 必须含日期：同一门店同一种茶叶在不同日期的登记是不同的记录，
+  //    若只按 (store, tea_name) 去重会丢失历史记录，导致“查不到”
   const allMap = new Map();
 
   // 先放本地记录
   localRecords.forEach(r => {
-    const key = r.store + '||' + r.tea_name;
+    const key = r.store + '||' + r.register_date + '||' + r.tea_name;
     // 本地记录也可能有 source 标记
     if(!r.source) r.source = 'local';
     allMap.set(key, r);
@@ -9931,7 +9939,7 @@ function queryRecords(storeFilter){
 
   // 云端记录覆盖同 key 的本地记录（云端更权威）
   cloudRecords.forEach(r => {
-    const key = r.store + '||' + r.tea_name;
+    const key = r.store + '||' + r.register_date + '||' + r.tea_name;
     const existing = allMap.get(key);
     // 云端覆盖 local OR 云端日期更新
     if(!existing || existing.source === 'local' ||
@@ -9999,9 +10007,9 @@ $("form").addEventListener("submit", async e=>{
       store, register_date, taster
     }, dedupedItems);
     if(cloudOk){
-      toast(`登记成功，已同步云端 ${dedupedItems.length} 条记录`, "ok");
+      toast(`登记成功！数据约 1-2 分钟同步到云端，本机已可立即查询`, "ok");
     } else {
-      toast(`网络不通，已暂存本地 ${newRecords.length} 条，稍后自动同步`, "warn");
+      toast(`网络不通，已暂存本机 ${newRecords.length} 条，联网后自动重传`, "warn");
     }
     // 自动跳到查询台账看新记录
     setTimeout(() => switchTab('query'), 600);
@@ -10047,13 +10055,20 @@ function doQuery(){
     } else if(cloudCount > 0){
       sourceInfo = " <span style=\"font-size:12px;color:var(--tea-gold);\">来源：云端同步</span>";
     } else {
-      sourceInfo = " <span style=\"font-size:12px;color:var(--muted);\">来源：本地记录（云端数据暂未同步）</span>";
+      sourceInfo = " <span style=\"font-size:12px;color:var(--muted);\">来源：本机记录（云端数据暂未同步）</span>";
+    }
+    if(window.TEATEST_DATA_TIME){
+      sourceInfo += " <span style=\"font-size:12px;color:var(--muted);\">云端更新于 " + window.TEATEST_DATA_TIME + "</span>";
     }
     bar.innerHTML = "共 <b>" + rows.length + "</b> 条最新记录" + sourceInfo;
   }else{
     bar.style.display = "block";
+    let delayHint = "";
+    if(window.TEATEST_DATA_TIME){
+      delayHint = " <span style=\"font-size:12px;color:var(--muted);\">（云端数据更新于 " + window.TEATEST_DATA_TIME + "，刚登记约 1-2 分钟后可见）</span>";
+    }
     bar.innerHTML = "未查询到符合条件的记录" +
-      (cloudCount > 0 ? " <span style=\"font-size:12px;color:var(--muted);\">（云端数据可能有延迟，稍后再试）</span>" : "");
+      (cloudCount > 0 ? " <span style=\"font-size:12px;color:var(--muted);\">（云端数据可能有延迟，稍后再试）</span>" : "") + delayHint;
   }
   const tb = $("tbody");
   const cards = $("resultCards");

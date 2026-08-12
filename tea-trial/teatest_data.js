@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-12 09:55:21）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-12 09:58:20）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -7146,15 +7146,6 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "欧阳菁",
     "remark": "",
     "created_at": "2026-08-03 07:11:12"
-  },
-  {
-    "recordId": "l9TYnfzTxp",
-    "store": "【测试】E2E验证店",
-    "register_date": "2026-08-12",
-    "tea_name": "端到端测试茶-请删除",
-    "taster": "E2E测试员",
-    "remark": "自动端到端测试 2026-08-12 09:49:41",
-    "created_at": "2026-08-12 09:49:41"
   },
   {
     "recordId": "lDBX52xTPi",

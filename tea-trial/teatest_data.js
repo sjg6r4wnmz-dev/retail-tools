@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-12 10:38:22）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-12 10:41:22）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -4925,6 +4925,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 14:45:21"
   },
   {
+    "recordId": "XWXCVgT5Ek",
+    "store": "常德欢乐城A馆一楼店",
+    "register_date": "2026-08-12",
+    "tea_name": "单品SOE冻萃咖啡",
+    "taster": "刘彤",
+    "remark": "",
+    "created_at": "2026-08-12 02:40:27"
+  },
+  {
     "recordId": "XXBuGzGI6b",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -6651,6 +6660,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "陈丹",
     "remark": "",
     "created_at": "2026-08-06 12:18:20"
+  },
+  {
+    "recordId": "h61bp0weBQ",
+    "store": "常德欢乐城A馆一楼店",
+    "register_date": "2026-08-12",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "刘彤",
+    "remark": "",
+    "created_at": "2026-08-12 02:40:27"
   },
   {
     "recordId": "h9c6Ah53Lj",

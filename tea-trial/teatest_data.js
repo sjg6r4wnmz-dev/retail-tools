@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-12 10:09:18）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-12 10:11:20）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -5769,6 +5769,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "cbzyei7CiN",
+    "store": "【测试】删除验证店",
+    "register_date": "2026-08-12",
+    "tea_name": "删除功能测试茶-请删除",
+    "taster": "删除测试员",
+    "remark": "删除功能闭环测试 2026-08-12 10:10:48",
+    "created_at": "2026-08-12 10:10:48"
   },
   {
     "recordId": "cmT3VY3Mpw",

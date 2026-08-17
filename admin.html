@@ -186,6 +186,10 @@
         <div class="search-box">
           <input type="text" id="searchInput" placeholder="搜索门店、扣分点、提交人..." autocomplete="off">
         </div>
+        <button class="btn btn-secondary" id="exportBtn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          导出
+        </button>
         <button class="btn btn-secondary" id="refreshBtn">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
           刷新
@@ -253,6 +257,32 @@
       </div>
       <div class="modal-body" id="detailBody">
         <!-- 动态填充 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 导出面板 -->
+  <div class="modal-overlay" id="exportModal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h3>导出结果</h3>
+        <div class="close" id="closeExportModal">&times;</div>
+      </div>
+      <div class="modal-body">
+        <div style="background:#fff;border-radius:12px;padding:12px 14px;font-size:13px;color:var(--text-2);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;">
+          <span>当前筛选结果</span>
+          <span style="font-weight:700;color:var(--primary);font-size:16px;" id="exportCount">0 条</span>
+        </div>
+        <button class="btn btn-primary" id="exportCsvBtn" style="width:100%;margin-bottom:10px;padding:13px;">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm1 17h-2v-4h-2v4H9l3.5-5L16 19zm-1-9V3.5L18.5 9H14z"/></svg>
+          导出 Excel（.csv）
+        </button>
+        <p style="font-size:12px;color:var(--text-3);margin:-4px 0 14px 2px;">Excel / WPS 可直接打开，含省份、门店、扣分点、状态、提交人等信息</p>
+        <button class="btn btn-secondary" id="exportJsonBtn" style="width:100%;padding:13px;">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm7 6.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM17 7h-4v2h4V7zm-9.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 11H7v2h4v-2zm2 0v2h4v-2h-4z"/></svg>
+          导出完整数据（.json）
+        </button>
+        <p style="font-size:12px;color:var(--text-3);margin-top:6px;">含照片链接、记录ID等全部字段，适合存档/迁移</p>
       </div>
     </div>
   </div>
@@ -811,6 +841,83 @@
       });
     }
 
+    /* ===== 导出功能 ===== */
+    function getStoreProvince(name) {
+      try {
+        const storeData = (window.RECTIFY_DATA && window.RECTIFY_DATA.stores) || [];
+        const s = storeData.find(x => x.n === name);
+        return (s && s.p) || "其他";
+      } catch (e) { return "其他"; }
+    }
+
+    function exportTimestamp() {
+      const d = new Date();
+      const p = n => String(n).padStart(2, "0");
+      return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}`;
+    }
+
+    function downloadFile(content, filename, mime) {
+      const blob = new Blob([content], { type: mime });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 3000);
+    }
+
+    function csvCell(v) {
+      if (v === null || v === undefined) return "";
+      v = String(v);
+      if (/[",\n\r]/.test(v)) v = '"' + v.replace(/"/g, '""') + '"';
+      return v;
+    }
+
+    function exportCsv() {
+      const rows = filteredRecords.length > 0 ? filteredRecords : allRecords;
+      if (rows.length === 0) { showToast("没有可导出的数据", "error"); return; }
+      const headers = ["省份", "门店", "扣分点", "整改状态", "提交人", "提交时间", "预计完成", "审核状态", "审核意见", "同步状态"];
+      const lines = [headers.map(csvCell).join(",")];
+      rows.forEach(r => {
+        const audit = !r.auditStatus ? "未审核" : (r.auditStatus === "approved" ? "审核通过" : "审核不通过");
+        const ts = r.ts ? new Date(r.ts).toLocaleString("zh-CN", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }) : "";
+        lines.push([
+          getStoreProvince(r.storeName),
+          r.storeName || "",
+          r.problem || "",
+          r.status || "",
+          r.submitterName || "",
+          ts,
+          r.expectedDate || "",
+          audit,
+          r.auditComment || "",
+          getStateLabel(r)
+        ].map(csvCell).join(","));
+      });
+      const csv = "\uFEFF" + lines.join("\r\n"); // BOM 保证 Excel 中文不乱码
+      downloadFile(csv, `整改闭环导出_${exportTimestamp()}.csv`, "text/csv;charset=utf-8");
+      showToast(`已导出 ${rows.length} 条记录`, "success");
+    }
+
+    function exportJson() {
+      const rows = filteredRecords.length > 0 ? filteredRecords : allRecords;
+      if (rows.length === 0) { showToast("没有可导出的数据", "error"); return; }
+      downloadFile(JSON.stringify(rows, null, 2), `整改闭环导出_${exportTimestamp()}.json`, "application/json;charset=utf-8");
+      showToast(`已导出 ${rows.length} 条记录`, "success");
+    }
+
+    function openExportModal() {
+      const count = filteredRecords.length > 0 ? filteredRecords.length : allRecords.length;
+      $("exportCount").textContent = count + " 条";
+      $("exportModal").classList.add("show");
+    }
+
+    function closeExportModal() {
+      $("exportModal").classList.remove("show");
+    }
+
     function initLogin() {
       $("loginBtn").addEventListener("click", () => {
         if ($("passwordInput").value === ADMIN_PASSWORD) {
@@ -826,6 +933,11 @@
 
     function initEvents() {
       $("refreshBtn").addEventListener("click", loadRecords);
+      $("exportBtn").addEventListener("click", openExportModal);
+      $("closeExportModal").addEventListener("click", closeExportModal);
+      $("exportModal").addEventListener("click", e => { if (e.target === $("exportModal")) closeExportModal(); });
+      $("exportCsvBtn").addEventListener("click", () => { exportCsv(); closeExportModal(); });
+      $("exportJsonBtn").addEventListener("click", () => { exportJson(); closeExportModal(); });
       $("searchInput").addEventListener("input", filterRecords);
       $("closeEditModal").addEventListener("click", closeEdit);
       $("saveEditBtn").addEventListener("click", saveEdit);

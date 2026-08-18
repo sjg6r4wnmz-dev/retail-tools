@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-18 18:29:22）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-18 18:31:22）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -398,6 +398,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 13:48:07"
   },
   {
+    "recordId": "2HNJoJP5r8",
+    "store": "深圳笋岗万象食家店",
+    "register_date": "2026-08-10",
+    "tea_name": "藏不住的/心意茶",
+    "taster": "胡阳",
+    "remark": "",
+    "created_at": "2026-08-18 10:31:26"
+  },
+  {
     "recordId": "2HtxdkVAQT",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -630,6 +639,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "4KRjFO7xeT",
+    "store": "深圳笋岗万象食家店",
+    "register_date": "2026-08-10",
+    "tea_name": "大四喜手信茶礼3.0",
+    "taster": "胡阳",
+    "remark": "",
+    "created_at": "2026-08-18 10:31:10"
   },
   {
     "recordId": "4KgUESc27i",

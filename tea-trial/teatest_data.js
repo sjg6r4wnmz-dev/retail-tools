@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-18 18:27:19）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-18 18:29:22）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -5742,6 +5742,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "邓健良",
     "remark": "",
     "created_at": "2026-08-03 11:24:34"
+  },
+  {
+    "recordId": "cMgvN8p7pK",
+    "store": "深圳笋岗万象食家店",
+    "register_date": "2026-08-10",
+    "tea_name": "栀晓茶/再相见篇",
+    "taster": "胡阳",
+    "remark": "",
+    "created_at": "2026-08-18 10:29:26"
   },
   {
     "recordId": "cY3wppfe95",

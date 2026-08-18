@@ -146,7 +146,15 @@
     .img-modal.show { display: flex; }
     .img-modal img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 6px; }
     .img-modal .close { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; background: rgba(255,255,255,0.15); border-radius: 50%; color: #fff; font-size: 22px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    /* 照片一览 — 已移除，OSS 图片 URL 频繁过期维护成本过高 */
+    /* 照片一览：稽核不符合照片统一顶部展示（2026-08-18 恢复，bp 已永久化到 GitHub Pages） */
+    .photo-overview { background: var(--card); border-radius: var(--radius); padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 12px; }
+    .photo-overview .po-title { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; margin-bottom: 14px; }
+    .photo-overview .po-title .count { font-weight: 400; color: var(--text-3); font-size: 12px; }
+    .photo-overview .po-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .photo-overview .po-item { aspect-ratio: 1; border-radius: 10px; overflow: hidden; cursor: zoom-in; position: relative; background: #FAFAFA; border: 1px solid var(--border); }
+    .photo-overview .po-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photo-overview .po-item .po-num { position: absolute; top: 4px; left: 4px; background: rgba(0,0,0,0.55); color: #fff; font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 4px; }
+    .photo-overview .po-empty { text-align: center; padding: 12px 0; color: var(--text-3); font-size: 13px; }
   </style>
 </head>
 <body>
@@ -242,14 +250,8 @@
     let globalSignature = ""; // 全局签名
     let batchSubmitting = false; // 批量提交中
 
-    // ====== 钉钉附件 URL 兜底刷新：图片加载失败时自动换 URL ======
-    // 钉钉 alidocs OSS 附件 URL 带 Content-Disposition: attachment + x-oss-force-download
-    // 导致手机/钉钉浏览器强制下载而非内联显示。<img> onerror 时依次尝试：
-    // 1) 本地队列服务图片代理（同网络可用，剥离下载头）
-    // 2) wsrv.nl 公共图片代理（跨网络可用，剥离下载头）
-    // 3) FC refresh-bp 获取新 URL（FC 端点可能不存在，静默失败）
-    // 不再 dim 图片或显示"刷新失败"——避免误伤可恢复的图片
-    // 图片代理刷新相关 — 已移除，OSS URL 频繁过期维护成本过高
+    // 图片代理刷新逻辑已移除（2026-08-11）：OSS URL 频繁过期维护成本过高。
+    // 2026-08-18 起 bp 不符合照片已永久化到 GitHub Pages，无需运行时兜底。
 
     if (DATA.updatedAt) { $('updatedInfo').textContent = "数据更新：" + DATA.updatedAt; }
     else { const d = new Date(); $('updatedInfo').textContent = "数据更新：" + d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); }
@@ -390,7 +392,34 @@
       updateSubmitAllUI('提交全部整改');
       setTimeout(initGlobalSignature, 0);
 
-      // 照片一览已移除 — OSS 图片 URL 频繁过期，不再内嵌展示
+      // ====== 照片一览：稽核所有不符合照片统一顶部展示 ======
+      // 2026-08-18 恢复：bp 照片已由 update_rectify_data.py 永久化到 GitHub Pages，
+      // 链接不再过期，无需复杂的运行时代理刷新。
+      document.querySelectorAll('.photo-overview').forEach(el => el.remove());
+      const bp = audit.bp || [];
+      if (bp.length > 0) {
+        let gridHtml = '';
+        bp.forEach((u, k) => {
+          const safe = String(u).replace(/"/g, '&quot;');
+          gridHtml += '<div class="po-item" data-url="' + safe + '">' +
+            '<img src="' + safe + '" loading="lazy" alt="不符合照片' + (k + 1) + '" ' +
+            'onerror="window.__rectifyHideBp(this)">' +
+            '<span class="po-num">' + (k + 1) + '/' + bp.length + '</span>' +
+          '</div>';
+        });
+        const overview = document.createElement('div');
+        overview.className = 'photo-overview';
+        overview.innerHTML =
+          '<div class="po-title">📷 不符合照片一览 <span class="count">共 ' + bp.length + ' 张 · 点击可放大</span></div>' +
+          '<div class="po-grid">' + gridHtml + '</div>';
+        $('auditContent').insertBefore(overview, $('auditContent').firstChild);
+        overview.querySelectorAll('.po-item').forEach(el => {
+          el.addEventListener('click', () => {
+            const img = el.querySelector('img');
+            openImgModal((img && img.src) || el.dataset.url);
+          });
+        });
+      }
 
       const audits = (selectedStore && STORE_AUDITS[selectedStore.id]) || [];
       const ds = audit.d ? audit.d.substring(0, 10) : "";
@@ -431,7 +460,7 @@
       try {
         const resp = await fetchWithTimeout(FC_URL + "/rectify/history", {
           method: "POST",
-          headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN },
+          headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN, "Bypass-Tunnel-Reminder": "go" },
           body: JSON.stringify({ storeName: selectedStore.n, limit: 50 })
         }, 8000);
         if (!resp.ok) return;
@@ -677,7 +706,7 @@
         try {
           var resp = await fetchWithTimeout(FC_URL + "/rectify/submit", {
             method: "POST",
-            headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN },
+            headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN, "Bypass-Tunnel-Reminder": "go" },
             body: JSON.stringify({
               storeId: selectedStore.id,
               storeName: selectedStore.n,
@@ -841,6 +870,11 @@
       $('imgModalImg').src = url;
       $('imgModal').classList.add('show');
     }
+    // 照片一览：极少数图片加载失败时隐藏该格子，避免显示破图（bp 已永久化，正常不会触发）
+    window.__rectifyHideBp = function(img) {
+      const item = img && img.closest('.po-item');
+      if (item) item.style.display = 'none';
+    };
     function closeImgModal() {
       $('imgModal').classList.remove('show');
       setTimeout(() => { $('imgModalImg').src = ''; }, 200);

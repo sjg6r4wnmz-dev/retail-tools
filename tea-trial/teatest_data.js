@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-18 18:31:22）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-18 18:33:28）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -3440,6 +3440,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-06 16:05:41"
   },
   {
+    "recordId": "MdICeFr6nS",
+    "store": "深圳笋岗万象食家店",
+    "register_date": "2026-08-10",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（陌桂）",
+    "taster": "胡阳",
+    "remark": "",
+    "created_at": "2026-08-18 10:33:08"
+  },
+  {
     "recordId": "MfSPoj7BuA",
     "store": "泰州兴化英莱达茶叶子",
     "register_date": "2026-08-06",
@@ -4304,6 +4313,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 08:43:40"
   },
   {
+    "recordId": "TUaxP3HpSY",
+    "store": "深圳笋岗万象食家店",
+    "register_date": "2026-08-10",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（栀香绿茶）",
+    "taster": "胡阳",
+    "remark": "",
+    "created_at": "2026-08-18 10:32:29"
+  },
+  {
     "recordId": "TVQA9qHaAC",
     "store": "仙桃银泰商城大厦茶叶子",
     "register_date": "2026-08-06",
@@ -5013,6 +5031,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "侯钰轩",
     "remark": "",
     "created_at": "2026-08-06 02:20:00"
+  },
+  {
+    "recordId": "Y7OtGVXrqC",
+    "store": "深圳笋岗万象食家店",
+    "register_date": "2026-08-10",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（茉莉绿茶）",
+    "taster": "胡阳",
+    "remark": "",
+    "created_at": "2026-08-18 10:32:51"
   },
   {
     "recordId": "Y9MlB2Se5X",
@@ -6669,6 +6696,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "杨力娜",
     "remark": "",
     "created_at": "2026-08-06 11:31:14"
+  },
+  {
+    "recordId": "hDHBsbmA4K",
+    "store": "深圳笋岗万象食家店",
+    "register_date": "2026-08-10",
+    "tea_name": "原叶冻萃茶/茶小匣清减装（黑乌龙）",
+    "taster": "胡阳",
+    "remark": "",
+    "created_at": "2026-08-18 10:33:23"
   },
   {
     "recordId": "hGH0jibzls",

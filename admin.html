@@ -295,7 +295,26 @@
 
   <div class="toast" id="toast"></div>
 
-  <script>document.write('<script src="data.js?t='+Date.now()+'"><\/script>');</script>
+<script>
+    // 优先从 jsdelivr CDN 加载 data.js（同步快、不卡 GitHub Pages 边缘缓存）
+    (function () {
+      var ts = Date.now();
+      var sources = [
+        'https://cdn.jsdelivr.net/gh/sjg6r4wnmz-dev/retail-tools@main/data.js?t=' + ts,
+        'https://sjg6r4wnmz-dev.github.io/retail-tools/data.js?t=' + ts,
+        'https://raw.githubusercontent.com/sjg6r4wnmz-dev/retail-tools/main/data.js?t=' + ts
+      ];
+      var idx = 0;
+      function tryNext() {
+        if (idx >= sources.length) return;
+        var s = document.createElement('script');
+        s.src = sources[idx++];
+        s.onerror = tryNext;
+        document.body.appendChild(s);
+      }
+      tryNext();
+    })();
+  </script>
   <script>
     // 强制每次页面加载都重新拉取 embedded_records.js（绕过浏览器缓存，确保看到最新数据）
     (function(){

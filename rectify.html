@@ -241,6 +241,7 @@
         var s = document.createElement('script');
         s.src = sources[idx++];
         s.onerror = tryNext;
+        s.onload = function() { if (window.__rectifyDataReady) window.__rectifyDataReady(); };
         document.body.appendChild(s);
       }
       tryNext();
@@ -259,9 +260,20 @@
         new Promise((_, reject) => setTimeout(() => reject(new Error("请求超时(" + timeoutMs + "ms)")), timeoutMs))
       ]);
     }
-    const DATA = window.RECTIFY_DATA || {};
-    const STORES = DATA.stores || [];
-    const STORE_AUDITS = DATA.storeAudits || {};
+    let DATA = window.RECTIFY_DATA || {};
+    let STORES = DATA.stores || [];
+    let STORE_AUDITS = DATA.storeAudits || {};
+
+    // data.js 异步加载完成后的回调——重新初始化数据
+    window.__rectifyDataReady = function() {
+      DATA = window.RECTIFY_DATA || {};
+      STORES = DATA.stores || [];
+      STORE_AUDITS = DATA.storeAudits || {};
+      if (DATA.updatedAt) { $('updatedInfo').textContent = "数据更新：" + DATA.updatedAt; }
+      // 如果用户已经输入了搜索词，重新触发搜索
+      var q = $('storeInput').value.trim().toLowerCase();
+      if (q) { clearTimeout(searchTimer); doSearch(q); }
+    };
     const $ = id => document.getElementById(id);
     let selectedStore = null, currentAudit = null;
     let activeProblemIndex = -1; // 当前展开编辑的扣分点

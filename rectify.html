@@ -1,0 +1,1061 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>整改闭环 · 茶颜零售稽核</title>
+  <style>
+    :root {
+      --primary: #C8161D; --primary-dark: #A01016; --primary-light: #FFF5F5;
+      --bg: #F5F5F7; --card: #FFFFFF; --text: #1A1A1A; --text-2: #86868B; --text-3: #AEAEB2;
+      --border: #E5E5EA; --safe: #34C759; --warn: #FF9500; --danger: #FF3B30; --radius: 14px;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    .container { max-width: 500px; margin: 0 auto; padding: 0 16px 100px; }
+    .header { text-align: center; padding: 24px 0 12px; }
+    .header .logo { display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 18px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); margin-bottom: 12px; box-shadow: 0 6px 20px rgba(200,22,29,0.22); }
+    .header .logo svg { width: 30px; height: 30px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .header h1 { font-size: 24px; font-weight: 700; margin-top: 4px; }
+    .header .sub { font-size: 13px; color: var(--text-2); margin-top: 6px; }
+    .header .updated { font-size: 11px; color: var(--text-3); margin-top: 8px; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 12px; }
+    .card-title { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; margin-bottom: 14px; }
+    .card-title .step { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--primary); color: #fff; font-size: 12px; font-weight: 700; }
+    .card-title .hint { font-weight: 400; font-size: 12px; color: var(--text-3); margin-left: auto; }
+    .search-box { position: relative; }
+    .search-box input { width: 100%; padding: 13px 40px 13px 40px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 15px; outline: none; transition: border-color 0.2s; background: var(--card); }
+    .search-box input:focus { border-color: var(--primary); }
+    .search-box .icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--text-3); }
+    .search-box .clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; line-height: 22px; text-align: center; color: var(--text-3); font-size: 18px; display: none; cursor: pointer; }
+    .store-list { max-height: 320px; overflow-y: auto; border: 1px solid var(--border); border-radius: 12px; margin-top: 8px; background: #fff; }
+    .store-item { padding: 12px 14px; border-bottom: 1px solid var(--border); cursor: pointer; }
+    .store-item:last-child { border-bottom: none; }
+    .store-item:active { background: var(--primary-light); }
+    .store-item .name { font-weight: 500; font-size: 15px; }
+    .store-item .meta { font-size: 12px; color: var(--text-2); margin-top: 2px; }
+    .store-item .badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; background: #FFF5F5; color: var(--primary); margin-left: 6px; }
+    .store-item .badge.none { background: #F5F5F7; color: var(--text-3); }
+    .selected-store { display: flex; align-items: center; justify-content: space-between; background: var(--primary-light); border: 1px solid rgba(200,22,29,0.12); border-radius: 12px; padding: 14px 16px; }
+    .selected-store .info .name { font-weight: 600; font-size: 16px; color: var(--primary); }
+    .selected-store .info .meta { font-size: 12px; color: var(--text-2); margin-top: 2px; }
+    .selected-store .change { font-size: 13px; color: var(--primary); cursor: pointer; white-space: nowrap; }
+    .audit-info { margin-bottom: 14px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .audit-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text-2); background: #F5F5F7; padding: 4px 10px; border-radius: 8px; }
+    .audit-tag .val { font-weight: 600; color: var(--text); }
+    .audit-tag.danger .val { color: var(--danger); }
+    .redline-banner { background: #FFF3F3; border: 1px solid rgba(255,59,48,0.15); border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; font-size: 13px; color: var(--danger); display: flex; align-items: center; gap: 6px; }
+    .audit-selector { margin-bottom: 14px; }
+    .audit-select-title { font-size: 13px; font-weight: 600; color: var(--text-2); margin-bottom: 10px; }
+    .audit-select-card { border: 1.5px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 10px; cursor: pointer; transition: all 0.15s; }
+    .audit-select-card:active { background: var(--primary-light); border-color: var(--primary); }
+    .audit-select-card .as-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .audit-select-card .as-group { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: #E3F2FD; color: #1565C0; }
+    .audit-select-card .as-date { font-size: 12px; color: var(--text-3); }
+    .audit-select-card .as-info { display: flex; gap: 12px; font-size: 13px; color: var(--text-2); flex-wrap: wrap; }
+    .audit-select-card .as-info .as-val { font-weight: 600; color: var(--text); }
+    .audit-select-card .as-ded { font-size: 12px; color: var(--danger); margin-top: 6px; font-weight: 500; }
+    .deduction-empty { text-align: center; padding: 20px 0; color: var(--text-2); font-size: 14px; }
+    .deduction-empty .emoji { font-size: 28px; display: block; margin-bottom: 6px; }
+    .problem-card { background: #fff; border: 1.5px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+    .problem-card.submitted { border-color: #d4edda; background: #f6fff8; }
+    .problem-card.submitted .problem-header { background: #f6fff8; }
+    .problem-header { display: flex; align-items: center; gap: 10px; padding: 14px; cursor: pointer; background: #fff; }
+    .problem-header .num { flex-shrink: 0; width: 24px; height: 24px; border-radius: 6px; background: #FFF3F3; color: var(--danger); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .problem-header .txt { flex: 1; font-size: 14px; color: #333; line-height: 1.5; }
+    .problem-header .arrow { flex-shrink: 0; color: var(--text-3); font-size: 12px; transition: transform 0.2s; }
+    .problem-card.open .arrow { transform: rotate(90deg); }
+    .problem-header .status-badge { font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+    .status-badge.done { background: #e8f5e9; color: #2e7d32; }
+    .status-badge.pending { background: #fff3e0; color: #ef6c00; }
+    .problem-body { padding: 0 14px 14px; display: none; }
+    .problem-card.open .problem-body { display: block; }
+    .problem-card.submitted .problem-body { display: none; }
+    .field-group { margin-bottom: 14px; }
+    .field-label { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px; display: block; }
+    .field-label .req { color: var(--danger); }
+    .field-label .hint { color: var(--text-3); font-weight: 400; }
+    .status-options { display: flex; gap: 8px; }
+    .status-option { flex: 1; padding: 10px 6px; border: 1.5px solid var(--border); border-radius: 10px; text-align: center; font-size: 13px; cursor: pointer; transition: all 0.2s; background: #fff; }
+    .status-option.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary); font-weight: 600; }
+    .photo-area { display: flex; gap: 8px; flex-wrap: wrap; }
+    .photo-slot { width: 80px; height: 80px; border: 2px dashed var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; overflow: hidden; background: #FAFAFA; }
+    .photo-slot svg { width: 22px; height: 22px; color: var(--text-3); }
+    .photo-slot.has-img { border-style: solid; border-color: var(--border); }
+    .photo-slot img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-slot .remove { position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; border-radius: 50%; background: rgba(0,0,0,0.6); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; }
+    .photo-btns { display: flex; gap: 8px; margin-top: 8px; }
+    .btn { width: 100%; padding: 13px; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn:active { opacity: 0.7; }
+    .btn:disabled { opacity: 0.5; }
+    .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 12px rgba(200,22,29,0.2); }
+    .btn-secondary { background: #F5F5F7; color: var(--text); }
+    .btn-small { flex: 1; padding: 9px; font-size: 13px; font-weight: 500; }
+    .btn svg { width: 18px; height: 18px; }
+    .signature-pad { width: 100%; height: 120px; border: 1.5px dashed var(--border); border-radius: 10px; background: #FAFAFA; touch-action: none; }
+    .signature-actions { display: flex; gap: 8px; margin-top: 8px; }
+    .submitter-input { width: 100%; padding: 11px 12px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; outline: none; }
+    .submitter-input:focus { border-color: var(--primary); }
+    input[type="date"] { width: 100%; padding: 11px 12px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; outline: none; }
+    input[type="date"]:focus { border-color: var(--primary); }
+    .submit-result { margin-top: 10px; padding: 10px 12px; border-radius: 8px; font-size: 13px; display: none; }
+    .submit-result.success { display: block; background: #e8f5e9; color: #2e7d32; }
+    .submit-result.error { display: block; background: #ffebee; color: #c62828; }
+    .hidden { display: none !important; }
+    .draft-restore-bar { position: sticky; top: 0; z-index: 150; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 14px; background: #fff7e6; color: #8a5a00; font-size: 13px; border-bottom: 1.5px solid #ffd591; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .draft-restore-bar .btn { padding: 6px 14px; font-size: 13px; }
+    .loading { text-align: center; padding: 20px; color: var(--text-2); }
+    .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .toast { position: fixed; left: 50%; bottom: 40px; transform: translateX(-50%) translateY(20px); padding: 12px 20px; border-radius: 12px; color: #fff; font-size: 14px; background: rgba(0,0,0,0.78); opacity: 0; pointer-events: none; transition: all 0.3s; z-index: 200; white-space: nowrap; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.success { background: rgba(52,199,89,0.92); }
+    .toast.error { background: rgba(255,59,48,0.92); }
+    .submitter-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; background: #fff; padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--border); }
+    .submitter-bar label { font-size: 13px; font-weight: 600; white-space: nowrap; }
+    .submitter-bar input { flex: 1; border: none; background: transparent; font-size: 14px; outline: none; padding: 0; }
+    .global-sig-card { background: var(--card); border-radius: var(--radius); padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 12px; }
+    .global-sig-card .hint { font-size: 12px; color: var(--text-3); font-weight: 400; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 300; display: none; align-items: flex-end; justify-content: center; }
+    .modal-overlay.show { display: flex; }
+    .modal-sheet { width: 100%; max-width: 500px; max-height: 85vh; background: var(--bg); border-radius: 20px 20px 0 0; display: flex; flex-direction: column; transform: translateY(100%); transition: transform 0.25s ease; }
+    .modal-overlay.show .modal-sheet { transform: translateY(0); }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #fff; border-radius: 20px 20px 0 0; border-bottom: 1px solid var(--border); }
+    .modal-header h3 { font-size: 16px; font-weight: 600; }
+    .modal-header .close { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; color: var(--text-2); font-size: 20px; }
+    .modal-body { flex: 1; overflow-y: auto; padding: 12px; }
+    .modal-footer { padding: 12px 16px; background: #fff; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-3); text-align: center; }
+    .record-card { background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 10px; }
+    .record-card .top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .record-card .store { font-weight: 600; font-size: 14px; }
+    .record-card .time { font-size: 11px; color: var(--text-3); white-space: nowrap; }
+    .record-card .problem { font-size: 13px; color: var(--text); margin-bottom: 8px; line-height: 1.5; }
+    .record-card .meta { display: flex; gap: 8px; flex-wrap: wrap; font-size: 12px; color: var(--text-2); margin-bottom: 8px; }
+    .record-card .meta span { background: #F5F5F7; padding: 2px 8px; border-radius: 6px; }
+    .record-card .meta .status-done { background: #e8f5e9; color: #2e7d32; }
+    .record-card .meta .status-pending { background: #fff3e0; color: #ef6c00; }
+    .record-card .meta .status-later { background: #ffebee; color: #c62828; }
+    .record-card .meta .state-pending { background: #e3f2fd; color: #1565c0; }
+    .record-card .meta .state-done { background: #e8f5e9; color: #2e7d32; }
+    .record-card .meta .state-error { background: #ffebee; color: #c62828; }
+    .record-imgs { display: flex; gap: 6px; flex-wrap: wrap; }
+    .record-imgs img { width: 56px; height: 56px; object-fit: cover; border-radius: 6px; }
+    .record-empty { text-align: center; padding: 40px 0; color: var(--text-2); font-size: 14px; }
+    .record-empty .emoji { font-size: 32px; display: block; margin-bottom: 8px; }
+    .img-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 400; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .img-modal.show { display: flex; }
+    .img-modal img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 6px; }
+    .img-modal .close { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; background: rgba(255,255,255,0.15); border-radius: 50%; color: #fff; font-size: 22px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    /* 照片一览 — 已移除，OSS 图片 URL 频繁过期维护成本过高 */
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 12 15 17 10"/></svg></div>
+      <h1>稽核闭环</h1>
+      <p class="sub">选门店 → 逐条整改 → 签名确认</p>
+      <p class="updated" id="updatedInfo"></p>
+    </div>
+
+    <!-- Step 1: Store Search -->
+    <div class="card" id="storeCard">
+      <div class="card-title"><span class="step">1</span> 选择门店 <span class="hint">输入店名/城市/区经</span></div>
+      <div id="storeSearchArea">
+        <div class="search-box">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input type="text" id="storeInput" placeholder="例如：五一广场、长沙、张三" autocomplete="off">
+          <span class="clear" id="clearSearch">&times;</span>
+        </div>
+        <div class="store-list hidden" id="storeList"></div>
+      </div>
+      <div class="selected-store hidden" id="selectedStore">
+        <div class="info"><div class="name" id="selectedName"></div><div class="meta" id="selectedMeta"></div></div>
+        <div class="change" id="changeStore">更换</div>
+      </div>
+    </div>
+
+    <!-- 全局提交人姓名 -->
+    <div class="submitter-bar hidden" id="submitterBar">
+      <label>提交人 <span style="color:var(--danger)">*</span></label>
+      <input type="text" id="submitterInput" placeholder="请输入你的姓名（会记录到表格）" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    </div>
+
+    <!-- Step 2: Audit Deductions -->
+    <div class="card hidden" id="auditCard">
+      <div class="card-title"><span class="step">2</span> 逐条整改 <span class="hint" id="auditDate"></span></div>
+      <div id="auditEmpty" class="deduction-empty hidden"><span class="emoji">📋</span>该门店暂无稽核记录</div>
+      <div id="auditSelector" class="hidden"></div>
+      <div id="auditContent" class="hidden">
+        <div class="audit-info" id="auditInfo"></div>
+        <div class="redline-banner hidden" id="redlineBanner"><span>⚠️</span> 本次稽核触发红线项，请重点关注</div>
+        <div id="problemsList"></div>
+      </div>
+    </div>
+
+    <!-- Step 3: 全局签名确认 -->
+    <div class="global-sig-card hidden" id="globalSigCard">
+      <div class="card-title"><span class="step">3</span> 签名确认 <span class="hint">本门店所有整改共用一次签名</span></div>
+      <div class="field-group" style="margin-bottom:0;">
+        <label class="field-label">手写签名 <span class="hint">(确认对本次整改结果负责)</span></label>
+        <canvas class="signature-pad" id="globalSigCanvas"></canvas>
+        <div class="signature-actions">
+          <button class="btn btn-secondary btn-small" id="clearGlobalSig">清除重写</button>
+        </div>
+      </div>
+      <div class="field-group" style="margin-top:18px; margin-bottom:0;">
+        <button class="btn btn-primary" id="submitAllBtn">提交全部整改</button>
+        <div class="submit-result" id="submitAllResult" style="display:none; margin-top:10px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <div class="img-modal" id="imgModal">
+    <div class="close" id="imgModalClose">&times;</div>
+    <img id="imgModalImg" src="" alt="">
+  </div>
+  <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none">
+  <input type="file" id="albumInput" accept="image/*" multiple style="display:none">
+  <script>
+    // data.js 多源加载 + 数据校验：防止单个 CDN/网络问题导致门店列表为空
+    (function () {
+      var ts = Date.now();
+      var sources = [
+        'https://sjg6r4wnmz-dev.github.io/retail-tools/data.js?t=' + ts,
+        'https://cdn.jsdelivr.net/gh/sjg6r4wnmz-dev/retail-tools@main/data.js?t=' + ts,
+        'https://raw.githubusercontent.com/sjg6r4wnmz-dev/retail-tools/main/data.js?t=' + ts
+      ];
+      var idx = 0;
+      function isDataReady() {
+        return window.RECTIFY_DATA && window.RECTIFY_DATA.stores && window.RECTIFY_DATA.stores.length > 0;
+      }
+      function showLoadError() {
+        if (document.getElementById('dataLoadError')) return;
+        document.body.insertAdjacentHTML('beforeend',
+          '<div id="dataLoadError" style="position:fixed;inset:0;background:rgba(255,255,255,0.96);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;">' +
+          '<div style="max-width:320px;">' +
+          '<div style="font-size:48px;margin-bottom:12px;">⚠️</div>' +
+          '<div style="font-size:18px;font-weight:600;color:#C8161D;margin-bottom:8px;">门店数据加载失败</div>' +
+          '<div style="font-size:14px;color:#666;margin-bottom:20px;">请检查网络后刷新，或尝试清除浏览器缓存</div>' +
+          '<button onclick="location.reload(true)" style="padding:12px 28px;background:#C8161D;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;">刷新重试</button>' +
+          '</div></div>');
+      }
+      function tryNext() {
+        if (isDataReady()) {
+          if (window.__rectifyDataReady) window.__rectifyDataReady();
+          return;
+        }
+        if (idx >= sources.length) { showLoadError(); return; }
+        var s = document.createElement('script');
+        s.src = sources[idx++];
+        s.onerror = function () { setTimeout(tryNext, 100); };
+        s.onload = function () {
+          if (isDataReady()) {
+            if (window.__rectifyDataReady) window.__rectifyDataReady();
+            return;
+          }
+          // 脚本加载完成但数据未就绪，尝试下一个源
+          setTimeout(tryNext, 100);
+        };
+        document.body.appendChild(s);
+      }
+      tryNext();
+      // 总超时兜底：12 秒后数据仍未就绪，弹出错误提示
+      setTimeout(function () {
+        if (!isDataReady()) showLoadError();
+      }, 12000);
+    })();
+  </script>
+  <script>
+    const FC_URL = "https://posm-recog-posm-scap-recog-oopugfimug.cn-hangzhou.fcapp.run";
+    const BACKUP_URLS = []; // 备用隧道（loca.lt 已废弃，移除避免拖垮请求）
+    const AUTH_TOKEN = "posm_5fa4761ff06d7c89d189faf93574f248";
+    const LOCAL_URL = "http://127.0.0.1:8766"; // 本地队列服务（同网络可用，用于图片代理）
+
+    // 带超时的 fetch：防止某个端点 hang 死整个流程
+    function fetchWithTimeout(url, options, timeoutMs) {
+      return Promise.race([
+        fetch(url, options),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("请求超时(" + timeoutMs + "ms)")), timeoutMs))
+      ]);
+    }
+    let DATA = window.RECTIFY_DATA || {};
+    let STORES = DATA.stores || [];
+    let STORE_AUDITS = DATA.storeAudits || {};
+    const $ = id => document.getElementById(id);
+
+    // data.js 异步加载完成后的回调——重新初始化数据并刷新搜索
+    window.__rectifyDataReady = function() {
+      DATA = window.RECTIFY_DATA || {};
+      STORES = DATA.stores || [];
+      STORE_AUDITS = DATA.storeAudits || {};
+      if (DATA.updatedAt) { $('updatedInfo').textContent = "数据更新：" + DATA.updatedAt; }
+      // 如果用户已经输入了搜索词，重新触发搜索
+      var q = $('storeInput').value.trim().toLowerCase();
+      if (q) { clearTimeout(searchTimer); doSearch(q); }
+    };
+    let selectedStore = null, currentAudit = null;
+    let activeProblemIndex = -1; // 当前展开编辑的扣分点
+    let activePhotoProblemIndex = -1; // 当前操作照片的扣分点
+    let problems = []; // 每个扣分点的状态对象
+    let globalSignature = ""; // 全局签名
+    let batchSubmitting = false; // 批量提交中
+    let _pendingRestoreDraft = null; // 多份稽核时，用户选择审计后恢复的草稿
+
+    // ====== 钉钉附件 URL 兜底刷新：图片加载失败时自动换 URL ======
+    // 钉钉 alidocs OSS 附件 URL 带 Content-Disposition: attachment + x-oss-force-download
+    // 导致手机/钉钉浏览器强制下载而非内联显示。<img> onerror 时依次尝试：
+    // 1) 本地队列服务图片代理（同网络可用，剥离下载头）
+    // 2) wsrv.nl 公共图片代理（跨网络可用，剥离下载头）
+    // 3) FC refresh-bp 获取新 URL（FC 端点可能不存在，静默失败）
+    // 不再 dim 图片或显示"刷新失败"——避免误伤可恢复的图片
+    // 图片代理刷新相关 — 已移除，OSS URL 频繁过期维护成本过高
+
+    if (DATA.updatedAt) { $('updatedInfo').textContent = "数据更新：" + DATA.updatedAt; }
+    else { const d = new Date(); $('updatedInfo').textContent = "数据更新：" + d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); }
+
+    // 提交人姓名记忆
+    const submitterInput = $('submitterInput');
+    submitterInput.value = localStorage.getItem('rectify_submitter_name') || '';
+    submitterInput.addEventListener('input', () => localStorage.setItem('rectify_submitter_name', submitterInput.value));
+
+    // Store search
+    let searchTimer = null;
+    $('storeInput').addEventListener('input', () => {
+      $('clearSearch').style.display = $('storeInput').value ? 'block' : 'none';
+      clearTimeout(searchTimer);
+      const q = $('storeInput').value.trim().toLowerCase();
+      if (!q) { $('storeList').classList.add('hidden'); return; }
+      searchTimer = setTimeout(() => doSearch(q), 200);
+    });
+    $('clearSearch').addEventListener('click', () => {
+      $('storeInput').value = ''; $('clearSearch').style.display = 'none';
+      $('storeList').classList.add('hidden'); $('storeInput').focus();
+    });
+
+    function doSearch(q) {
+      const terms = q.split(/[\s\\/]+/).filter(Boolean);
+      const results = [];
+      for (const s of STORES) {
+        const text = (s.n + " " + s.c + " " + s.p + " " + s.ci + " " + s.d + " " + s.m).toLowerCase();
+        if (terms.every(t => text.includes(t))) { results.push(s); if (results.length >= 30) break; }
+      }
+      renderStoreList(results);
+    }
+
+    function renderStoreList(stores) {
+      const list = $('storeList');
+      list.innerHTML = '';
+      if (!stores.length) {
+        if (!STORES.length) {
+          list.innerHTML = '<div class="store-item" style="color:#C8161D;text-align:center">门店数据未加载，请检查网络后刷新页面</div>';
+        } else {
+          list.innerHTML = '<div class="store-item" style="color:#999;text-align:center">未找到门店</div>';
+        }
+        list.classList.remove('hidden');
+        return;
+      }
+      stores.forEach(s => {
+        const audits = STORE_AUDITS[s.id];
+        const hasAudit = audits && audits.length > 0;
+        const totalDed = hasAudit ? audits.reduce((sum, a) => sum + a.dd.length, 0) : 0;
+        const auditCount = hasAudit ? audits.length : 0;
+        let badge;
+        if (hasAudit && auditCount > 1) badge = '<span class="badge">' + auditCount + '份稽核</span>';
+        else if (hasAudit && totalDed > 0) badge = '<span class="badge">' + totalDed + '项扣分</span>';
+        else if (hasAudit) badge = '<span class="badge none">无扣分</span>';
+        else badge = '';
+        const el = document.createElement('div');
+        el.className = 'store-item';
+        el.innerHTML = '<div class="name">' + esc(s.n) + badge + '</div><div class="meta">' + esc([s.p, s.ci, s.d, s.m].filter(Boolean).join(' · ')) + '</div>';
+        el.addEventListener('click', () => selectStore(s));
+        list.appendChild(el);
+      });
+      list.classList.remove('hidden');
+    }
+
+    function selectStore(s) {
+      selectedStore = s;
+      $('storeInput').value = ''; $('clearSearch').style.display = 'none';
+      $('storeList').classList.add('hidden'); $('storeSearchArea').classList.add('hidden');
+      $('selectedStore').classList.remove('hidden');
+      $('selectedName').textContent = s.n;
+      $('selectedMeta').textContent = [s.p, s.ci, s.d, s.m].filter(Boolean).join(' · ');
+      $('auditCard').classList.remove('hidden');
+      $('submitterBar').classList.remove('hidden');
+      renderAudit(s.id);
+    }
+
+    $('changeStore').addEventListener('click', () => {
+      selectedStore = null; currentAudit = null; problems = []; activeProblemIndex = -1;
+      globalSignature = ""; batchSubmitting = false;
+      $('storeSearchArea').classList.remove('hidden');
+      $('selectedStore').classList.add('hidden');
+      $('auditCard').classList.add('hidden'); $('submitterBar').classList.add('hidden');
+      $('globalSigCard').classList.add('hidden');
+      $('auditSelector').classList.add('hidden');
+      $('submitAllResult').style.display = 'none';
+      $('submitAllResult').className = 'submit-result';
+      $('submitAllResult').textContent = '';
+      updateSubmitAllUI('提交全部整改');
+      initGlobalSignature();
+      $('storeInput').focus();
+    });
+
+    function renderAudit(storeId) {
+      const audits = STORE_AUDITS[storeId];
+      if (!audits || !audits.length) {
+        $('auditEmpty').classList.remove('hidden');
+        $('auditContent').classList.add('hidden');
+        $('auditSelector').classList.add('hidden');
+        $('globalSigCard').classList.add('hidden');
+        return;
+      }
+      if (audits.length === 1) {
+        renderSingleAudit(audits[0]);
+        return;
+      }
+      // 多份稽核 - 显示选择器
+      $('auditEmpty').classList.add('hidden');
+      $('auditContent').classList.add('hidden');
+      $('globalSigCard').classList.add('hidden');
+      $('auditSelector').classList.remove('hidden');
+      $('auditDate').textContent = '';
+      
+      let html = '<div class="audit-select-title">该门店有 ' + audits.length + ' 份稽核，请选择一份查看：</div>';
+      audits.forEach((a, i) => {
+        const titleLabel = a.t || '运营';
+        const ds = a.d ? a.d.substring(5, 16).replace('T', ' ') : '';
+        const ss = a.sc ? String(a.sc) : '—';
+        const dc = a.dd.length;
+        html += '<div class="audit-select-card" data-idx="' + i + '">' +
+          '<div class="as-top">' +
+            '<span class="as-group">' + esc(titleLabel) + '</span>' +
+            '<span class="as-date">' + esc(ds) + '</span>' +
+          '</div>' +
+          '<div class="as-info">' +
+            (a.u ? '<span>提交人 <span class="as-val">' + esc(a.u) + '</span></span>' : '') +
+            '<span>分数 <span class="as-val">' + esc(ss) + '</span></span>' +
+            '<span>扣分 <span class="as-val">' + dc + '</span> 项</span>' +
+          '</div>' +
+          (dc > 0 ? '<div class="as-ded">' + dc + ' 项需整改</div>' : '<div class="as-ded" style="color:var(--safe)">无扣分项</div>') +
+        '</div>';
+      });
+      $('auditSelector').innerHTML = html;
+      $('auditSelector').querySelectorAll('.audit-select-card').forEach(el => {
+        el.addEventListener('click', () => renderSingleAudit(audits[parseInt(el.dataset.idx)]));
+      });
+    }
+
+    function renderSingleAudit(audit) {
+      currentAudit = audit;
+      batchSubmitting = false;
+      $('auditEmpty').classList.add('hidden');
+      $('auditSelector').classList.add('hidden');
+      $('auditContent').classList.remove('hidden');
+      $('globalSigCard').classList.remove('hidden');
+      $('submitAllResult').style.display = 'none';
+      updateSubmitAllUI('提交全部整改');
+      setTimeout(initGlobalSignature, 0);
+
+      // 照片一览已移除 — OSS 图片 URL 频繁过期，不再内嵌展示
+
+      const audits = (selectedStore && STORE_AUDITS[selectedStore.id]) || [];
+      const ds = audit.d ? audit.d.substring(0, 10) : "";
+      $('auditDate').textContent = ds ? "(" + ds + ")" : "";
+
+      let tags = '';
+      if (audits.length > 1) {
+        tags += '<div class="audit-tag" style="cursor:pointer;color:var(--primary)" id="backToAuditList">← 返回选择</div>';
+      }
+      const titleLabel = audit.t || '运营';
+      tags += '<div class="audit-tag"><span class="as-group">' + esc(titleLabel) + '</span></div>';
+      if (audit.u) tags += '<div class="audit-tag">提交人 <span class="val">' + esc(audit.u) + '</span></div>';
+      if (audit.sc) tags += '<div class="audit-tag">总分 <span class="val">' + esc(String(audit.sc)) + '</span></div>';
+      tags += '<div class="audit-tag">扣分 <span class="val">' + audit.dd.length + '</span> 项</div>';
+      $('auditInfo').innerHTML = tags;
+
+      if (audit.rl === "是") { $('redlineBanner').classList.remove('hidden'); } else { $('redlineBanner').classList.add('hidden'); }
+
+      const backBtn = $('backToAuditList');
+      if (backBtn) backBtn.addEventListener('click', () => renderAudit(selectedStore.id));
+
+      problems = audit.dd.map((d, i) => {
+        // 兼容老数据(字符串)和新数据({t})
+        const text = (typeof d === 'string') ? d : (d.t || '');
+        return {
+          index: i, text,
+          status: "已整改", photos: [],
+          expectedDate: "", submitted: false, submitting: false, resultMsg: ""
+        };
+      });
+      renderProblems();
+      // 加载审核结果
+      fetchAuditResults();
+      // 草稿恢复钩子：多份稽核时，用户选择审计后自动恢复待提交项
+      if (_pendingRestoreDraft) {
+        const d = _pendingRestoreDraft; _pendingRestoreDraft = null;
+        applyDraftItems(d);
+      }
+    }
+
+    async function fetchAuditResults() {
+      if (!selectedStore) return;
+      try {
+        const resp = await fetchWithTimeout(FC_URL + "/rectify/history", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN },
+          body: JSON.stringify({ storeName: selectedStore.n, limit: 50 })
+        }, 8000);
+        if (!resp.ok) return;
+        const data = await resp.json();
+        if (!data.ok || !Array.isArray(data.records)) return;
+        // Match audit records to problems by problem text
+        let hasAuditUpdate = false;
+        problems.forEach(p => {
+          const match = data.records.find(r => r.problem === p.text);
+          if (match) {
+            p.auditStatus = match.auditStatus || null;
+            p.auditComment = match.auditComment || "";
+          }
+        });
+        renderProblems();
+      } catch(e) {
+        // silently fail - audit results are optional
+      }
+    }
+
+    function renderProblems() {
+      const container = $('problemsList');
+      container.innerHTML = '';
+      if (!problems.length) {
+        container.innerHTML = '<div class="deduction-empty"><span class="emoji">🎉</span>该门店本次稽核无扣分项</div>';
+        return;
+      }
+      problems.forEach((p, i) => {
+        const card = document.createElement('div');
+        card.className = 'problem-card' + (activeProblemIndex === i ? ' open' : '') + (p.submitted ? ' submitted' : '');
+        card.id = 'problemCard_' + i;
+
+        let badge = '';
+        if (p.submitted) {
+          if (p.auditStatus === "approved") {
+            badge = '<span class="status-badge" style="background:#e8f5e9;color:#2e7d32">✓ 审核通过</span>';
+          } else if (p.auditStatus === "rejected") {
+            badge = '<span class="status-badge" style="background:#ffebee;color:#c62828">✗ 审核未通过</span>';
+          } else {
+            badge = '<span class="status-badge done">✓ 已提交</span>';
+          }
+        }
+        else if (p.resultMsg && p.resultMsg.text && !p.resultMsg.success) badge = '<span class="status-badge" style="background:#ffebee;color:#c62828">✗ 失败</span>';
+        card.innerHTML =
+          '<div class="problem-header" id="problemHeader_' + i + '">' +
+            '<span class="num">' + (i+1) + '</span>' +
+            '<span class="txt">' + esc(p.text) + '</span>' +
+            badge +
+            (p.auditComment ? '<div style="font-size:11px;color:#c62828;margin-top:4px;padding:4px 8px;background:#fff3e0;border-radius:6px;">📝 审核意见：' + esc(p.auditComment) + '</div>' : '') +
+            '<span class="arrow">▶</span>' +
+          '</div>' +
+          '<div class="problem-body" id="problemBody_' + i + '">' + problemFormHtml(p, i) + '</div>';
+        container.appendChild(card);
+
+        // 绑定事件
+        if (!p.submitted) {
+          $('problemHeader_' + i).addEventListener('click', () => toggleProblem(i));
+          bindProblemEvents(i);
+          renderPhotosFor(i);
+        }
+      });
+    }
+
+    function problemFormHtml(p, i) {
+      return `
+        <div class="field-group">
+          <label class="field-label">整改状态 <span class="req">*</span></label>
+          <div class="status-options" id="statusOptions_${i}">
+            <div class="status-option ${p.status==='已整改'?'selected':''}" data-val="已整改">已整改</div>
+            <div class="status-option ${p.status==='不能立即整改'?'selected':''}" data-val="不能立即整改">不能立即整改</div>
+          </div>
+        </div>
+        <div class="field-group ${p.status==='不能立即整改'?'':'hidden'}" id="expectedDateGroup_${i}">
+          <label class="field-label">预计完成时间 <span class="req">*</span></label>
+          <input type="date" id="expectedDate_${i}" value="${p.expectedDate}">
+        </div>
+        <div class="field-group">
+          <label class="field-label">整改照片 <span class="hint">(整改后，最多3张)</span></label>
+          <div class="photo-area" id="photoArea_${i}"></div>
+          <div class="photo-btns">
+            <button class="btn btn-secondary btn-small" id="cameraBtn_${i}">📷 拍照</button>
+            <button class="btn btn-secondary btn-small" id="albumBtn_${i}">🖼️ 相册</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleProblem(i) {
+      activeProblemIndex = activeProblemIndex === i ? -1 : i;
+      renderProblems();
+    }
+
+    function bindProblemEvents(i) {
+      // 状态选择
+      document.querySelectorAll('#statusOptions_' + i + ' .status-option').forEach(el => {
+        el.addEventListener('click', () => {
+          problems[i].status = el.dataset.val;
+          renderProblems();
+        });
+      });
+      // 日期
+      $('expectedDate_' + i).addEventListener('change', e => { problems[i].expectedDate = e.target.value; });
+      // 整改照片
+      $('cameraBtn_' + i).addEventListener('click', () => { activePhotoProblemIndex = i; $('cameraInput').click(); });
+      $('albumBtn_' + i).addEventListener('click', () => { activePhotoProblemIndex = i; $('albumInput').click(); });
+    }
+
+    function renderPhotosFor(i) {
+      const area = $('photoArea_' + i);
+      if (!area) return;
+      area.innerHTML = "";
+      const p = problems[i];
+      p.photos.forEach((dataUrl, idx) => {
+        const slot = document.createElement("div");
+        slot.className = "photo-slot has-img";
+        slot.innerHTML = '<img src="' + dataUrl + '"><div class="remove" data-idx="' + idx + '">&times;</div>';
+        area.appendChild(slot);
+      });
+      if (p.photos.length < 3) {
+        const addSlot = document.createElement("div");
+        addSlot.className = "photo-slot";
+        addSlot.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>';
+        addSlot.addEventListener("click", () => { activePhotoProblemIndex = i; $('albumInput').click(); });
+        area.appendChild(addSlot);
+      }
+      area.querySelectorAll(".remove").forEach(el => {
+        el.addEventListener("click", e => {
+          e.stopPropagation();
+          problems[i].photos.splice(parseInt(el.dataset.idx), 1);
+          renderPhotosFor(i);
+        });
+      });
+    }
+
+    function initGlobalSignature() {
+      const canvas = $('globalSigCanvas');
+      if (!canvas) return;
+      // 避免重复绑定：克隆替换
+      const newCanvas = canvas.cloneNode(true);
+      canvas.parentNode.replaceChild(newCanvas, canvas);
+      const ctx = newCanvas.getContext('2d');
+      const rect = newCanvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      newCanvas.width = rect.width * dpr;
+      newCanvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = 2;
+      ctx.strokeStyle = '#1A1A1A';
+      let drawing = false, lastX = 0, lastY = 0;
+
+      if (globalSignature) {
+        const img = new Image();
+        img.onload = () => ctx.drawImage(img, 0, 0, rect.width, rect.height);
+        img.src = globalSignature;
+      }
+
+      const getPos = e => {
+        const r = newCanvas.getBoundingClientRect();
+        const t = e.touches ? e.touches[0] : e;
+        return { x: t.clientX - r.left, y: t.clientY - r.top };
+      };
+      const start = e => { drawing = true; const pos = getPos(e); lastX = pos.x; lastY = pos.y; e.preventDefault(); };
+      const move = e => {
+        if (!drawing) return;
+        const pos = getPos(e);
+        ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(pos.x, pos.y); ctx.stroke();
+        lastX = pos.x; lastY = pos.y; e.preventDefault();
+      };
+      const end = () => {
+        if (!drawing) return;
+        drawing = false;
+        globalSignature = newCanvas.toDataURL('image/png');
+      };
+      newCanvas.addEventListener('mousedown', start);
+      newCanvas.addEventListener('mousemove', move);
+      window.addEventListener('mouseup', end);
+      newCanvas.addEventListener('touchstart', start, { passive: false });
+      newCanvas.addEventListener('touchmove', move, { passive: false });
+      newCanvas.addEventListener('touchend', end);
+    }
+
+    // 全局签名清除
+    $('clearGlobalSig').addEventListener('click', () => { globalSignature = ""; initGlobalSignature(); });
+
+    // 全局提交全部
+    $('submitAllBtn').addEventListener('click', submitAll);
+
+    // 全局照片输入处理
+    $('cameraInput').addEventListener('change', e => handlePhotoFiles(e.target.files));
+    $('albumInput').addEventListener('change', e => handlePhotoFiles(e.target.files));
+
+    async function handlePhotoFiles(fileList) {
+      const i = activePhotoProblemIndex;
+      if (i < 0) return;
+      const p = problems[i];
+      const remaining = 3 - p.photos.length;
+      if (remaining <= 0) { showToast("最多上传3张照片", ""); return; }
+      const files = Array.from(fileList).slice(0, remaining);
+      for (const file of files) {
+        if (!file.type.startsWith("image/")) continue;
+        try {
+          const compressed = await compressImage(file, 1280, 0.5);
+          p.photos.push(compressed);
+        } catch(e) { console.error("compress error", e); }
+      }
+      renderPhotosFor(i);
+    }
+
+    function compressImage(file, maxSize, quality) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = new Image();
+          img.onload = () => {
+            let { width, height } = img;
+            if (width > height && width > maxSize) { height = Math.round(height * maxSize / width); width = maxSize; }
+            else if (height > maxSize) { width = Math.round(width * maxSize / height); height = maxSize; }
+            const canvas = document.createElement("canvas");
+            canvas.width = width; canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+            canvas.toBlob(blob => {
+              const r = new FileReader();
+              r.onload = () => resolve(r.result);
+              r.onerror = reject;
+              r.readAsDataURL(blob);
+            }, "image/jpeg", quality);
+          };
+          img.onerror = reject;
+          img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function submitOneProblem(i) {
+      const p = problems[i];
+      const photoData = p.photos.map(p => p);
+      var lastErr = null;
+      // 最多重试3次（FC偶发性挂掉，自动恢复通常 <30秒）
+      for (var retry = 0; retry < 3; retry++) {
+        try {
+          var resp = await fetchWithTimeout(FC_URL + "/rectify/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN },
+            body: JSON.stringify({
+              storeId: selectedStore.id,
+              storeName: selectedStore.n,
+              auditId: currentAudit.id || "",
+              problem: p.text,
+              status: p.status,
+              photos: photoData,
+              signature: globalSignature,
+              submitterName: submitterInput.value.trim(),
+              expectedDate: p.status === "不能立即整改" ? p.expectedDate : "",
+            })
+          }, 15000);
+          var data = await resp.json();
+          if (data.ok) {
+            if (data.sessionId) _fcSessionId = data.sessionId;
+            p.submitted = true; p.resultMsg = { text: retry > 0 ? "已提交(重试" + retry + "次)" : "已提交", success: true };
+            markDraftSubmitted(p.index);  // 本地兜底：标记该项已提交成功
+            return { success: true };
+          } else {
+            lastErr = data.error || "提交失败";
+          }
+        } catch(e) {
+          lastErr = e.message;
+        }
+        // 不是最后一次则等待2秒后重试
+        if (retry < 2) {
+          p.resultMsg = { text: "重试中(" + (retry+1) + "/3)…", success: false };
+          renderProblems();
+          await new Promise(function(r) { setTimeout(r, 2000); });
+        }
+      }
+      p.resultMsg = { text: "失败（重试3次后）: " + (lastErr || "未知错误"), success: false };
+      return { success: false, error: lastErr };
+    }
+
+    // ===== 提交本地兜底草稿（localStorage）：断网/崩溃/误关页面后恢复 =====
+    const DRAFT_KEY = 'rectify_pending_draft_v1';
+    function getDraft() {
+      try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch(e) { return null; }
+    }
+    function saveDraft(store, audit, items) {
+      if (!store || !items || !items.length) return;
+      const draft = {
+        savedAt: Date.now(),
+        storeId: store.id || '',
+        storeName: store.n || '',
+        auditId: (audit && (audit.id || audit.d)) || '',
+        submitterName: submitterInput.value.trim(),
+        signature: globalSignature,
+        items: items.map(p => ({
+          index: p.index,
+          text: p.text,
+          status: p.status,
+          expectedDate: p.expectedDate || '',
+          photos: (p.photos || []).slice(),
+          submitted: !!p.submitted,
+        }))
+      };
+      // 容量保护：完整草稿存不下 → 去掉照片 → 再去掉签名，逐步降级（至少保住文本）
+      const tryWrite = d => {
+        try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); return true; }
+        catch(e) { return false; }
+      };
+      if (tryWrite(draft)) return;
+      draft.items.forEach(it => { it.photos = []; });
+      if (tryWrite(draft)) { showToast("照片较多，本地草稿已降级（不含照片）", ""); return; }
+      draft.signature = "";
+      if (tryWrite(draft)) { showToast("本地草稿已降级（不含照片/签名）", ""); return; }
+      showToast("本地草稿保存失败，请勿中途关闭页面", "error");
+    }
+    function markDraftSubmitted(index) {
+      const d = getDraft();
+      if (!d) return;
+      let changed = false;
+      d.items.forEach(it => { if (it.index === index && !it.submitted) { it.submitted = true; changed = true; } });
+      if (changed) { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch(e) {} }
+    }
+    function clearDraft() {
+      try { localStorage.removeItem(DRAFT_KEY); } catch(e) {}
+    }
+    function restoreDraft() {
+      const d = getDraft();
+      if (!d || !d.items) return;
+      const pending = d.items.filter(it => !it.submitted);
+      if (!pending.length) { clearDraft(); return; }
+      const bar = document.createElement("div");
+      bar.className = "draft-restore-bar";
+      bar.innerHTML = '<span>⚠️ 上次有 ' + pending.length + ' 条整改未提交完成（' + esc(d.storeName || "") + ' · ' +
+        new Date(d.savedAt).toLocaleTimeString("zh-CN", {hour:"2-digit",minute:"2-digit"}) + '）</span>' +
+        '<button class="btn btn-small" id="restoreDraftBtn">恢复并提交</button>' +
+        '<button class="btn btn-small btn-secondary" id="discardDraftBtn">放弃</button>';
+      document.body.insertBefore(bar, document.body.firstChild);
+      $('restoreDraftBtn').addEventListener('click', () => { restoreDraftIntoForm(d); bar.remove(); });
+      $('discardDraftBtn').addEventListener('click', () => { clearDraft(); bar.remove(); });
+    }
+    function restoreDraftIntoForm(d) {
+      // 1. 恢复门店
+      let st = null;
+      if (d.storeId) st = STORES.find(s => s.id === d.storeId) || null;
+      if (!st && d.storeName) st = STORES.find(s => s.n === d.storeName) || null;
+      if (!st) { showToast("未找到门店「" + (d.storeName || "") + "」，请重新选择门店后提交", "error"); return; }
+      selectStore(st);
+      // 2. 恢复提交人/签名
+      if (d.submitterName) { submitterInput.value = d.submitterName; try { localStorage.setItem('rectify_submitter_name', d.submitterName); } catch(e) {} }
+      if (d.signature) globalSignature = d.signature;
+      // 3. 按 auditId/日期恢复稽核
+      const audits = STORE_AUDITS[st.id] || [];
+      const targetAudit = (d.auditId && audits.find(a => (a.id || a.d) === d.auditId)) || (audits.length === 1 ? audits[0] : null);
+      if (targetAudit) {
+        renderSingleAudit(targetAudit);
+        applyDraftItems(d);
+      } else if (audits.length > 1) {
+        _pendingRestoreDraft = d;  // 等用户选完审计后自动恢复
+        showToast("请选择稽核，随后自动恢复待提交内容", "success");
+      } else {
+        showToast("未找到该稽核数据，请重新进入门店", "error");
+      }
+    }
+    function applyDraftItems(d) {
+      const pending = d.items.filter(it => !it.submitted);
+      pending.forEach(it => {
+        const p = problems.find(x => x.index === it.index);
+        if (p) {
+          p.text = it.text;
+          p.status = it.status;
+          p.expectedDate = it.expectedDate || '';
+          p.photos = (it.photos || []).slice();
+        }
+      });
+      renderProblems();
+      setTimeout(initGlobalSignature, 0);
+      showToast("已恢复 " + pending.length + " 条待提交项，请确认后提交", "success");
+    }
+
+    async function submitAll() {
+      if (!selectedStore) { showToast("请先选择门店", "error"); return; }
+      if (!submitterInput.value.trim()) {
+        showToast("请先填写提交人姓名", "error");
+        submitterInput.focus();
+        return;
+      }
+      if (!globalSignature) {
+        showToast("请先在上方「签名确认」处手写签名", "error");
+        $('globalSigCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      const pending = problems.filter(p => !p.submitted);
+      if (!pending.length) {
+        showToast("所有扣分点已提交", "success");
+        return;
+      }
+
+      for (const p of pending) {
+        if (p.status === "不能立即整改" && !p.expectedDate) {
+          showToast("第 " + (p.index + 1) + " 条扣分点请选择预计完成时间", "error");
+          activeProblemIndex = p.index;
+          renderProblems();
+          $('problemCard_' + p.index).scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+      }
+
+      batchSubmitting = true;
+      pending.forEach(p => { p.submitting = true; });
+      renderProblems();
+      updateSubmitAllUI("提交中 (0/" + pending.length + ")...");
+      // 本地兜底：提交前把未提交项落盘到 localStorage，网络中断也能恢复
+      saveDraft(selectedStore, currentAudit, pending);
+
+      let done = 0, successCount = 0, failCount = 0;
+      for (const p of pending) {
+        const r = await submitOneProblem(p.index);
+        p.submitting = false;
+        done++;
+        if (r.success) successCount++; else failCount++;
+        updateSubmitAllUI("提交中 (" + done + "/" + pending.length + ")...");
+        renderProblems();
+      }
+
+      batchSubmitting = false;
+      activeProblemIndex = -1;
+      renderProblems();
+
+      const resultEl = $('submitAllResult');
+      if (failCount === 0) {
+        clearDraft();  // 全部成功，清除本地草稿
+        resultEl.textContent = "全部提交成功，等待同步..."; pollSyncStatus(Date.now(), resultEl);
+        resultEl.className = "submit-result success";
+        resultEl.style.display = "block";
+        showToast("全部提交成功", "success");
+      } else {
+        resultEl.textContent = "成功 " + successCount + " 条，失败 " + failCount + " 条，失败项仍可在上方修改后再次提交";
+        resultEl.className = "submit-result error";
+        resultEl.style.display = "block";
+        showToast("部分提交失败，请检查", "error");
+      }
+      updateSubmitAllUI("提交全部整改");
+    }
+
+    function updateSubmitAllUI(text) {
+      const btn = $('submitAllBtn');
+      btn.disabled = batchSubmitting;
+      if (batchSubmitting) {
+        btn.innerHTML = '<span class="spinner" style="width:16px;height:16px;border-color:#fff;border-top-color:transparent"></span> ' + esc(text);
+      } else {
+        btn.textContent = text;
+      }
+    }
+
+    function showToast(msg, type) {
+      const t = $('toast');
+      t.textContent = msg;
+      t.className = "toast show " + (type || "");
+      setTimeout(() => t.classList.remove("show"), 2500);
+    }
+    // === 提交后实时轮询同步状态（指数退避：0-20s每2s / 20-60s每5s / 60s+每10s，120s超时）===
+    let _pollTimer = null;
+    let _fcSessionId = null;  // 提交时所在 FC 实例会话（会话变更=实例重启，本次提交可能丢失）
+    function pollSyncStatus(submitTime, resultEl) {
+      if (_pollTimer) clearTimeout(_pollTimer);
+      var localFailed = false;  // 本地队列不可达标志（手机端等场景）
+      var retryCount = 0;
+      var MAX_TIME = 120000;    // 总超时 120 秒
+      var MAX_RETRIES = 40;     // 最多 40 次探测
+
+      function nextDelay() {
+        var elapsed = Date.now() - submitTime;
+        if (elapsed < 20000) return 2000;   // 前 20 秒：2 秒一次
+        if (elapsed < 60000) return 5000;   // 20-60 秒：5 秒一次
+        return 10000;                        // 60 秒后：10 秒一次
+      }
+      function done(msg, cls) {
+        clearTimeout(_pollTimer); _pollTimer = null;
+        resultEl.textContent = msg;
+        resultEl.className = "submit-result " + cls;
+        resultEl.style.display = "block";
+      }
+      function schedule() {
+        if (_pollTimer) clearTimeout(_pollTimer);
+        _pollTimer = setTimeout(checkOnce, nextDelay());
+      }
+      function checkOnce() {
+        var elapsed = Date.now() - submitTime;
+        if (elapsed > MAX_TIME || retryCount >= MAX_RETRIES) {
+          done("已提交，稍后刷新管理后台即可查看", "warning");
+          return;
+        }
+        retryCount++;
+        try {
+          var checkUrl = localFailed ? (FC_URL + "/rectify/last-sync") : (LOCAL_URL + "/rectify/last-sync");
+          fetch(checkUrl).then(function(r) { return r.json(); }).then(function(d) {
+            if (!d.ok) { schedule(); return; }
+            // 会话校验：提交后 FC 实例若重启，本次暂存可能已丢失，必须提示用户
+            if (_fcSessionId && d.sessionId && d.sessionId !== _fcSessionId) {
+              done("服务连接已重置，请确认数据是否已保存，必要时重新提交", "warning");
+              return;
+            }
+            if (d.lastSyncTs > submitTime) {
+              done("已同步到管理后台", "success");
+              showToast("数据已同步到管理后台", "success");
+              return;
+            }
+            var e2 = Math.floor((Date.now() - submitTime) / 1000);
+            resultEl.textContent = "已提交，同步中 (" + e2 + "s)...";
+            resultEl.className = "submit-result info";
+            resultEl.style.display = "block";
+            schedule();
+          }).catch(function() {
+            if (!localFailed) { localFailed = true; }
+            schedule();
+          });
+        } catch(e) { schedule(); }
+      }
+      // 立即显示初始状态并开始轮询
+      resultEl.textContent = "已提交，同步中 (0s)...";
+      resultEl.className = "submit-result info";
+      resultEl.style.display = "block";
+      schedule();
+    }
+
+    function openImgModal(url) {
+      if (!url) return;
+      $('imgModalImg').src = url;
+      $('imgModal').classList.add('show');
+    }
+    function closeImgModal() {
+      $('imgModal').classList.remove('show');
+      setTimeout(() => { $('imgModalImg').src = ''; }, 200);
+    }
+    $('imgModalClose').addEventListener('click', closeImgModal);
+    $('imgModal').addEventListener('click', e => {
+      if (e.target === $('imgModal')) closeImgModal();
+    });
+    function esc(s) { return (s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+    // 页面加载：检测上次未完成的提交草稿，提示恢复
+    restoreDraft();
+  </script>
+</body>
+</html>
+

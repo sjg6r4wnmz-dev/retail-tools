@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>稽核闭环 · 使用说明</title>
+  <style>
+    :root {
+      --primary: #C8161D;
+      --primary-dark: #A01015;
+      --bg: #F5F5F7;
+      --card: #FFFFFF;
+      --text: #1A1A1A;
+      --text-2: #6B6B6B;
+      --text-3: #9E9E9E;
+      --border: #E5E5E5;
+      --radius: 14px;
+      --done: #34C759;
+      --later: #FF9500;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 520px; margin: 0 auto; padding: 0 16px 80px; }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 36px 0 20px;
+    }
+    .hero .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px; height: 56px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      box-shadow: 0 6px 20px rgba(200,22,29,0.25);
+      margin-bottom: 12px;
+    }
+    .hero .logo svg { width: 28px; height: 28px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .hero h1 { font-size: 24px; font-weight: 800; letter-spacing: 1px; }
+    .hero .tagline { font-size: 13px; color: var(--text-2); margin-top: 6px; }
+    .hero .start-btn {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 12px 28px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 24px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(200,22,29,0.3);
+    }
+
+    /* Section */
+    .section { margin-top: 28px; }
+    .section-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px; height: 24px;
+      border-radius: 8px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* Steps */
+    .step-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .step-card .step-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .step-card .step-icon {
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .step-card .step-icon.c1 { background: #FFF3F3; }
+    .step-card .step-icon.c2 { background: #FFF8E1; }
+    .step-card .step-icon.c3 { background: #E8F5E9; }
+    .step-card .step-icon.c4 { background: #E3F2FD; }
+    .step-card .step-name { font-size: 15px; font-weight: 700; }
+    .step-card .step-desc { font-size: 14px; color: var(--text-2); }
+    .step-card .step-tip {
+      margin-top: 8px;
+      padding: 8px 12px;
+      background: #FFF8E1;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #795548;
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
+    }
+
+    /* Comparison */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .compare-table th {
+      padding: 12px 10px;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: left;
+    }
+    .compare-table th.old { background: #F5F5F5; color: var(--text-2); }
+    .compare-table th.new { background: var(--primary); color: #fff; }
+    .compare-table td {
+      padding: 10px;
+      border-top: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .compare-table td.label { font-weight: 600; white-space: nowrap; }
+    .compare-table td.old-cell { color: var(--text-2); }
+    .compare-table td.new-cell { color: var(--text); font-weight: 500; }
+    .compare-table .x { color: #FF3B30; font-weight: 700; }
+    .compare-table .check { color: var(--done); font-weight: 700; }
+
+    /* Advantages */
+    .adv-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 10px;
+      display: flex;
+      gap: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .adv-card .adv-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .adv-card .adv-title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+    .adv-card .adv-desc { font-size: 13px; color: var(--text-2); }
+
+    /* Admin info */
+    .info-card {
+      background: linear-gradient(135deg, #FFF3F3, #FFF);
+      border: 1px solid rgba(200,22,29,0.1);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-top: 10px;
+    }
+    .info-card .info-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: var(--primary); }
+    .info-card .info-desc { font-size: 13px; color: var(--text-2); }
+    .info-card .info-link {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 14px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 16px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      color: var(--text-3);
+      font-size: 12px;
+    }
+    .footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
+
+    /* Note */
+    .note {
+      margin-top: 20px;
+      padding: 12px 14px;
+      background: #E3F2FD;
+      border-radius: 10px;
+      font-size: 13px;
+      color: #1565C0;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Hero -->
+    <div class="hero">
+      <div class="logo">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 12 15 17 10"/></svg>
+      </div>
+      <h1>稽核闭环</h1>
+      <p class="tagline">选门店 → 逐条整改 → 签名确认 → 自动归档</p>
+      <a class="start-btn" href="rectify.html">立即使用 →</a>
+    </div>
+
+    <!-- 使用步骤 -->
+    <div class="section">
+      <div class="section-title"><span class="num">1</span> 使用步骤</div>
+
+      <div class="step-card">
+        <div class="step-head">
+          <div class="step-icon c1">🔍</div>
+          <div>
+            <div class="step-name">搜索门店</div>
+            <div class="step-desc">输入店名、城市或区经理名字，快速找到要整改的门店</div>
+          </div>
+        </div>
+        <div class="step-tip">💡 搜索结果会显示该店有几份稽核、扣分多少项，一眼就知道要不要改</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-head">
+          <div class="step-icon c2">📋</div>
+          <div>
+            <div class="step-name">选择稽核记录</div>
+            <div class="step-desc">同一家店可能被零售组和运营各打了一次，选择你要整改的那份</div>
+          </div>
+        </div>
+        <div class="step-tip">💡 红色标签=零售组稽核，蓝色标签=运营稽核，标注了提交人、日期、分数</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-head">
+          <div class="step-icon c3">✏️</div>
+          <div>
+            <div class="step-name">逐条整改</div>
+            <div class="step-desc">每条扣分点单独展开，选择「已整改」或「不能立即整改」，可拍照留证</div>
+          </div>
+        </div>
+        <div class="step-tip">💡 选「不能立即整改」时需填预计完成时间；已提交的扣分点会置灰标记「✓」</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-head">
+          <div class="step-icon c4">✍️</div>
+          <div>
+            <div class="step-name">签名确认</div>
+            <div class="step-desc">整改完成后在底部手写签名，一次签名覆盖该门店所有扣分点</div>
+          </div>
+        </div>
+        <div class="step-tip">💡 先填顶部「提交人」姓名再开始整改，系统会记录到表格</div>
+      </div>
+    </div>
+
+    <!-- 新旧对比 -->
+    <div class="section">
+      <div class="section-title"><span class="num">2</span> 新旧方式对比</div>
+      <table class="compare-table">
+        <tr>
+          <th style="width:28%"></th>
+          <th class="old" style="width:36%">旧方式（收集码+手动填表）</th>
+          <th class="new" style="width:36%">新方式（稽核闭环工具）</th>
+        </tr>
+        <tr>
+          <td class="label">操作入口</td>
+          <td class="old-cell">扫码填表单 → 再打开稽核表手动对应</td>
+          <td class="new-cell">一个链接搞定，不用切平台</td>
+        </tr>
+        <tr>
+          <td class="label">扣分点来源</td>
+          <td class="old-cell"><span class="x">✗</span> 自己翻稽核表找扣了什么</td>
+          <td class="new-cell"><span class="check">✓</span> 自动拉取，逐条展示</td>
+        </tr>
+        <tr>
+          <td class="label">整改方式</td>
+          <td class="old-cell"><span class="x">✗</span> 一条一条在表格里找行填</td>
+          <td class="new-cell"><span class="check">✓</span> 卡片式逐条整改，点开即填</td>
+        </tr>
+        <tr>
+          <td class="label">整改照片</td>
+          <td class="old-cell"><span class="x">✗</span> 表单传或表格传，容易脱节</td>
+          <td class="new-cell"><span class="check">✓</span> 每条扣分点直接拍照，自动关联</td>
+        </tr>
+        <tr>
+          <td class="label">责任人签名</td>
+          <td class="old-cell"><span class="x">✗</span> 无，无法追溯</td>
+          <td class="new-cell"><span class="check">✓</span> 手写签名+提交人姓名，有据可查</td>
+        </tr>
+        <tr>
+          <td class="label">多份稽核</td>
+          <td class="old-cell"><span class="x">✗</span> 分不清零售组/运营各打的</td>
+          <td class="new-cell"><span class="check">✓</span> 自动区分，可选择整改哪份</td>
+        </tr>
+        <tr>
+          <td class="label">数据同步</td>
+          <td class="old-cell"><span class="x">✗</span> 手动复制粘贴到表格</td>
+          <td class="new-cell"><span class="check">✓</span> 自动同步到钉钉AI表格</td>
+        </tr>
+        <tr>
+          <td class="label">管理后台</td>
+          <td class="old-cell"><span class="x">✗</span> 填错了只能去表格改</td>
+          <td class="new-cell"><span class="check">✓</span> 独立后台，可编辑/删除记录</td>
+        </tr>
+        <tr>
+          <td class="label">数据更新</td>
+          <td class="old-cell"><span class="x">✗</span> 手动导出，容易遗漏</td>
+          <td class="new-cell"><span class="check">✓</span> 每天凌晨6点自动更新当月稽核</td>
+        </tr>
+        <tr>
+          <td class="label">操作耗时</td>
+          <td class="old-cell"><span class="x">✗</span> 一家店约10-15分钟</td>
+          <td class="new-cell"><span class="check">✓</span> 一家店约3-5分钟</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 核心优势 -->
+    <div class="section">
+      <div class="section-title"><span class="num">3</span> 核心优势</div>
+
+      <div class="adv-card">
+        <div class="adv-icon" style="background:#FFF3F3">🔗</div>
+        <div>
+          <div class="adv-title">闭环一体，不再两头跑</div>
+          <div class="adv-desc">以前收集码填完还要回稽核表手动对应填写，现在选门店→看扣分→整改→签名→自动入表，全在一个页面完成</div>
+        </div>
+      </div>
+
+      <div class="adv-card">
+        <div class="adv-icon" style="background:#E8F5E9">📋</div>
+        <div>
+          <div class="adv-title">扣分点自动带出，不遗漏</div>
+          <div class="adv-desc">直接从当月稽核数据拉取每一条扣分项，逐条卡片展示，改一条划掉一条，漏没漏一目了然</div>
+        </div>
+      </div>
+
+      <div class="adv-card">
+        <div class="adv-icon" style="background:#E3F2FD">🏷️</div>
+        <div>
+          <div class="adv-title">零售组/运营稽核自动区分</div>
+          <div class="adv-desc">同一家店被打了多次稽核？自动标注是谁打的、哪个组的，你可以选择先改哪份</div>
+        </div>
+      </div>
+
+      <div class="adv-card">
+        <div class="adv-icon" style="background:#FFF8E1">📷</div>
+        <div>
+          <div class="adv-title">照片直关联扣分点</div>
+          <div class="adv-desc">每条扣分点可单独拍照上传，照片和扣分项自动绑定，不再出现照片找不到对应的问题</div>
+        </div>
+      </div>
+
+      <div class="adv-card">
+        <div class="adv-icon" style="background:#F3E5F5">✍️</div>
+        <div>
+          <div class="adv-title">签名+姓名，责任到人</div>
+          <div class="adv-desc">手写签名确认整改结果，提交人姓名自动记录，谁改的、改了什么、什么时候改的，全可追溯</div>
+        </div>
+      </div>
+
+      <div class="adv-card">
+        <div class="adv-icon" style="background:#E0F7FA">⚡</div>
+        <div>
+          <div class="adv-title">自动同步，实时可查</div>
+          <div class="adv-desc">提交后3分钟内自动同步到钉钉AI表格，统筹人直接在表格看全部记录，不用等</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 管理后台 -->
+    <div class="section">
+      <div class="section-title"><span class="num">4</span> 管理后台（仅统筹人使用）</div>
+      <div class="info-card">
+        <div class="info-title">🔧 独立管理页面</div>
+        <div class="info-desc">统筹人可在管理后台查看所有提交记录、编辑（如填错店名）、删除记录。密码登录，操作安全。</div>
+        <a class="info-link" href="admin.html">进入管理后台 →</a>
+      </div>
+    </div>
+
+    <!-- 注意事项 -->
+    <div class="note">
+      <span>📌</span>
+      <div>
+        <strong>注意事项：</strong><br>
+        1. 数据每天凌晨6点自动更新，只显示当月稽核记录<br>
+        2. 提交后约3分钟自动同步到钉钉表格，无需手动操作<br>
+        3. 建议用手机浏览器打开（钉钉内打开请点「···→在浏览器中打开」）<br>
+        4. 填错信息可联系统筹人在管理后台修改
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>使用工具：<a href="rectify.html">稽核闭环</a></p>
+      <p style="margin-top:4px">管理后台：<a href="admin.html">点击进入</a></p>
+    </div>
+  </div>
+</body>
+</html>

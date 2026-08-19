@@ -1,13 +1,13 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>整改闭环 · 茶颜零售稽核</title>
   <style>
     :root {
@@ -107,6 +107,8 @@
     .submit-result.success { display: block; background: #e8f5e9; color: #2e7d32; }
     .submit-result.error { display: block; background: #ffebee; color: #c62828; }
     .hidden { display: none !important; }
+    .draft-restore-bar { position: sticky; top: 0; z-index: 150; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 14px; background: #fff7e6; color: #8a5a00; font-size: 13px; border-bottom: 1.5px solid #ffd591; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .draft-restore-bar .btn { padding: 6px 14px; font-size: 13px; }
     .loading { text-align: center; padding: 20px; color: var(--text-2); }
     .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -221,30 +223,53 @@
   <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none">
   <input type="file" id="albumInput" accept="image/*" multiple style="display:none">
   <script>
-    // 加载 data.js：jsdelivr @latest 优先（绕过 @main 边缘缓存），SHA 短码兜底，raw.githubusercontent 备选，GitHub Pages 最后
-    // 关键：jsdelivr 对 @main 的缓存 purge 无法可靠生效；用 @latest 或 @<short-sha> 强制每次重解析到最新版本
-    // SHA 短码每 5 分钟刷新一次（极轻量，无认证）
+    // data.js 多源加载 + 数据校验：防止单个 CDN/网络问题导致门店列表为空
     (function () {
       var ts = Date.now();
       var sources = [
-        'https://cdn.jsdelivr.net/gh/sjg6r4wnmz-dev/retail-tools@latest/data.js?t=' + ts,
-        'https://raw.githubusercontent.com/sjg6r4wnmz-dev/retail-tools/main/data.js?t=' + ts,
-        'https://sjg6r4wnmz-dev.github.io/retail-tools/data.js?t=' + ts
+        'https://sjg6r4wnmz-dev.github.io/retail-tools/data.js?t=' + ts,
+        'https://cdn.jsdelivr.net/gh/sjg6r4wnmz-dev/retail-tools@main/data.js?t=' + ts,
+        'https://raw.githubusercontent.com/sjg6r4wnmz-dev/retail-tools/main/data.js?t=' + ts
       ];
       var idx = 0;
+      function isDataReady() {
+        return window.RECTIFY_DATA && window.RECTIFY_DATA.stores && window.RECTIFY_DATA.stores.length > 0;
+      }
+      function showLoadError() {
+        if (document.getElementById('dataLoadError')) return;
+        document.body.insertAdjacentHTML('beforeend',
+          '<div id="dataLoadError" style="position:fixed;inset:0;background:rgba(255,255,255,0.96);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;">' +
+          '<div style="max-width:320px;">' +
+          '<div style="font-size:48px;margin-bottom:12px;">⚠️</div>' +
+          '<div style="font-size:18px;font-weight:600;color:#C8161D;margin-bottom:8px;">门店数据加载失败</div>' +
+          '<div style="font-size:14px;color:#666;margin-bottom:20px;">请检查网络后刷新，或尝试清除浏览器缓存</div>' +
+          '<button onclick="location.reload(true)" style="padding:12px 28px;background:#C8161D;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;">刷新重试</button>' +
+          '</div></div>');
+      }
       function tryNext() {
-        if (idx >= sources.length) {
-          document.body.insertAdjacentHTML('beforeend',
-            '<div style="padding:20px;color:#C8161D;text-align:center;">数据加载失败，请刷新重试</div>');
+        if (isDataReady()) {
+          if (window.__rectifyDataReady) window.__rectifyDataReady();
           return;
         }
+        if (idx >= sources.length) { showLoadError(); return; }
         var s = document.createElement('script');
         s.src = sources[idx++];
-        s.onerror = tryNext;
-        s.onload = function() { if (window.__rectifyDataReady) window.__rectifyDataReady(); };
+        s.onerror = function () { setTimeout(tryNext, 100); };
+        s.onload = function () {
+          if (isDataReady()) {
+            if (window.__rectifyDataReady) window.__rectifyDataReady();
+            return;
+          }
+          // 脚本加载完成但数据未就绪，尝试下一个源
+          setTimeout(tryNext, 100);
+        };
         document.body.appendChild(s);
       }
       tryNext();
+      // 总超时兜底：12 秒后数据仍未就绪，弹出错误提示
+      setTimeout(function () {
+        if (!isDataReady()) showLoadError();
+      }, 12000);
     })();
   </script>
   <script>
@@ -263,8 +288,9 @@
     let DATA = window.RECTIFY_DATA || {};
     let STORES = DATA.stores || [];
     let STORE_AUDITS = DATA.storeAudits || {};
+    const $ = id => document.getElementById(id);
 
-    // data.js 异步加载完成后的回调——重新初始化数据
+    // data.js 异步加载完成后的回调——重新初始化数据并刷新搜索
     window.__rectifyDataReady = function() {
       DATA = window.RECTIFY_DATA || {};
       STORES = DATA.stores || [];
@@ -274,13 +300,13 @@
       var q = $('storeInput').value.trim().toLowerCase();
       if (q) { clearTimeout(searchTimer); doSearch(q); }
     };
-    const $ = id => document.getElementById(id);
     let selectedStore = null, currentAudit = null;
     let activeProblemIndex = -1; // 当前展开编辑的扣分点
     let activePhotoProblemIndex = -1; // 当前操作照片的扣分点
     let problems = []; // 每个扣分点的状态对象
     let globalSignature = ""; // 全局签名
     let batchSubmitting = false; // 批量提交中
+    let _pendingRestoreDraft = null; // 多份稽核时，用户选择审计后恢复的草稿
 
     // ====== 钉钉附件 URL 兜底刷新：图片加载失败时自动换 URL ======
     // 钉钉 alidocs OSS 附件 URL 带 Content-Disposition: attachment + x-oss-force-download
@@ -326,7 +352,15 @@
     function renderStoreList(stores) {
       const list = $('storeList');
       list.innerHTML = '';
-      if (!stores.length) { list.innerHTML = '<div class="store-item" style="color:#999;text-align:center">未找到门店</div>'; list.classList.remove('hidden'); return; }
+      if (!stores.length) {
+        if (!STORES.length) {
+          list.innerHTML = '<div class="store-item" style="color:#C8161D;text-align:center">门店数据未加载，请检查网络后刷新页面</div>';
+        } else {
+          list.innerHTML = '<div class="store-item" style="color:#999;text-align:center">未找到门店</div>';
+        }
+        list.classList.remove('hidden');
+        return;
+      }
       stores.forEach(s => {
         const audits = STORE_AUDITS[s.id];
         const hasAudit = audits && audits.length > 0;
@@ -464,6 +498,11 @@
       renderProblems();
       // 加载审核结果
       fetchAuditResults();
+      // 草稿恢复钩子：多份稽核时，用户选择审计后自动恢复待提交项
+      if (_pendingRestoreDraft) {
+        const d = _pendingRestoreDraft; _pendingRestoreDraft = null;
+        applyDraftItems(d);
+      }
     }
 
     async function fetchAuditResults() {
@@ -471,7 +510,7 @@
       try {
         const resp = await fetchWithTimeout(FC_URL + "/rectify/history", {
           method: "POST",
-          headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN, "Bypass-Tunnel-Reminder": "go" },
+          headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN },
           body: JSON.stringify({ storeName: selectedStore.n, limit: 50 })
         }, 8000);
         if (!resp.ok) return;
@@ -717,7 +756,7 @@
         try {
           var resp = await fetchWithTimeout(FC_URL + "/rectify/submit", {
             method: "POST",
-            headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN, "Bypass-Tunnel-Reminder": "go" },
+            headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN },
             body: JSON.stringify({
               storeId: selectedStore.id,
               storeName: selectedStore.n,
@@ -732,7 +771,9 @@
           }, 15000);
           var data = await resp.json();
           if (data.ok) {
+            if (data.sessionId) _fcSessionId = data.sessionId;
             p.submitted = true; p.resultMsg = { text: retry > 0 ? "已提交(重试" + retry + "次)" : "已提交", success: true };
+            markDraftSubmitted(p.index);  // 本地兜底：标记该项已提交成功
             return { success: true };
           } else {
             lastErr = data.error || "提交失败";
@@ -749,6 +790,105 @@
       }
       p.resultMsg = { text: "失败（重试3次后）: " + (lastErr || "未知错误"), success: false };
       return { success: false, error: lastErr };
+    }
+
+    // ===== 提交本地兜底草稿（localStorage）：断网/崩溃/误关页面后恢复 =====
+    const DRAFT_KEY = 'rectify_pending_draft_v1';
+    function getDraft() {
+      try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch(e) { return null; }
+    }
+    function saveDraft(store, audit, items) {
+      if (!store || !items || !items.length) return;
+      const draft = {
+        savedAt: Date.now(),
+        storeId: store.id || '',
+        storeName: store.n || '',
+        auditId: (audit && (audit.id || audit.d)) || '',
+        submitterName: submitterInput.value.trim(),
+        signature: globalSignature,
+        items: items.map(p => ({
+          index: p.index,
+          text: p.text,
+          status: p.status,
+          expectedDate: p.expectedDate || '',
+          photos: (p.photos || []).slice(),
+          submitted: !!p.submitted,
+        }))
+      };
+      // 容量保护：完整草稿存不下 → 去掉照片 → 再去掉签名，逐步降级（至少保住文本）
+      const tryWrite = d => {
+        try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); return true; }
+        catch(e) { return false; }
+      };
+      if (tryWrite(draft)) return;
+      draft.items.forEach(it => { it.photos = []; });
+      if (tryWrite(draft)) { showToast("照片较多，本地草稿已降级（不含照片）", ""); return; }
+      draft.signature = "";
+      if (tryWrite(draft)) { showToast("本地草稿已降级（不含照片/签名）", ""); return; }
+      showToast("本地草稿保存失败，请勿中途关闭页面", "error");
+    }
+    function markDraftSubmitted(index) {
+      const d = getDraft();
+      if (!d) return;
+      let changed = false;
+      d.items.forEach(it => { if (it.index === index && !it.submitted) { it.submitted = true; changed = true; } });
+      if (changed) { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch(e) {} }
+    }
+    function clearDraft() {
+      try { localStorage.removeItem(DRAFT_KEY); } catch(e) {}
+    }
+    function restoreDraft() {
+      const d = getDraft();
+      if (!d || !d.items) return;
+      const pending = d.items.filter(it => !it.submitted);
+      if (!pending.length) { clearDraft(); return; }
+      const bar = document.createElement("div");
+      bar.className = "draft-restore-bar";
+      bar.innerHTML = '<span>⚠️ 上次有 ' + pending.length + ' 条整改未提交完成（' + esc(d.storeName || "") + ' · ' +
+        new Date(d.savedAt).toLocaleTimeString("zh-CN", {hour:"2-digit",minute:"2-digit"}) + '）</span>' +
+        '<button class="btn btn-small" id="restoreDraftBtn">恢复并提交</button>' +
+        '<button class="btn btn-small btn-secondary" id="discardDraftBtn">放弃</button>';
+      document.body.insertBefore(bar, document.body.firstChild);
+      $('restoreDraftBtn').addEventListener('click', () => { restoreDraftIntoForm(d); bar.remove(); });
+      $('discardDraftBtn').addEventListener('click', () => { clearDraft(); bar.remove(); });
+    }
+    function restoreDraftIntoForm(d) {
+      // 1. 恢复门店
+      let st = null;
+      if (d.storeId) st = STORES.find(s => s.id === d.storeId) || null;
+      if (!st && d.storeName) st = STORES.find(s => s.n === d.storeName) || null;
+      if (!st) { showToast("未找到门店「" + (d.storeName || "") + "」，请重新选择门店后提交", "error"); return; }
+      selectStore(st);
+      // 2. 恢复提交人/签名
+      if (d.submitterName) { submitterInput.value = d.submitterName; try { localStorage.setItem('rectify_submitter_name', d.submitterName); } catch(e) {} }
+      if (d.signature) globalSignature = d.signature;
+      // 3. 按 auditId/日期恢复稽核
+      const audits = STORE_AUDITS[st.id] || [];
+      const targetAudit = (d.auditId && audits.find(a => (a.id || a.d) === d.auditId)) || (audits.length === 1 ? audits[0] : null);
+      if (targetAudit) {
+        renderSingleAudit(targetAudit);
+        applyDraftItems(d);
+      } else if (audits.length > 1) {
+        _pendingRestoreDraft = d;  // 等用户选完审计后自动恢复
+        showToast("请选择稽核，随后自动恢复待提交内容", "success");
+      } else {
+        showToast("未找到该稽核数据，请重新进入门店", "error");
+      }
+    }
+    function applyDraftItems(d) {
+      const pending = d.items.filter(it => !it.submitted);
+      pending.forEach(it => {
+        const p = problems.find(x => x.index === it.index);
+        if (p) {
+          p.text = it.text;
+          p.status = it.status;
+          p.expectedDate = it.expectedDate || '';
+          p.photos = (it.photos || []).slice();
+        }
+      });
+      renderProblems();
+      setTimeout(initGlobalSignature, 0);
+      showToast("已恢复 " + pending.length + " 条待提交项，请确认后提交", "success");
     }
 
     async function submitAll() {
@@ -784,6 +924,8 @@
       pending.forEach(p => { p.submitting = true; });
       renderProblems();
       updateSubmitAllUI("提交中 (0/" + pending.length + ")...");
+      // 本地兜底：提交前把未提交项落盘到 localStorage，网络中断也能恢复
+      saveDraft(selectedStore, currentAudit, pending);
 
       let done = 0, successCount = 0, failCount = 0;
       for (const p of pending) {
@@ -801,6 +943,7 @@
 
       const resultEl = $('submitAllResult');
       if (failCount === 0) {
+        clearDraft();  // 全部成功，清除本地草稿
         resultEl.textContent = "全部提交成功，等待同步..."; pollSyncStatus(Date.now(), resultEl);
         resultEl.className = "submit-result success";
         resultEl.style.display = "block";
@@ -830,50 +973,69 @@
       t.className = "toast show " + (type || "");
       setTimeout(() => t.classList.remove("show"), 2500);
     }
-    // === 提交后实时轮询同步状态 ===
+    // === 提交后实时轮询同步状态（指数退避：0-20s每2s / 20-60s每5s / 60s+每10s，120s超时）===
     let _pollTimer = null;
+    let _fcSessionId = null;  // 提交时所在 FC 实例会话（会话变更=实例重启，本次提交可能丢失）
     function pollSyncStatus(submitTime, resultEl) {
-      var maxRetries = 40;  // 120秒超时
-      var retryCount = 0;
+      if (_pollTimer) clearTimeout(_pollTimer);
       var localFailed = false;  // 本地队列不可达标志（手机端等场景）
-      if (_pollTimer) clearInterval(_pollTimer);
-      _pollTimer = setInterval(function() {
+      var retryCount = 0;
+      var MAX_TIME = 120000;    // 总超时 120 秒
+      var MAX_RETRIES = 40;     // 最多 40 次探测
+
+      function nextDelay() {
+        var elapsed = Date.now() - submitTime;
+        if (elapsed < 20000) return 2000;   // 前 20 秒：2 秒一次
+        if (elapsed < 60000) return 5000;   // 20-60 秒：5 秒一次
+        return 10000;                        // 60 秒后：10 秒一次
+      }
+      function done(msg, cls) {
+        clearTimeout(_pollTimer); _pollTimer = null;
+        resultEl.textContent = msg;
+        resultEl.className = "submit-result " + cls;
+        resultEl.style.display = "block";
+      }
+      function schedule() {
+        if (_pollTimer) clearTimeout(_pollTimer);
+        _pollTimer = setTimeout(checkOnce, nextDelay());
+      }
+      function checkOnce() {
+        var elapsed = Date.now() - submitTime;
+        if (elapsed > MAX_TIME || retryCount >= MAX_RETRIES) {
+          done("已提交，稍后刷新管理后台即可查看", "warning");
+          return;
+        }
         retryCount++;
         try {
           var checkUrl = localFailed ? (FC_URL + "/rectify/last-sync") : (LOCAL_URL + "/rectify/last-sync");
           fetch(checkUrl).then(function(r) { return r.json(); }).then(function(d) {
-            if (!d.ok) return;
-            if (d.lastSyncTs > submitTime) {
-              clearInterval(_pollTimer);
-              _pollTimer = null;
-              resultEl.textContent = "已同步到管理后台";
-              resultEl.className = "submit-result success";
-              resultEl.style.display = "block";
-              showToast("数据已同步到管理后台", "success");
-            } else if (d.lastSubmitTs > submitTime || retryCount <= maxRetries) {
-              var elapsed = Math.floor((Date.now() - submitTime) / 1000);
-              resultEl.textContent = "已提交，同步中 (" + elapsed + "s)...";
-              resultEl.className = "submit-result info";
-              resultEl.style.display = "block";
-            } else {
-              clearInterval(_pollTimer);
-              _pollTimer = null;
-              resultEl.textContent = "已提交，稍后刷新管理后台即可查看";
-              resultEl.className = "submit-result warning";
-              resultEl.style.display = "block";
+            if (!d.ok) { schedule(); return; }
+            // 会话校验：提交后 FC 实例若重启，本次暂存可能已丢失，必须提示用户
+            if (_fcSessionId && d.sessionId && d.sessionId !== _fcSessionId) {
+              done("服务连接已重置，请确认数据是否已保存，必要时重新提交", "warning");
+              return;
             }
+            if (d.lastSyncTs > submitTime) {
+              done("已同步到管理后台", "success");
+              showToast("数据已同步到管理后台", "success");
+              return;
+            }
+            var e2 = Math.floor((Date.now() - submitTime) / 1000);
+            resultEl.textContent = "已提交，同步中 (" + e2 + "s)...";
+            resultEl.className = "submit-result info";
+            resultEl.style.display = "block";
+            schedule();
           }).catch(function() {
             if (!localFailed) { localFailed = true; }
-            if (retryCount > maxRetries) {
-              clearInterval(_pollTimer);
-              _pollTimer = null;
-              resultEl.textContent = "已提交，稍后刷新管理后台即可查看";
-              resultEl.className = "submit-result warning";
-              resultEl.style.display = "block";
-            }
+            schedule();
           });
-        } catch(e) {}
-      }, 3000);
+        } catch(e) { schedule(); }
+      }
+      // 立即显示初始状态并开始轮询
+      resultEl.textContent = "已提交，同步中 (0s)...";
+      resultEl.className = "submit-result info";
+      resultEl.style.display = "block";
+      schedule();
     }
 
     function openImgModal(url) {
@@ -890,6 +1052,9 @@
       if (e.target === $('imgModal')) closeImgModal();
     });
     function esc(s) { return (s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+    // 页面加载：检测上次未完成的提交草稿，提示恢复
+    restoreDraft();
   </script>
 </body>
 </html>

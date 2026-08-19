@@ -225,7 +225,31 @@
   </div>
   <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none">
   <input type="file" id="albumInput" accept="image/*" multiple style="display:none">
-  <script>document.write('<script src="data.js?t='+Date.now()+'"><\/script>');</script>
+  <script>
+    // 优先从 jsdelivr CDN 加载 data.js（同步快、不卡 GitHub Pages 边缘缓存）
+    // 失败回退到 GitHub Pages，再失败回退到 raw.githubusercontent.com
+    (function () {
+      var ts = Date.now();
+      var sources = [
+        'https://cdn.jsdelivr.net/gh/sjg6r4wnmz-dev/retail-tools@main/data.js?t=' + ts,
+        'https://sjg6r4wnmz-dev.github.io/retail-tools/data.js?t=' + ts,
+        'https://raw.githubusercontent.com/sjg6r4wnmz-dev/retail-tools/main/data.js?t=' + ts
+      ];
+      var idx = 0;
+      function tryNext() {
+        if (idx >= sources.length) {
+          document.body.insertAdjacentHTML('beforeend',
+            '<div style="padding:20px;color:#C8161D;text-align:center;">数据加载失败，请刷新重试</div>');
+          return;
+        }
+        var s = document.createElement('script');
+        s.src = sources[idx++];
+        s.onerror = tryNext;
+        document.body.appendChild(s);
+      }
+      tryNext();
+    })();
+  </script>
   <script>
     const FC_URL = "https://posm-recog-posm-scap-recog-oopugfimug.cn-hangzhou.fcapp.run";
     const BACKUP_URLS = []; // 备用隧道（loca.lt 已废弃，移除避免拖垮请求）

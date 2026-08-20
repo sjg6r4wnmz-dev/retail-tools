@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-21 00:42:16）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-21 00:46:21）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -4853,6 +4853,15 @@ window.TEATEST_CLOUD_DATA = [
     "created_at": "2026-08-04 10:58:50"
   },
   {
+    "recordId": "XBDSlR9Po8",
+    "store": "武汉斗级营茶叶子",
+    "register_date": "2026-08-20",
+    "tea_name": "习惯茶/玫珑香乌龙",
+    "taster": "陈洁文",
+    "remark": "",
+    "created_at": "2026-08-20 16:45:58"
+  },
+  {
     "recordId": "XC0NGmH7L5",
     "store": "武汉江汉二路茶叶子",
     "register_date": "2026-08-04",
@@ -6273,6 +6282,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "宋菲燕",
     "remark": "",
     "created_at": "2026-08-06 13:45:53"
+  },
+  {
+    "recordId": "en0EFXkeKw",
+    "store": "武汉斗级营茶叶子",
+    "register_date": "2026-08-20",
+    "tea_name": "习惯茶/青提茉莉绿茶",
+    "taster": "陈洁文",
+    "remark": "",
+    "created_at": "2026-08-20 16:45:58"
   },
   {
     "recordId": "eonr7W6u2i",

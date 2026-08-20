@@ -8,6 +8,15 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
+<script>
+    // 防护：若被错分享到 jsdelivr/raw 导致显示源码，自动跳回 GitHub Pages
+    (function(){
+      var host = location.host;
+      if (host.indexOf('cdn.jsdelivr.net') !== -1 || host.indexOf('raw.githubusercontent.com') !== -1) {
+        location.replace('https://sjg6r4wnmz-dev.github.io/retail-tools/r2.html' + location.search + location.hash);
+      }
+    })();
+  </script>
   <title>整改闭环 · 茶颜零售稽核</title>
   <style>
     :root {

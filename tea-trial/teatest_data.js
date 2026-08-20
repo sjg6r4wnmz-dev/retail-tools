@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-21 00:52:17）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-21 00:54:19）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -2205,6 +2205,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "陈丹",
     "remark": "",
     "created_at": "2026-08-06 12:26:06"
+  },
+  {
+    "recordId": "F2TjAquHVz",
+    "store": "武汉斗级营茶叶子",
+    "register_date": "2026-08-20",
+    "tea_name": "玫",
+    "taster": "陈洁文",
+    "remark": "",
+    "created_at": "2026-08-20 16:54:40"
   },
   {
     "recordId": "F69diTLVgj",

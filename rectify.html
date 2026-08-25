@@ -759,6 +759,8 @@
     async function submitOneProblem(i) {
       const p = problems[i];
       const photoData = p.photos.map(p => p);
+      // clientId 幂等键：同一扣分点的重试/对账补交共用，FC 端据此去重，防止补交时重复入库
+      if (!p.clientId) p.clientId = 'cl_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
       var lastErr = null;
       // 最多重试3次（FC偶发性挂掉，自动恢复通常 <30秒）
       for (var retry = 0; retry < 3; retry++) {
@@ -767,6 +769,7 @@
             method: "POST",
             headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN },
             body: JSON.stringify({
+              clientId: p.clientId,
               storeId: selectedStore.id,
               storeName: selectedStore.n,
               auditId: currentAudit.id || "",
@@ -782,7 +785,7 @@
           if (data.ok) {
             if (data.sessionId) _fcSessionId = data.sessionId;
             p.submitted = true; p.resultMsg = { text: retry > 0 ? "已提交(重试" + retry + "次)" : "已提交", success: true };
-            markDraftSubmitted(p.index);  // 本地兜底：标记该项已提交成功
+            markDraftSubmitted(p.index, p.clientId);  // 本地兜底：标记该项已提交成功（含 clientId 供对账）
             return { success: true };
           } else {
             lastErr = data.error || "提交失败";
@@ -822,6 +825,8 @@
           expectedDate: p.expectedDate || '',
           photos: (p.photos || []).slice(),
           submitted: !!p.submitted,
+          clientId: p.clientId || '',
+          fcAckTs: p.fcAckTs || 0
         }))
       };
       // 容量保护：完整草稿存不下 → 去掉照片 → 再去掉签名，逐步降级（至少保住文本）
@@ -836,21 +841,99 @@
       if (tryWrite(draft)) { showToast("本地草稿已降级（不含照片/签名）", ""); return; }
       showToast("本地草稿保存失败，请勿中途关闭页面", "error");
     }
-    function markDraftSubmitted(index) {
+    function markDraftSubmitted(index, clientId) {
       const d = getDraft();
       if (!d) return;
       let changed = false;
-      d.items.forEach(it => { if (it.index === index && !it.submitted) { it.submitted = true; changed = true; } });
+      d.items.forEach(it => {
+        if (it.index === index) {
+          if (!it.submitted) { it.submitted = true; changed = true; }
+          if (clientId && it.clientId !== clientId) { it.clientId = clientId; changed = true; }
+          if (clientId) { it.fcAckTs = Date.now(); changed = true; }
+        }
+      });
       if (changed) { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch(e) {} }
     }
     function clearDraft() {
       try { localStorage.removeItem(DRAFT_KEY); } catch(e) {}
     }
+    // ===== 提交后对账（outbox）：FC 收到 ≠ 已入表。加载页面时核验已提交项，丢失自动补交 =====
+    const OUTBOX_STALE_MS = 15 * 60 * 1000;          // FC ack 后 15 分钟仍未确认入表 → 开始对账
+    const OUTBOX_EXPIRE_MS = 7 * 24 * 3600 * 1000;   // 草稿最长保留 7 天
+    async function resubmitItem(d, it) {
+      // 用草稿里保留的完整 payload 重发（含照片/签名），clientId 不变 → FC 端幂等去重
+      try {
+        const resp = await fetchWithTimeout(FC_URL + "/rectify/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN },
+          body: JSON.stringify({
+            clientId: it.clientId,
+            storeId: d.storeId || '',
+            storeName: d.storeName || '',
+            auditId: d.auditId || '',
+            problem: it.text,
+            status: it.status || '',
+            photos: (it.photos || []).slice(),
+            signature: d.signature || '',
+            submitterName: d.submitterName || '',
+            expectedDate: it.expectedDate || ''
+          })
+        }, 20000);
+        const data = await resp.json();
+        if (data.ok) {
+          it.fcAckTs = Date.now();
+          if (data.sessionId) _fcSessionId = data.sessionId;
+          return true;
+        }
+      } catch(e) {}
+      return false;
+    }
+    async function reconcileOutbox(force) {
+      const d = getDraft();
+      if (!d || !d.items) return;
+      if (d.savedAt && Date.now() - d.savedAt > OUTBOX_EXPIRE_MS) { clearDraft(); return; }
+      const acked = d.items.filter(it => it.submitted && it.clientId);
+      if (!acked.length) return;
+      const stale = force ? acked : acked.filter(it => Date.now() - (it.fcAckTs || d.savedAt || 0) > OUTBOX_STALE_MS);
+      if (!stale.length) return;
+      const hitMap = {};
+      try {
+        const resp = await fetchWithTimeout(FC_URL + "/rectify/history", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN },
+          body: JSON.stringify({ clientIds: stale.map(it => it.clientId), limit: 500 })
+        }, 15000);
+        const data = await resp.json();
+        if (!data.ok) return;
+        (data.records || []).forEach(r => { if (r.clientId) hitMap[r.clientId] = r; });
+      } catch(e) { return; }  // FC 不可达，下次加载再对账
+      let resubmitted = 0, confirmed = 0;
+      for (const it of stale) {
+        const hit = hitMap[it.clientId];
+        if (hit && hit.state === 'done' && hit.recordId) {
+          it.confirmed = true; confirmed++;                    // 已入表，终态
+        } else if (hit && hit.state === 'pending') {
+          // 仍在消费队列，等下次对账
+        } else {
+          // FC 中已丢失（实例重启/TTL过期）或消费失败 → 自动补交
+          if (await resubmitItem(d, it)) resubmitted++;
+        }
+      }
+      if (resubmitted || confirmed) {
+        try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch(e) {}
+      }
+      // 所有已提交项均已确认入表、且无待提交项 → 草稿使命完成，清除
+      const needKeep = d.items.some(it => (!it.submitted) || (it.submitted && it.clientId && !it.confirmed));
+      if (!needKeep) clearDraft();
+      if (resubmitted > 0) {
+        showToast("检测到 " + resubmitted + " 条提交未送达，已自动补交", "warning");
+      }
+    }
     function restoreDraft() {
       const d = getDraft();
       if (!d || !d.items) return;
       const pending = d.items.filter(it => !it.submitted);
-      if (!pending.length) { clearDraft(); return; }
+      if (!pending.length) { return; }  // 已全部提交：不弹恢复条，交给 reconcileOutbox 对账确认入表后清除
       const bar = document.createElement("div");
       bar.className = "draft-restore-bar";
       bar.innerHTML = '<span>⚠️ 上次有 ' + pending.length + ' 条整改未提交完成（' + esc(d.storeName || "") + ' · ' +
@@ -952,7 +1035,8 @@
 
       const resultEl = $('submitAllResult');
       if (failCount === 0) {
-        clearDraft();  // 全部成功，清除本地草稿
+        // 不再立即清除草稿：FC 返回 ok ≠ 已入表（FC 内存暂存可能因实例重启/TTL丢失）
+        // 完整 payload（照片/签名）保留在本地，由 reconcileOutbox 确认入表后自动清除
         resultEl.textContent = "全部提交成功，等待同步..."; pollSyncStatus(Date.now(), resultEl);
         resultEl.className = "submit-result success";
         resultEl.style.display = "block";
@@ -1019,9 +1103,10 @@
           var checkUrl = localFailed ? (FC_URL + "/rectify/last-sync") : (LOCAL_URL + "/rectify/last-sync");
           fetch(checkUrl).then(function(r) { return r.json(); }).then(function(d) {
             if (!d.ok) { schedule(); return; }
-            // 会话校验：提交后 FC 实例若重启，本次暂存可能已丢失，必须提示用户
+            // 会话校验：提交后 FC 实例若重启，本次暂存可能已丢失 → 立即对账，丢失项自动补交
             if (_fcSessionId && d.sessionId && d.sessionId !== _fcSessionId) {
-              done("服务连接已重置，请确认数据是否已保存，必要时重新提交", "warning");
+              done("检测到服务重启，正在自动核验提交...", "warning");
+              reconcileOutbox(true);
               return;
             }
             if (d.lastSyncTs > submitTime) {
@@ -1062,8 +1147,9 @@
     });
     function esc(s) { return (s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 
-    // 页面加载：检测上次未完成的提交草稿，提示恢复
+    // 页面加载：检测上次未完成的提交草稿，提示恢复；并对账已提交项（FC丢失自动补交）
     restoreDraft();
+    reconcileOutbox(false);
   </script>
 </body>
 </html>

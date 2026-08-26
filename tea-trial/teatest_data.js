@@ -1,4 +1,4 @@
-// 茶叶试闻台账云端数据（自动生成于 2026-08-26 10:55:21）
+// 茶叶试闻台账云端数据（自动生成于 2026-08-26 10:58:24）
 // 每天自动从钉钉 AI 表格同步
 window.TEATEST_CLOUD_DATA = [
   {
@@ -9279,6 +9279,15 @@ window.TEATEST_CLOUD_DATA = [
     "taster": "向江月",
     "remark": "",
     "created_at": "2026-08-04 08:43:40"
+  },
+  {
+    "recordId": "yfqpkgp5DQ",
+    "store": "__diag_test__",
+    "register_date": "2026-08-26",
+    "tea_name": "__diag_test___tea",
+    "taster": "diag",
+    "remark": "persist test",
+    "created_at": "2026-08-26T02:59:05.449Z"
   },
   {
     "recordId": "ygaKNQoX4a",

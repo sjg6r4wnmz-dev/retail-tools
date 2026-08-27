@@ -342,9 +342,12 @@
       var q = $('storeInput').value.trim().toLowerCase();
       if (q) { clearTimeout(searchTimer); doSearch(q); }
     };
-    // embedded_records.js 异步加载完成后的回调——若已打开某门店稽核，刷新"已提交"状态（跨设备可见）
+    // embedded_records.js 异步加载完成后的回调——若已打开某门店稽核或选择器，刷新"已提交"状态（跨设备可见）
     window.__rectifyRecordsReady = function() {
-      if (currentAudit && selectedStore) fetchAuditResults();
+      if (selectedStore) {
+        if (currentAudit) fetchAuditResults();
+        else renderAudit(selectedStore.id); // 选择器页：刷新各份稽核的"已提交"数量
+      }
     };
     // 时间戳 → "YYYY-MM-DD HH:mm"
     function formatTs(ts) {
@@ -354,6 +357,21 @@
         var p = function(n) { return String(n).padStart(2, "0"); };
         return d.getFullYear() + "-" + p(d.getMonth()+1) + "-" + p(d.getDate()) + " " + p(d.getHours()) + ":" + p(d.getMinutes());
       } catch(e) { return ""; }
+    }
+    // 统计某份稽核"已提交"数量（基于 embedded_records.js，不区分稽核批次，同店同问题历史提交会被计入）
+    function countSubmittedForAudit(audit) {
+      const total = audit.dd ? audit.dd.length : 0;
+      if (!total || !selectedStore) return { total: 0, submitted: 0 };
+      const storeName = selectedStore.n;
+      const records = window.RECTIFY_RECORDS || [];
+      let submitted = 0;
+      for (let k = 0; k < audit.dd.length; k++) {
+        const d = audit.dd[k];
+        const text = (typeof d === 'string') ? d : (d.t || '');
+        if (!text) continue;
+        if (records.find(r => r && r.storeName === storeName && r.problem === text)) submitted++;
+      }
+      return { total, submitted };
     }
     let selectedStore = null, currentAudit = null;
     let activeProblemIndex = -1; // 当前展开编辑的扣分点
@@ -489,6 +507,15 @@
         const ds = a.d ? a.d.substring(5, 16).replace('T', ' ') : '';
         const ss = a.sc ? String(a.sc) : '—';
         const dc = a.dd.length;
+        const { submitted: subc } = countSubmittedForAudit(a);
+        let dedText;
+        if (dc === 0) {
+          dedText = '<div class="as-ded" style="color:var(--safe)">无扣分项</div>';
+        } else if (subc >= dc) {
+          dedText = '<div class="as-ded" style="color:var(--safe)">' + dc + ' 项需整改 · 已全部提交</div>';
+        } else {
+          dedText = '<div class="as-ded">' + dc + ' 项需整改 · ' + subc + ' 项已提交</div>';
+        }
         html += '<div class="audit-select-card" data-idx="' + i + '">' +
           '<div class="as-top">' +
             '<span class="as-group">' + esc(titleLabel) + '</span>' +
@@ -499,7 +526,7 @@
             '<span>分数 <span class="as-val">' + esc(ss) + '</span></span>' +
             '<span>扣分 <span class="as-val">' + dc + '</span> 项</span>' +
           '</div>' +
-          (dc > 0 ? '<div class="as-ded">' + dc + ' 项需整改</div>' : '<div class="as-ded" style="color:var(--safe)">无扣分项</div>') +
+          dedText +
         '</div>';
       });
       $('auditSelector').innerHTML = html;

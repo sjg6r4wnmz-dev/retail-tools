@@ -282,6 +282,39 @@
     })();
   </script>
   <script>
+    // 加载 embedded_records.js（整改提交历史，钉钉表每小时同步到 site 分支）
+    // 用途：跨设备/跨人员显示"已提交"状态——提交状态不再只存在本机 localStorage
+    // 多源兜底：GitHub Pages → jsdelivr @site → raw @site；失败静默（增强数据，不阻塞主流程）
+    (function () {
+      var ts = Date.now();
+      var sources = [
+        'https://sjg6r4wnmz-dev.github.io/retail-tools/embedded_records.js?t=' + ts,
+        'https://cdn.jsdelivr.net/gh/sjg6r4wnmz-dev/retail-tools@site/embedded_records.js?t=' + ts,
+        'https://raw.githubusercontent.com/sjg6r4wnmz-dev/retail-tools/site/embedded_records.js?t=' + ts
+      ];
+      var idx = 0;
+      function tryNext() {
+        if (window.RECTIFY_RECORDS && window.RECTIFY_RECORDS.length) {
+          if (window.__rectifyRecordsReady) window.__rectifyRecordsReady();
+          return;
+        }
+        if (idx >= sources.length) return; // 静默失败：提交历史仅影响状态展示
+        var s = document.createElement('script');
+        s.src = sources[idx++];
+        s.onload = function () {
+          if (window.RECTIFY_RECORDS && window.RECTIFY_RECORDS.length) {
+            if (window.__rectifyRecordsReady) window.__rectifyRecordsReady();
+          } else {
+            setTimeout(tryNext, 100);
+          }
+        };
+        s.onerror = function () { setTimeout(tryNext, 100); };
+        document.body.appendChild(s);
+      }
+      tryNext();
+    })();
+  </script>
+  <script>
     const FC_URL = "https://posm-recog-posm-scap-recog-oopugfimug.cn-hangzhou.fcapp.run";
     const BACKUP_URLS = []; // 备用隧道（loca.lt 已废弃，移除避免拖垮请求）
     const AUTH_TOKEN = "posm_5fa4761ff06d7c89d189faf93574f248";
@@ -309,6 +342,19 @@
       var q = $('storeInput').value.trim().toLowerCase();
       if (q) { clearTimeout(searchTimer); doSearch(q); }
     };
+    // embedded_records.js 异步加载完成后的回调——若已打开某门店稽核，刷新"已提交"状态（跨设备可见）
+    window.__rectifyRecordsReady = function() {
+      if (currentAudit && selectedStore) fetchAuditResults();
+    };
+    // 时间戳 → "YYYY-MM-DD HH:mm"
+    function formatTs(ts) {
+      if (!ts) return "";
+      try {
+        var d = new Date(ts);
+        var p = function(n) { return String(n).padStart(2, "0"); };
+        return d.getFullYear() + "-" + p(d.getMonth()+1) + "-" + p(d.getDate()) + " " + p(d.getHours()) + ":" + p(d.getMinutes());
+      } catch(e) { return ""; }
+    }
     let selectedStore = null, currentAudit = null;
     let activeProblemIndex = -1; // 当前展开编辑的扣分点
     let activePhotoProblemIndex = -1; // 当前操作照片的扣分点
@@ -516,28 +562,43 @@
 
     async function fetchAuditResults() {
       if (!selectedStore) return;
+      // 双数据源合并（FC 优先，离线补足）：
+      //  1) FC /rectify/history —— 近 7 天记录，含最新审核状态
+      //  2) embedded_records.js —— 钉钉表全量（每小时同步），保证 FC 重启/超期后状态仍可见
+      // 匹配到即标记 p.submitted = true：提交状态对所有人、所有设备可见，不再依赖本机 localStorage
+      const all = [];
       try {
         const resp = await fetchWithTimeout(FC_URL + "/rectify/history", {
           method: "POST",
           headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN },
           body: JSON.stringify({ storeName: selectedStore.n, limit: 50 })
         }, 8000);
-        if (!resp.ok) return;
-        const data = await resp.json();
-        if (!data.ok || !Array.isArray(data.records)) return;
-        // Match audit records to problems by problem text
-        let hasAuditUpdate = false;
-        problems.forEach(p => {
-          const match = data.records.find(r => r.problem === p.text);
-          if (match) {
-            p.auditStatus = match.auditStatus || null;
-            p.auditComment = match.auditComment || "";
-          }
-        });
-        renderProblems();
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data.ok && Array.isArray(data.records)) all.push(...data.records);
+        }
       } catch(e) {
-        // silently fail - audit results are optional
+        // FC 不可达：退回离线数据，静默
       }
+      const embedded = window.RECTIFY_RECORDS || [];
+      for (let k = 0; k < embedded.length; k++) {
+        const r = embedded[k];
+        if (r && r.storeName === selectedStore.n) all.push(r);
+      }
+      if (!all.length) return;
+      // Match audit records to problems by problem text（FC 记录最新在前，优先命中）
+      problems.forEach(p => {
+        const match = all.find(r => r && r.problem === p.text);
+        if (match) {
+          p.submitted = true;
+          p.auditStatus = match.auditStatus || null;
+          p.auditComment = match.auditComment || "";
+          // 提交人/时间：不覆盖本机刚提交的更新信息（避免旧记录把刚提交的人名清掉）
+          if (match.submitterName) p.submittedBy = match.submitterName;
+          if (match.ts && (!p.submittedTs || match.ts > p.submittedTs)) p.submittedTs = match.ts;
+        }
+      });
+      renderProblems();
     }
 
     function renderProblems() {
@@ -553,6 +614,7 @@
         card.id = 'problemCard_' + i;
 
         let badge = '';
+        let subInfo = '';
         if (p.submitted) {
           if (p.auditStatus === "approved") {
             badge = '<span class="status-badge" style="background:#e8f5e9;color:#2e7d32">✓ 审核通过</span>';
@@ -561,6 +623,13 @@
           } else {
             badge = '<span class="status-badge done">✓ 已提交</span>';
           }
+          // 提交信息（跨设备可见）：提交人 + 提交时间
+          const segs = [];
+          if (p.submittedBy) segs.push(esc(p.submittedBy));
+          if (p.submittedTs) segs.push(formatTs(p.submittedTs));
+          if (segs.length) {
+            subInfo = '<div style="font-size:11px;color:#2e7d32;margin-top:4px;padding:3px 8px;background:#f0f9f1;border-radius:6px;">👤 提交：' + segs.join(' · ') + '</div>';
+          }
         }
         else if (p.resultMsg && p.resultMsg.text && !p.resultMsg.success) badge = '<span class="status-badge" style="background:#ffebee;color:#c62828">✗ 失败</span>';
         card.innerHTML =
@@ -568,6 +637,7 @@
             '<span class="num">' + (i+1) + '</span>' +
             '<span class="txt">' + esc(p.text) + '</span>' +
             badge +
+            subInfo +
             (p.auditComment ? '<div style="font-size:11px;color:#c62828;margin-top:4px;padding:4px 8px;background:#fff3e0;border-radius:6px;">📝 审核意见：' + esc(p.auditComment) + '</div>' : '') +
             '<span class="arrow">▶</span>' +
           '</div>' +
@@ -785,6 +855,8 @@
           if (data.ok) {
             if (data.sessionId) _fcSessionId = data.sessionId;
             p.submitted = true; p.resultMsg = { text: retry > 0 ? "已提交(重试" + retry + "次)" : "已提交", success: true };
+            p.submittedBy = submitterInput.value.trim();  // 本机提交后立即展示提交人/时间（无需等 FC 回查）
+            p.submittedTs = Date.now();
             markDraftSubmitted(p.index, p.clientId);  // 本地兜底：标记该项已提交成功（含 clientId 供对账）
             return { success: true };
           } else {

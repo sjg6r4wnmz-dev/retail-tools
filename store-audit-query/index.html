@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#C8102E">
+<title>门店稽核查询</title>
+<style>
+:root{
+  --red:#C8102E; --red-d:#9E0B24; --red-bg:#FBE9EC;
+  --amber:#C2701D; --amber-bg:#FBF0E2;
+  --brown:#3B2A20; --brown-2:#6B5748; --brown-3:#9A8574;
+  --bg:#F6F1E9; --card:#FFFFFF; --line:#EEE4D8;
+  --ok:#C8102E; --warn:#C2701D; --low:#7A5C3E; --zero:#B0A093;
+  --radius:14px; --shadow:0 1px 4px rgba(59,42,32,.06), 0 4px 16px rgba(59,42,32,.05);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:16px}
+body{background:var(--bg);color:var(--brown);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;line-height:1.5;padding-bottom:env(safe-area-inset-bottom)}
+button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit}
+input{font-family:inherit}
+
+/* ===== header ===== */
+header{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,var(--red) 0%,var(--red-d) 100%);color:#fff;padding:calc(env(safe-area-inset-top) + 14px) 16px 14px;box-shadow:0 2px 12px rgba(158,11,36,.25)}
+.hd-top{display:flex;align-items:center;gap:10px;max-width:640px;margin:0 auto}
+.hd-title{font-size:17px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+.hd-sub{font-size:11px;opacity:.85;margin-top:1px}
+.hd-right{margin-left:auto;font-size:11px;opacity:.9;text-align:right;line-height:1.4}
+.hd-back{display:none;align-items:center;gap:4px;font-size:15px;font-weight:600;padding:4px 10px 4px 4px;border-radius:8px;color:#fff}
+.hd-back svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.hd-back.show{display:flex}
+
+/* ===== container ===== */
+main{max-width:640px;margin:0 auto;padding:14px 14px 40px}
+
+/* ===== search ===== */
+.searchbar{position:relative;margin-bottom:12px}
+.searchbar input{width:100%;padding:13px 16px 13px 42px;border:1px solid var(--line);border-radius:var(--radius);background:var(--card);font-size:16px;color:var(--brown);box-shadow:var(--shadow);outline:none}
+.searchbar input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(200,16,46,.12)}
+.searchbar .sicon{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;fill:none;stroke:var(--brown-3);stroke-width:2.2;stroke-linecap:round}
+.searchbar .sclear{position:absolute;right:10px;top:50%;transform:translateY(-50%);display:none;width:24px;height:24px;border-radius:50%;background:var(--line);color:var(--brown-2);font-size:13px;line-height:24px;text-align:center}
+.searchbar .sclear.show{display:block}
+.filters{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.chip{padding:6px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:13px;color:var(--brown-2);white-space:nowrap}
+.chip.on{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+.meta-line{font-size:12px;color:var(--brown-3);margin:2px 2px 10px}
+
+/* ===== result list ===== */
+.store-card{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:var(--radius);padding:13px 14px;margin-bottom:10px;box-shadow:var(--shadow);cursor:pointer;transition:transform .06s}
+.store-card:active{transform:scale(.985)}
+.store-main{flex:1;min-width:0}
+.store-name{font-size:16px;font-weight:700;color:var(--brown);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.store-name mark{background:#FFE9A8;color:inherit;border-radius:2px;padding:0 1px}
+.store-sub{font-size:12px;color:var(--brown-2);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.store-sub b{color:var(--brown);font-weight:600}
+.store-tags{margin-top:5px;display:flex;gap:4px;flex-wrap:wrap}
+.tag{font-size:10px;color:var(--brown-2);background:var(--bg);border-radius:4px;padding:1px 5px;white-space:nowrap}
+.store-score{display:flex;flex-direction:column;gap:4px;align-items:flex-end;flex-shrink:0}
+.month-chip{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--brown-2)}
+.month-chip .m{color:var(--brown-3)}
+.score-pill{min-width:52px;text-align:center;font-weight:700;font-size:14px;padding:2px 8px;border-radius:999px;color:#fff}
+.score-pill.ok{background:var(--ok)}
+.score-pill.warn{background:var(--warn)}
+.score-pill.low{background:var(--low)}
+.score-pill.none{background:#E4DBD0;color:#A29486;font-weight:600}
+.score-pill.redline{background:#2B2B2B;color:#FFD9DE}
+.empty{padding:44px 20px;text-align:center;color:var(--brown-3);font-size:14px}
+.empty .big{font-size:34px;margin-bottom:10px;color:#D8CBBB}
+
+/* ===== detail ===== */
+.d-card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:12px}
+.store-h1{font-size:20px;font-weight:800;color:var(--brown);line-height:1.35;padding-right:8px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px 12px;margin-top:12px;font-size:13px}
+.info-grid .cell{min-width:0}
+.info-grid .k{font-size:11px;color:var(--brown-3);margin-bottom:1px}
+.info-grid .v{font-weight:600;color:var(--brown);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tags-row{margin-top:10px;display:flex;gap:5px;flex-wrap:wrap}
+.d-note{font-size:11px;color:var(--brown-3);margin-top:10px;padding-top:8px;border-top:1px dashed var(--line)}
+
+.audit-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden}
+.audit-head{display:flex;align-items:center;gap:8px;padding:12px 16px;background:linear-gradient(90deg,#FDF8F2,#FBF1EC)}
+.audit-month{font-size:15px;font-weight:800;color:var(--red)}
+.audit-date{font-size:12px;color:var(--brown-3);margin-left:auto}
+.audit-body{padding:14px 16px}
+.redline-banner{display:flex;gap:8px;align-items:center;background:#2B2B2B;color:#fff;border-radius:10px;padding:10px 12px;font-size:13px;margin-bottom:12px}
+.redline-banner .rl-tag{background:var(--red);color:#fff;font-weight:800;font-size:12px;padding:1px 8px;border-radius:6px;flex-shrink:0}
+.score-row{display:flex;align-items:center;gap:14px;margin-bottom:4px}
+.score-num{font-size:44px;font-weight:800;line-height:1;letter-spacing:-1px}
+.score-num.ok{color:var(--ok)} .score-num.warn{color:var(--warn)} .score-num.low{color:var(--low)} .score-num.zero{color:var(--zero)}
+.score-den{color:var(--brown-3);font-size:13px;align-self:flex-end;margin-bottom:6px}
+.score-state{margin-left:auto;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;align-self:flex-start}
+.score-state.ok{background:var(--red-bg);color:var(--red)}
+.score-state.warn{background:var(--amber-bg);color:var(--amber)}
+.score-state.low{background:#EFE7DE;color:var(--low)}
+.score-state.redline{background:#2B2B2B;color:#FFD9DE}
+.audit-sub{font-size:12px;color:var(--brown-3);margin-bottom:12px}
+.score-pair{display:flex;align-items:flex-start;gap:18px;margin:6px 0 8px}
+.score-block{display:flex;flex-direction:column;min-width:70px}
+.score-block .sl{font-size:11px;color:var(--brown-3);margin-bottom:2px}
+.score-block .sn{font-size:32px;font-weight:800;line-height:1;letter-spacing:-1px}
+.score-block .sd{font-size:12px;color:var(--brown-3);margin-top:2px}
+.score-pair .score-state{margin-left:auto;align-self:flex-start}
+.mod-title{font-size:12px;color:var(--brown-2);font-weight:700;margin:10px 0 6px;display:flex;align-items:center;gap:6px}
+.mod-title::after{content:"";flex:1;height:1px;background:var(--line)}
+.mod-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px 14px}
+.mod-row{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--brown-2)}
+.mod-name{width:52px;flex-shrink:0;color:var(--brown);font-weight:600}
+.mod-bar{flex:1;height:6px;border-radius:3px;background:#F0E8DE;overflow:hidden}
+.mod-bar i{display:block;height:100%;border-radius:3px;background:var(--red)}
+.mod-bar i.warn{background:var(--warn)}
+.mod-bar i.low{background:var(--low)}
+.mod-val{width:40px;text-align:right;font-weight:700;color:var(--brown)}
+.detail-toggle{width:100%;margin-top:12px;padding:9px;border:1px dashed var(--line);border-radius:10px;color:var(--red);font-size:13px;font-weight:600;background:#FDFAF6}
+.detail-toggle .dir{display:inline-block;transition:transform .15s}
+.detail-toggle.open .dir{transform:rotate(180deg)}
+.item-list{margin-top:8px}
+.item{display:flex;align-items:baseline;gap:8px;padding:6px 2px;border-bottom:1px solid #F5EEE5;font-size:12.5px;line-height:1.45}
+.item:last-child{border-bottom:none}
+.item .score{flex-shrink:0;font-weight:700;min-width:44px;text-align:right}
+.item.lost .score{color:var(--red)}
+.item.lost{color:#4A372B}
+.item.full{color:var(--brown-3)}
+.item .chk{color:#C9A063;font-weight:700}
+.no-audit{padding:26px;text-align:center;color:var(--brown-3);font-size:13px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow)}
+.no-audit .big{font-size:30px;margin-bottom:8px;color:#D8CBBB}
+
+footer{text-align:center;font-size:11px;color:var(--brown-3);padding:16px 0 30px}
+@media (min-width:700px){ html{font-size:17px} }
+</style>
+</head>
+<body>
+<header>
+  <div class="hd-top">
+    <button class="hd-back" id="btnBack" onclick="goBack()">
+      <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>返回
+    </button>
+    <div>
+      <div class="hd-title" id="hdTitle">门店稽核查询</div>
+      <div class="hd-sub" id="hdSub">零售稽核结果 · 随巡随查</div>
+    </div>
+    <div class="hd-right" id="hdRight"></div>
+  </div>
+</header>
+
+<main id="viewList">
+  <div class="searchbar">
+    <svg class="sicon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input id="searchInput" type="search" placeholder="搜门店名 / 城市 / 区经 / 大区" autocomplete="off">
+    <button class="sclear" id="btnClear" onclick="clearSearch()">✕</button>
+  </div>
+  <div class="filters" id="filterRow"></div>
+  <div class="meta-line" id="metaLine"></div>
+  <div id="listBox"></div>
+  <div class="empty" id="emptyBox" style="display:none">
+    <div class="big">🫖</div>
+    <div id="emptyText">没有找到匹配门店</div>
+  </div>
+</main>
+
+<main id="viewDetail" style="display:none"></main>
+
+<footer id="footerNote">数据更新：— · 茶颜悦色零售稽核</footer>
+
+<script src="data.js"></script>
+<script>
+/* ================== 工具 ================== */
+var D = window.STORE_AUDIT || {};
+var MONTHS = D.months || [];
+var META = D.meta || {};
+var MODULES = D.modules || [];
+var STORES = D.stores || [];
+var PASS = 82; // 达标线
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function normRegion(s){ return esc(String(s||'').replace(/(区域|大店区|大区)$/,'').trim() || '—'); }
+function subName(sub){
+  if(!sub) return '—';
+  if(/^\d+$/.test(String(sub))) return '员工'+String(sub).slice(-4);
+  return esc(sub);
+}
+function fmtDate(ds){ return ds ? ds.replace('2026-','') : ''; }
+
+/* 分数 → 等级 */
+function gradeOf(score, redline){
+  if(redline || score===0) return 'redline';
+  if(score>=PASS) return 'ok';
+  if(score>=60) return 'warn';
+  return 'low';
+}
+function gradeText(g){
+  return {ok:'达标', warn:'待提升', low:'需关注', redline:'红线'}[g] || '';
+}
+function scoreColor(g){ return 'score-num '+g; }
+
+/* 模块得分率：某条稽核记录 */
+function moduleRates(a, m){
+  var items = META[m] ? META[m].items : [];
+  return MODULES.map(function(mod){
+    var earn=0, mx=0;
+    for(var i=mod.s-1;i<mod.e && i<a.s.length;i++){
+      var v=a.s[i];
+      var im=items[i];
+      if(v!=null && im){ earn += v; mx += im.max; }
+    }
+    return {name:mod.name, rate: mx? Math.round(earn/mx*100):0, earn:earn, mx:mx};
+  });
+}
+
+/* ================== 搜索 ================== */
+var filter = {scope:'all'};
+function buildFilterRow(){
+  var scopes=[
+    {k:'all',t:'全部门店'},
+    {k:'audited',t:'有稽核记录'},
+    {k:'redline',t:'含红线'},
+    {k:'noaudit',t:'暂无稽核'}
+  ];
+  $('filterRow').innerHTML = scopes.map(function(s){
+    return '<button class="chip'+(filter.scope===s.k?' on':'')+'" data-k="'+s.k+'" onclick="setScope(\''+s.k+'\')">'+s.t+'</button>';
+  }).join('');
+}
+function setScope(k){
+  filter.scope=k;
+  buildFilterRow();
+  renderList();
+}
+function clearSearch(){ $('searchInput').value=''; $('btnClear').classList.remove('show'); renderList(); $('searchInput').focus(); }
+
+function searchQuery(){
+  var q=$('searchInput').value.trim();
+  return q ? q.toLowerCase().split(/\s+/) : [];
+}
+function storeHit(s, toks){
+  if(!toks.length) return true;
+  var hay = (s.name+' '+s.prov+' '+s.city+' '+s.big+' '+s.region+' '+s.ds).toLowerCase();
+  return toks.every(function(t){ return hay.indexOf(t)>=0; });
+}
+function scopeHit(s){
+  if(filter.scope==='all') return true;
+  if(filter.scope==='audited') return s.audits && s.audits.length>0;
+  if(filter.scope==='redline') return s.audits && s.audits.some(function(a){return a.redline;});
+  if(filter.scope==='noaudit') return !s.audits || !s.audits.length;
+  return true;
+}
+function matched(){
+  var toks=searchQuery();
+  return STORES.filter(function(s){ return scopeHit(s) && storeHit(s,toks); });
+}
+
+function pillOf(score, redline){
+  if(score==null) return '<span class="score-pill none">—</span>';
+  var g=gradeOf(score,redline);
+  var t = redline ? '红线' : score;
+  return '<span class="score-pill '+(redline?'redline':g)+'">'+t+'</span>';
+}
+
+function renderList(){
+  var list=matched();
+  var audited=STORES.filter(function(s){return s.audits&&s.audits.length;}).length;
+  var reds=STORES.filter(function(s){return s.audits&&s.audits.some(function(a){return a.redline;});}).length;
+  $('metaLine').textContent='共 '+STORES.length+' 家门店 · 7-8月已稽核 '+audited+' 家 · 红线 '+reds+' 家';
+  var box=$('listBox');
+  if(!list.length){
+    box.innerHTML='';
+    $('emptyBox').style.display='block';
+    var toks=searchQuery();
+    $('emptyText').innerHTML = toks.length?'没有找到匹配“'+esc($('searchInput').value)+'”的门店，换个关键词试试':(filter.scope!=='all'?'该筛选下暂无门店':'没有找到匹配门店');
+    return;
+  }
+  $('emptyBox').style.display='none';
+  var RENDER_CAP=80, shown=list.slice(0,RENDER_CAP);
+  var html = shown.map(function(s){
+    var idx=STORES.indexOf(s);
+    var nameHtml=esc(s.name);
+    var toks=searchQuery();
+    if(toks.length){
+      var raw=s.name;
+      toks.forEach(function(t){ /* 忽略：大小写已处理，中文无需高亮 */ });
+    }
+    var subBits=[];
+    if(s.prov) subBits.push('<b>'+esc(s.prov.replace(/省$/,''))+'</b>'+(s.city?'·'+esc(s.city.replace(/市$/,'')):''));
+    if(s.big) subBits.push(normRegion(s.big));
+    if(s.region) subBits.push('区经 '+normRegion(s.region));
+    if(s.ds) subBits.push(normRegion(s.ds));
+    subBits=subBits.filter(function(x){return x && !/^—$/.test(x.replace(/<[^>]*>/g,''));});
+    var chips='';
+    if(s.audits && s.audits.length){
+      chips = MONTHS.map(function(m){
+        var a=s.audits.filter(function(x){return x.m===m;})[0];
+        var lbl = m==='2026-08'?'8月':(m==='2026-07'?'7月':String(m).slice(2));
+        return '<div class="month-chip"><span class="m">'+lbl+'</span>'+pillOf(a?a.score:null, a?a.redline:false)+'</div>';
+      }).join('');
+    } else {
+      chips='<div class="month-chip"><span class="m">暂无稽核</span></div>';
+    }
+    var tg = (s.tags&&s.tags.length)?'<div class="store-tags">'+s.tags.slice(0,4).map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join('')+'</div>':'';
+    return '<div class="store-card" onclick="openStore('+idx+')">'
+      +'<div class="store-main">'
+      +'<div class="store-name">'+nameHtml+'</div>'
+      +'<div class="store-sub">'+subBits.join(' · ')+'</div>'
+      +tg
+      +'</div>'
+      +'<div class="store-score">'+chips+'</div>'
+      +'</div>';
+  }).join('');
+  if(list.length>shown.length){
+    html+='<div class="empty" style="padding:16px">共匹配 '+list.length+' 家，仅展示前 '+shown.length+' 家，请输入关键词进一步筛选</div>';
+  }
+  box.innerHTML=html;
+}
+
+/* ================== 详情 ================== */
+var curIdx=-1;
+function openStore(idx){
+  curIdx=idx;
+  var s=STORES[idx];
+  if(!s) return;
+  location.hash='s/'+idx;
+  $('viewList').style.display='none';
+  $('viewDetail').style.display='block';
+  $('btnBack').classList.add('show');
+  $('hdTitle').textContent='门店详情';
+  $('hdSub').textContent=esc(s.name);
+  renderDetail(s);
+  window.scrollTo(0,0);
+}
+function goBack(){
+  if(curIdx>=0){
+    curIdx=-1;
+    $('viewDetail').style.display='none';
+    $('viewList').style.display='block';
+    $('btnBack').classList.remove('show');
+    $('hdTitle').textContent='门店稽核查询';
+    $('hdSub').textContent='零售稽核结果 · 随巡随查';
+    window.scrollTo(0,0);
+    if(location.hash) history.replaceState(null,'','#/');
+  }
+}
+
+function auditCard(a){
+  var m=a.m;
+  var items=META[m]?META[m].items:[];
+  var score=a.score;
+  var g=gradeOf(score,a.redline);
+  var std=a.std;
+  var mgmt=a.mgmt;
+  var stdGrade=gradeOf(std,false);
+  var mgmtGrade=gradeOf(mgmt,false);
+  var rates=moduleRates(a,m);
+  var maxTotal = 100;
+  /* 失分项 */
+  var lost=[], full=0;
+  for(var i=0;i<items.length;i++){
+    var v=a.s[i];
+    if(v==null) continue;
+    if(v < items[i].max){ lost.push({i:i, v:v, max:items[i].max, name:items[i].name}); }
+    else full++;
+  }
+  var banner = a.redline ? '<div class="redline-banner"><span class="rl-tag">红线</span><span>本期稽核触发红线项，当月总分按 <b>0 分</b> 计（明细仍可查看失分项）</span></div>' : '';
+  var modHtml='<div class="mod-title">六模块得分率</div><div class="mod-grid">'+rates.map(function(r){
+    var c = r.rate>=85?'':(r.rate>=60?'warn':'low');
+    return '<div class="mod-row"><span class="mod-name">'+r.name+'</span><div class="mod-bar"><i class="'+c+'" style="width:'+Math.min(100,r.rate)+'%"></i></div><span class="mod-val">'+(r.mx?r.rate+'%':'—')+'</span></div>';
+  }).join('')+'</div>';
+  /* 红线店：总分按0计为规则结果，模块率易与0分矛盾 → 不展示模块率，仅保留现场勾选明细 */
+  if(a.redline) modHtml='<div class="mod-title" style="opacity:.55">红线店不展示模块得分率（总分按0计）</div>';
+
+  var detailHtml='';
+  if(lost.length){
+    detailHtml='<button class="detail-toggle" onclick="this.classList.toggle(\'open\');var n=this.nextElementSibling;n.style.display=n.style.display===\'none\'?\'\':\'none\';">'
+      +'<span class="dir">▾</span> 失分明细（'+lost.length+'项）</button>'
+      +'<div class="item-list" style="display:none">'
+      +lost.sort(function(x,y){return (y.max-y.v)-(x.max-x.v);}).map(function(it){
+        return '<div class="item lost"><span class="score">'+it.v+'/'+it.max+'</span><span>'+esc(it.name.replace(/^\d+\.\s*/,''))+'</span></div>';
+      }).join('')
+      +((!a.redline && full)?'<div class="item full"><span class="chk">✓ 满分</span><span>其余 '+full+' 项均满分</span></div>':'')
+      +(a.redline?'<div class="item full"><span class="chk">i</span><span>明细为现场勾选记录，最终总分按红线规则计 0 分</span></div>':'')
+      +'</div>';
+  } else if(a.s && a.s.some(function(x){return x!=null;})){
+    detailHtml='<div class="item-list"><div class="item full"><span class="chk">✓</span><span>本期全部项目满分，无失分</span></div></div>';
+  }
+  return '<div class="audit-card">'
+    +'<div class="audit-head"><span class="audit-month">'+esc(META[m]?META[m].label:m)+'稽核</span><span class="audit-date">'+(a.date?esc(fmtDate(a.date)):'')+(a.sub?' · '+subName(a.sub):'')+'</span></div>'
+    +'<div class="audit-body">'
+    +banner
+    +'<div class="score-row" style="align-items:flex-start">'
+    +'<div class="score-block"><div class="sl">总分（红线归零）</div><div class="sn '+scoreColor(g)+'">'+(a.score==null?'—':a.score)+'</div><div class="sd">/ '+maxTotal+' 分</div></div>'
+    +'<span class="score-state '+g+'">'+gradeText(g)+'</span>'
+    +'</div>'
+    +'<div class="score-pair">'
+    +'<div class="score-block"><div class="sl">标准</div><div class="sn '+scoreColor(stdGrade)+'">'+(std==null?'—':std)+'</div><div class="sd">/ '+(a.max_std||40)+' 分</div></div>'
+    +'<div class="score-block"><div class="sl">经营管理</div><div class="sn '+scoreColor(mgmtGrade)+'">'+(mgmt==null?'—':mgmt)+'</div><div class="sd">/ '+(a.max_mgmt||60)+' 分</div></div>'
+    +'</div>'
+    +(a.redline?'':'<div class="audit-sub">达标线 '+PASS+' 分</div>')
+    +modHtml
+    +detailHtml
+    +'</div></div>';
+}
+
+function renderDetail(s){
+  var tags=(s.tags&&s.tags.length)?'<div class="tags-row">'+s.tags.map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join('')+'</div>':'';
+  var loc=s.prov+(s.city?(' · '+s.city):'');
+  var big = s.big ? '<div class="cell"><div class="k">大区</div><div class="v">'+normRegion(s.big)+'</div></div>' : '';
+  var info='<div class="info-grid">'
+    +(s.prov||s.city?'<div class="cell"><div class="k">地区</div><div class="v">'+esc(loc)+'</div></div>':'')
+    +big
+    +'<div class="cell"><div class="k">区经</div><div class="v">'+normRegion(s.region)+'</div></div>'
+    +'<div class="cell"><div class="k">大店长</div><div class="v">'+normRegion(s.ds).replace('—','')+'</div></div>'
+    +'</div>';
+  var auditsHtml='';
+  if(s.audits && s.audits.length){
+    /* 按月分组展示（同月多次也逐条显示） */
+    auditsHtml = s.audits.map(auditCard).join('');
+  } else {
+    auditsHtml='<div class="no-audit"><div class="big">🍵</div>该门店暂无 2026年7-8月 稽核记录<br>可能为新开门店或本月未排期稽核</div>';
+  }
+  var note = !s.in_master ? '<div class="d-note">注：该店不在当前门店主表内，可能已更名或闭店，仅展示历史稽核。</div>' : '';
+  $('viewDetail').innerHTML =
+    '<div class="d-card">'
+    +'<div class="store-h1">'+esc(s.name)+'</div>'
+    +info+tags+note
+    +'</div>'
+    +auditsHtml;
+}
+
+/* ================== 路由 & 初始化 ================== */
+function parseHash(){
+  var h=location.hash||'';
+  var m=h.match(/^#\/?s\/(\d+)$/);
+  if(m){
+    var idx=parseInt(m[1],10);
+    if(idx>=0&&idx<STORES.length){ openStore(idx); return; }
+  }
+  if(curIdx>=0){
+    curIdx=-1;
+    $('viewDetail').style.display='none';
+    $('viewList').style.display='block';
+    $('btnBack').classList.remove('show');
+    $('hdTitle').textContent='门店稽核查询';
+    $('hdSub').textContent='零售稽核结果 · 随巡随查';
+  }
+}
+window.addEventListener('hashchange',parseHash);
+
+function init(){
+  $('searchInput').addEventListener('input',function(){
+    $('btnClear').classList.toggle('show', !!this.value);
+    renderList();
+  });
+  var upd = D.updated||'—';
+  $('hdRight').textContent='7月·8月';
+  $('footerNote').textContent='数据更新：'+upd+' · 门店 '+STORES.length+' 家 · 茶颜悦色零售稽核';
+  buildFilterRow();
+  renderList();
+}
+init();
+parseHash();
+</script>
+</body>
+</html>

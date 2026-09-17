@@ -358,18 +358,31 @@
         return d.getFullYear() + "-" + p(d.getMonth()+1) + "-" + p(d.getDate()) + " " + p(d.getHours()) + ":" + p(d.getMinutes());
       } catch(e) { return ""; }
     }
-    // 统计某份稽核"已提交"数量（基于 embedded_records.js，不区分稽核批次，同店同问题历史提交会被计入）
+    // 判断一条提交记录是否属于指定稽核批次：必须有提交时间且不早于稽核日期。
+    // 避免历史批次的提交串到本次稽核（如 8 月的提交人被显示成本次"已提交"）
+    function _inAuditBatch(r, auditDate) {
+      if (!r || !r.ts) return false;
+      if (!auditDate) return true;
+      try {
+        const d = new Date(r.ts);
+        const ds = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+        return ds >= auditDate;
+      } catch (e) { return false; }
+    }
+    // 统计某份稽核"已提交"数量（基于 embedded_records.js，按稽核批次过滤）
     function countSubmittedForAudit(audit) {
       const total = audit.dd ? audit.dd.length : 0;
       if (!total || !selectedStore) return { total: 0, submitted: 0 };
       const storeName = selectedStore.n;
       const records = window.RECTIFY_RECORDS || [];
+      const batchDate = audit.d ? String(audit.d).substring(0, 10) : '';
       let submitted = 0;
       for (let k = 0; k < audit.dd.length; k++) {
         const d = audit.dd[k];
         const text = (typeof d === 'string') ? d : (d.t || '');
         if (!text) continue;
-        if (records.find(r => r && r.storeName === storeName && r.problem === text)) submitted++;
+        if (records.find(r => r && r.storeName === storeName && r.problem === text
+              && _inAuditBatch(r, batchDate))) submitted++;
       }
       return { total, submitted };
     }
@@ -613,9 +626,11 @@
         if (r && r.storeName === selectedStore.n) all.push(r);
       }
       if (!all.length) return;
-      // Match audit records to problems by problem text（FC 记录最新在前，优先命中）
+      // Match audit records to problems by problem text，且必须属于本次稽核批次
+      //（FC 记录最新在前，优先命中）
+      const batchDate = currentAudit && currentAudit.d ? String(currentAudit.d).substring(0, 10) : '';
       problems.forEach(p => {
-        const match = all.find(r => r && r.problem === p.text);
+        const match = all.find(r => r && r.problem === p.text && _inAuditBatch(r, batchDate));
         if (match) {
           p.submitted = true;
           p.auditStatus = match.auditStatus || null;
@@ -876,6 +891,7 @@
               signature: globalSignature,
               submitterName: submitterInput.value.trim(),
               expectedDate: p.status === "不能立即整改" ? p.expectedDate : "",
+              ts: Date.now(),
             })
           }, 15000);
           var data = await resp.json();
@@ -949,6 +965,7 @@
           if (!it.submitted) { it.submitted = true; changed = true; }
           if (clientId && it.clientId !== clientId) { it.clientId = clientId; changed = true; }
           if (clientId) { it.fcAckTs = Date.now(); changed = true; }
+          if (!it.submitTs) { it.submitTs = Date.now(); changed = true; }
         }
       });
       if (changed) { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch(e) {} }
@@ -975,7 +992,8 @@
             photos: (it.photos || []).slice(),
             signature: d.signature || '',
             submitterName: d.submitterName || '',
-            expectedDate: it.expectedDate || ''
+            expectedDate: it.expectedDate || '',
+            ts: it.submitTs || d.savedAt || Date.now()
           })
         }, 20000);
         const data = await resp.json();

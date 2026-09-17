@@ -406,10 +406,71 @@
     if (DATA.updatedAt) { $('updatedInfo').textContent = "数据更新：" + DATA.updatedAt; }
     else { const d = new Date(); $('updatedInfo').textContent = "数据更新：" + d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); }
 
-    // 提交人姓名记忆
+    // 提交人姓名：优先钉钉免登带入（不可手改），非钉钉环境才手填
     const submitterInput = $('submitterInput');
-    submitterInput.value = localStorage.getItem('rectify_submitter_name') || '';
+    // 不再自动回填上次的名字——避免换店/换人后串名，改为 placeholder 提示
+    const _lastName = localStorage.getItem('rectify_submitter_name') || '';
+    submitterInput.value = '';
     submitterInput.addEventListener('input', () => localStorage.setItem('rectify_submitter_name', submitterInput.value));
+
+    // ===== 钉钉免登：拿到真实身份后自动填入并锁定输入框 =====
+    let ddAuthedName = '';
+    function _lockSubmitter(name) {
+      ddAuthedName = name;
+      submitterInput.value = name;
+      submitterInput.readOnly = true;
+      submitterInput.style.background = '#f1f3f5';
+      submitterInput.style.color = '#666';
+      try { localStorage.setItem('rectify_submitter_name', name); } catch (e) {}
+      let tip = $('submitterLockTip');
+      if (!tip) {
+        tip = document.createElement('div');
+        tip.id = 'submitterLockTip';
+        tip.style.cssText = 'font-size:12px;color:#1b8a4b;margin-top:4px;';
+        submitterInput.parentNode.appendChild(tip);
+      }
+      tip.textContent = '🔒 提交人已按钉钉账号自动带入（' + name + '），不可修改';
+    }
+    async function loadDdIdentity() {
+      try {
+        if (typeof window.dd === 'undefined' || !window.dd) return false;
+        const cfgResp = await fetchWithTimeout(FC_URL + '/rectify/dd-config', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Auth-Token': AUTH_TOKEN },
+          body: '{}'
+        }, 6000);
+        const cfg = await cfgResp.json();
+        if (!cfg || !cfg.ok || !cfg.enabled || !cfg.corpId) return false;
+        const code = await new Promise((resolve) => {
+          let done = false;
+          const finish = (c) => { if (!done) { done = true; resolve(c || ''); } };
+          try {
+            window.dd.ready(function() {
+              window.dd.runtime.permission.requestAuthCode({
+                corpId: cfg.corpId,
+                onSuccess: (info) => finish(info && info.code),
+                onFail: () => finish('')
+              });
+            });
+          } catch (e) { finish(''); }
+          setTimeout(() => finish(''), 5000);
+        });
+        if (!code) return false;
+        const resp = await fetchWithTimeout(FC_URL + '/rectify/dd-user', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Auth-Token': AUTH_TOKEN },
+          body: JSON.stringify({ code })
+        }, 8000);
+        const j = await resp.json();
+        if (j && j.ok && j.name) { _lockSubmitter(j.name); return true; }
+        return false;
+      } catch (e) { return false; }
+    }
+    loadDdIdentity().then(ok => {
+      if (!ok && _lastName) {
+        submitterInput.placeholder = '上次填写：' + _lastName + '（确认是本人再提交）';
+      }
+    });
 
     // Store search
     let searchTimer = null;
@@ -1069,7 +1130,8 @@
       if (!st) { showToast("未找到门店「" + (d.storeName || "") + "」，请重新选择门店后提交", "error"); return; }
       selectStore(st);
       // 2. 恢复提交人/签名
-      if (d.submitterName) { submitterInput.value = d.submitterName; try { localStorage.setItem('rectify_submitter_name', d.submitterName); } catch(e) {} }
+      // 已通过钉钉免登锁定时，不覆盖为本机草稿里的名字
+      if (d.submitterName && !ddAuthedName) { submitterInput.value = d.submitterName; try { localStorage.setItem('rectify_submitter_name', d.submitterName); } catch(e) {} }
       if (d.signature) globalSignature = d.signature;
       // 3. 按 auditId/日期恢复稽核
       const audits = STORE_AUDITS[st.id] || [];

@@ -168,7 +168,9 @@ footer{text-align:center;font-size:11px;color:var(--brown-3);padding:16px 0 30px
 <script>
 /* ================== 工具 ================== */
 var D = window.STORE_AUDIT || {};
-var MONTHS = D.months || [];
+var MONTHS_ALL = D.months || [];      // 同步下来的全部月份，如 ["2026-09","2026-08","2026-07"]
+var ONLY_CURRENT = true;              // 默认只展示当月，避免历史月份干扰当前巡店
+var MONTHS = MONTHS_ALL.slice(0,1);   // 当前生效的月份口径
 var META = D.meta || {};
 var MODULES = D.modules || [];
 var STORES = D.stores || [];
@@ -183,6 +185,29 @@ function subName(sub){
   return esc(sub);
 }
 function fmtDate(ds){ return ds ? ds.replace('2026-','') : ''; }
+
+/* ============ 月份口径 ============
+   默认只展示当月（D.months 首项即最新月份），避免 7/8 月历史成绩混在列表里干扰判断。
+   需要回看历史时点「含历史」即可，数据本身不做删除。 */
+function activeMonths(){ return ONLY_CURRENT ? MONTHS_ALL.slice(0,1) : MONTHS_ALL; }
+function monthLabel(m){
+  var p=String(m==null?'':m).split('-');
+  return p.length===2 ? (parseInt(p[1],10)+'月') : String(m==null?'':m);
+}
+function monthsRangeText(){
+  var ms=activeMonths();
+  if(!ms.length) return '';
+  if(ms.length===1) return monthLabel(ms[0]);
+  return ms.slice().reverse().map(monthLabel).join('·');
+}
+function setMonthMode(onlyCurrent){
+  ONLY_CURRENT = !!onlyCurrent;
+  MONTHS = activeMonths();
+  buildFilterRow();
+  renderList();
+  if(curIdx>=0 && STORES[curIdx]) renderDetail(STORES[curIdx]);
+  $('hdRight').textContent = monthsRangeText();
+}
 
 /* 分数 → 等级 */
 function gradeOf(score, redline){
@@ -219,7 +244,12 @@ function buildFilterRow(){
     {k:'redline',t:'含红线'},
     {k:'noaudit',t:'暂无稽核'}
   ];
-  $('filterRow').innerHTML = scopes.map(function(s){
+  /* 月份口径切换（仅当同步数据里存在历史月份时才显示） */
+  var mHtml = MONTHS_ALL.length>1
+    ? '<button class="chip'+(ONLY_CURRENT?' on':'')+'" onclick="setMonthMode(true)">仅当月 '+monthLabel(MONTHS_ALL[0])+'</button>'
+      +'<button class="chip'+(!ONLY_CURRENT?' on':'')+'" onclick="setMonthMode(false)">含历史 '+MONTHS_ALL.length+' 个月</button>'
+    : '';
+  $('filterRow').innerHTML = mHtml + scopes.map(function(s){
     return '<button class="chip'+(filter.scope===s.k?' on':'')+'" data-k="'+s.k+'" onclick="setScope(\''+s.k+'\')">'+s.t+'</button>';
   }).join('');
 }
@@ -260,9 +290,10 @@ function pillOf(score, redline){
 
 function renderList(){
   var list=matched();
-  var audited=STORES.filter(function(s){return s.audits&&s.audits.length;}).length;
-  var reds=STORES.filter(function(s){return s.audits&&s.audits.some(function(a){return a.redline;});}).length;
-  $('metaLine').textContent='共 '+STORES.length+' 家门店 · 7-8月已稽核 '+audited+' 家 · 红线 '+reds+' 家';
+  var msNow=activeMonths();
+  var audited=STORES.filter(function(s){return s.audits&&s.audits.some(function(a){return msNow.indexOf(a.m)>=0;});}).length;
+  var reds=STORES.filter(function(s){return s.audits&&s.audits.some(function(a){return msNow.indexOf(a.m)>=0&&a.redline;});}).length;
+  $('metaLine').textContent='共 '+STORES.length+' 家门店 · '+monthsRangeText()+'已稽核 '+audited+' 家 · 红线 '+reds+' 家';
   var box=$('listBox');
   if(!list.length){
     box.innerHTML='';
@@ -288,12 +319,15 @@ function renderList(){
     if(s.ds) subBits.push(normRegion(s.ds));
     subBits=subBits.filter(function(x){return x && !/^—$/.test(x.replace(/<[^>]*>/g,''));});
     var chips='';
-    if(s.audits && s.audits.length){
-      chips = MONTHS.map(function(m){
-        var a=s.audits.filter(function(x){return x.m===m;})[0];
-        var lbl = m==='2026-08'?'8月':(m==='2026-07'?'7月':String(m).slice(2));
-        return '<div class="month-chip"><span class="m">'+lbl+'</span>'+pillOf(a?a.score:null, a?a.redline:false)+'</div>';
+    var msCard=activeMonths();
+    var myAudits=(s.audits||[]).filter(function(x){return msCard.indexOf(x.m)>=0;});
+    if(myAudits.length){
+      chips = msCard.map(function(m){
+        var a=myAudits.filter(function(x){return x.m===m;})[0];
+        return '<div class="month-chip"><span class="m">'+monthLabel(m)+'</span>'+pillOf(a?a.score:null, a?a.redline:false)+'</div>';
       }).join('');
+    } else if(ONLY_CURRENT && s.audits && s.audits.length){
+      chips='<div class="month-chip"><span class="m">'+monthLabel(msCard[0])+'暂无稽核</span><span class="score-pill none">—</span></div>';
     } else {
       chips='<div class="month-chip"><span class="m">暂无稽核</span></div>';
     }
@@ -411,11 +445,16 @@ function renderDetail(s){
     +'<div class="cell"><div class="k">大店长</div><div class="v">'+normRegion(s.ds).replace('—','')+'</div></div>'
     +'</div>';
   var auditsHtml='';
-  if(s.audits && s.audits.length){
+  var msDetail=activeMonths();
+  var shownAudits=(s.audits||[]).filter(function(a){return msDetail.indexOf(a.m)>=0;});
+  if(shownAudits.length){
     /* 按月分组展示（同月多次也逐条显示） */
-    auditsHtml = s.audits.map(auditCard).join('');
+    auditsHtml = shownAudits.map(auditCard).join('');
   } else {
-    auditsHtml='<div class="no-audit"><div class="big">🍵</div>该门店暂无 2026年7-8月 稽核记录<br>可能为新开门店或本月未排期稽核</div>';
+    var canLookBack = ONLY_CURRENT && s.audits && s.audits.length;
+    auditsHtml='<div class="no-audit"><div class="big">🍵</div>该门店暂无 '+monthsRangeText()+' 稽核记录<br>可能为新开门店或本月未排期稽核'
+      +(canLookBack?'<br><br><button class="chip" onclick="setMonthMode(false)">查看历史月份（'+s.audits.length+' 条）</button>':'')
+      +'</div>';
   }
   var note = !s.in_master ? '<div class="d-note">注：该店不在当前门店主表内，可能已更名或闭店，仅展示历史稽核。</div>' : '';
   $('viewDetail').innerHTML =
@@ -451,7 +490,8 @@ function init(){
     renderList();
   });
   var upd = D.updated||'—';
-  $('hdRight').textContent='7月·8月';
+  MONTHS = activeMonths();
+  $('hdRight').textContent=monthsRangeText();
   $('footerNote').textContent='数据更新：'+upd+' · 门店 '+STORES.length+' 家 · 茶颜悦色零售稽核';
   buildFilterRow();
   renderList();

@@ -171,6 +171,17 @@
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .toast.success { background: rgba(52,199,89,0.92); }
     .toast.error { background: rgba(255,59,48,0.92); }
+
+    /* 月份分类筛选 */
+    .month-filter { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .month-chips { display: flex; gap: 8px; overflow-x: auto; flex: 1; padding-bottom: 2px; -webkit-overflow-scrolling: touch; }
+    .month-chips::-webkit-scrollbar { display: none; }
+    .month-chip { flex-shrink: 0; padding: 7px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; border: 1.5px solid var(--border); background: #fff; color: var(--text-2); cursor: pointer; white-space: nowrap; }
+    .month-chip.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .month-chip .mc-count { font-size: 11px; opacity: 0.8; margin-left: 4px; }
+    .month-group-title { display: flex; align-items: center; gap: 8px; padding: 16px 14px 6px; font-size: 15px; font-weight: 700; color: var(--primary); position: relative; }
+    .month-group-title::before { content: ""; width: 4px; height: 16px; border-radius: 2px; background: var(--primary); }
+    .month-group-title .mg-count { font-size: 12px; color: var(--text-2); font-weight: 400; }
   </style>
 </head>
 <body>
@@ -212,6 +223,11 @@
       </div>
 
       <div id="offlineBadge" class="offline-badge"></div>
+
+      <div class="month-filter">
+        <div id="monthChips" class="month-chips"></div>
+        <button class="btn btn-secondary" id="monthGroupToggle" style="padding:7px 12px;font-size:12px;flex-shrink:0;">按月分组：开</button>
+      </div>
 
       <div id="recordsArea">
         <div class="loading"><span class="spinner"></span>加载中...</div>
@@ -341,6 +357,8 @@
     let filteredRecords = [];
     let editingRecord = null;
     let selectedStore = null;
+    let monthMode = "all";        // "all" 或 "YYYY-MM"
+    let monthGroupOn = true;      // 是否按月分组展示
 
     const $ = id => document.getElementById(id);
 
@@ -387,6 +405,50 @@
     }
 
     function esc(s) { return (s || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+    function monthKeyOf(ts) {
+      if (!ts) return "未知月份";
+      const d = new Date(ts);
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+    }
+
+    function monthLabel(m) {
+      if (m === "未知月份") return "未知月份";
+      const p = String(m).split("-");
+      return p[0] + "年" + parseInt(p[1], 10) + "月";
+    }
+
+    function getStoreProvinceMap() {
+      const map = new Map();
+      try {
+        const storeData = (window.RECTIFY_DATA && window.RECTIFY_DATA.stores) || [];
+        storeData.forEach(s => { if (s.n && s.p) map.set(s.n, s.p); });
+      } catch (e) {}
+      return map;
+    }
+
+    function buildMonthChips() {
+      const counts = new Map();
+      allRecords.forEach(r => {
+        const k = monthKeyOf(r.ts);
+        counts.set(k, (counts.get(k) || 0) + 1);
+      });
+      const months = [...counts.keys()].sort((a, b) =>
+        a === "未知月份" ? 1 : b === "未知月份" ? -1 : b.localeCompare(a));
+      let html = `<div class="month-chip ${monthMode === "all" ? "active" : ""}" data-month="all">全部<span class="mc-count">${allRecords.length}</span></div>`;
+      months.forEach(m => {
+        html += `<div class="month-chip ${monthMode === m ? "active" : ""}" data-month="${m}">${monthLabel(m)}<span class="mc-count">${counts.get(m)}</span></div>`;
+      });
+      $("monthChips").innerHTML = html;
+      $("monthChips").querySelectorAll(".month-chip").forEach(c => {
+        c.addEventListener("click", () => {
+          monthMode = c.dataset.month;
+          buildMonthChips();
+          filterRecords();
+          $("recordsArea").scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+    }
 
     
 
@@ -453,6 +515,7 @@
       const offline = window.RECTIFY_RECORDS;
       if (Array.isArray(offline) && offline.length > 0) {
         allRecords = offline.slice();
+        buildMonthChips();
         filterRecords();
         updateStats();
         showOfflineBadge(false, 0, offline.length);
@@ -475,6 +538,7 @@
           // 按时间倒序
           merged.sort((a, b) => (b.ts || 0) - (a.ts || 0));
           allRecords = merged;
+          buildMonthChips();
           filterRecords();
           updateStats();
           const fcCount = resp.records.length;
@@ -487,6 +551,7 @@
         // 远端失败时回退到离线数据
         if (Array.isArray(offline) && offline.length > 0) {
           allRecords = offline.slice();
+          buildMonthChips();
           filterRecords();
           updateStats();
           showOfflineBadge(true, 0, offline.length);
@@ -517,7 +582,7 @@
       const stores = new Set();
       const doneStores = new Set();
       const pendingStores = new Set();
-      for (const r of allRecords) {
+      for (const r of filteredRecords) {
         const name = r.storeName || "未知门店";
         stores.add(name);
         if (r.status === "已整改" || r.status === "通过") {
@@ -534,10 +599,12 @@
     function filterRecords() {
       const kw = $("searchInput").value.trim().toLowerCase();
       filteredRecords = allRecords.filter(r => {
+        if (monthMode !== "all" && monthKeyOf(r.ts) !== monthMode) return false;
         if (!kw) return true;
         const hay = (r.storeName + " " + r.problem + " " + r.submitterName + " " + r.status).toLowerCase();
         return hay.indexOf(kw) >= 0;
       });
+      updateStats();
       renderRecords();
     }
 
@@ -548,18 +615,42 @@
         return;
       }
 
-      // 门店名 → 省份 映射
-      const storeProvince = new Map();
-      try {
-        const storeData = (window.RECTIFY_DATA && window.RECTIFY_DATA.stores) || [];
-        storeData.forEach(s => {
-          if (s.n && s.p) storeProvince.set(s.n, s.p);
+      if (monthGroupOn) {
+        // 按月分组：每个月一段，组内沿用「省份 → 门店」结构
+        const monthMap = new Map();
+        filteredRecords.forEach(r => {
+          const mk = monthKeyOf(r.ts);
+          if (!monthMap.has(mk)) monthMap.set(mk, []);
+          monthMap.get(mk).push(r);
         });
-      } catch(e) {}
+        const months = [...monthMap.keys()].sort((a, b) =>
+          a === "未知月份" ? 1 : b === "未知月份" ? -1 : b.localeCompare(a));
+        let html = "";
+        for (const mk of months) {
+          const list = monthMap.get(mk);
+          html += `<div class="month-group-title"><span>📅 ${esc(monthLabel(mk))}</span><span class="mg-count">${list.length} 条</span></div>`;
+          html += renderProvinceGroups(list);
+        }
+        container.innerHTML = html;
+      } else {
+        container.innerHTML = renderProvinceGroups(filteredRecords);
+      }
 
-      // 按门店分组（records）
+      container.querySelectorAll(".store-card").forEach(card => {
+        card.addEventListener("click", () => {
+          const storeName = card.dataset.store;
+          const records = filteredRecords.filter(r => (r.storeName || "未知门店") === storeName);
+          openStoreDetail(storeName, records);
+        });
+      });
+    }
+
+    function renderProvinceGroups(records) {
+      const storeProvince = getStoreProvinceMap();
+
+      // 按门店分组
       const groups = new Map();
-      filteredRecords.forEach(r => {
+      records.forEach(r => {
         const key = r.storeName || "未知门店";
         if (!groups.has(key)) groups.set(key, []);
         groups.get(key).push(r);
@@ -568,10 +659,10 @@
 
       // 按省份分组
       const provinces = new Map();
-      groups.forEach((records, storeName) => {
+      groups.forEach((recs, storeName) => {
         const prov = storeProvince.get(storeName) || "其他";
         if (!provinces.has(prov)) provinces.set(prov, new Map());
-        provinces.get(prov).set(storeName, records);
+        provinces.get(prov).set(storeName, recs);
       });
 
       // 省份排序
@@ -588,35 +679,34 @@
       for (const prov of sortedProvs) {
         const storeMap = provinces.get(prov);
         let provDone = 0, provPending = 0, provRecCount = 0;
-        storeMap.forEach(records => {
-          provRecCount += records.length;
-          if (records.some(r => r.status === "已整改")) provDone++;
-          if (records.some(r => r.status !== "已整改" && r.status !== "通过")) provPending++;
+        storeMap.forEach(recs => {
+          provRecCount += recs.length;
+          if (recs.some(r => r.status === "已整改")) provDone++;
+          if (recs.some(r => r.status !== "已整改" && r.status !== "通过")) provPending++;
         });
 
         html += `<div class="province-group">`;
         html += `<div class="province-title"><span class="dot"></span>${esc(prov)}<span class="prov-stat">${storeMap.size}家 · ${provRecCount}条${provDone > 0 ? " · 已整改" + provDone : ""}${provPending > 0 ? " · 待整改" + provPending : ""}</span></div>`;
 
-        // 省内门店按最新提交时间倒序
         const storeEntries = [...storeMap.entries()].sort((a, b) => {
           const ta = (a[1][0] && a[1][0].ts) || 0;
           const tb = (b[1][0] && b[1][0].ts) || 0;
           return tb - ta;
         });
 
-        for (const [storeName, records] of storeEntries) {
-          const doneCount = records.filter(r => r.status === "已整改" || r.status === "通过").length;
-          const pendingCount = records.filter(r => r.status !== "已整改" && r.status !== "通过").length;
-          const latestTime = formatTime(records[0].ts);
-          const submitters = [...new Set(records.map(r => r.submitterName).filter(Boolean))];
-          const problems = records.map(r => r.problem || "-").filter(p => p !== "-");
-          const hasDeleted = records.some(r => r.deleted || r.editState === "deleted" || r.editState === "pending-delete");
+        for (const [storeName, recs] of storeEntries) {
+          const doneCount = recs.filter(r => r.status === "已整改" || r.status === "通过").length;
+          const pendingCount = recs.filter(r => r.status !== "已整改" && r.status !== "通过").length;
+          const latestTime = formatTime(recs[0].ts);
+          const submitters = [...new Set(recs.map(r => r.submitterName).filter(Boolean))];
+          const problems = recs.map(r => r.problem || "-").filter(p => p !== "-");
+          const hasDeleted = recs.some(r => r.deleted || r.editState === "deleted" || r.editState === "pending-delete");
           html += `
             <div class="store-card" data-store="${esc(storeName)}">
               <div class="store-header">
                 <div class="store-name">${esc(storeName)}</div>
                 <div style="display:flex;align-items:center;gap:6px;">
-                  <span class="store-count">${records.length}条</span>
+                  <span class="store-count">${recs.length}条</span>
                   <span class="store-time">${latestTime}</span>
                 </div>
               </div>
@@ -634,16 +724,7 @@
         }
         html += `</div>`;
       }
-
-      container.innerHTML = html;
-
-      container.querySelectorAll(".store-card").forEach(card => {
-        card.addEventListener("click", () => {
-          const storeName = card.dataset.store;
-          const records = groups.get(storeName) || [];
-          openStoreDetail(storeName, records);
-        });
-      });
+      return html;
     }
 
     function openEdit(record) {
@@ -967,6 +1048,11 @@
       $("exportCsvBtn").addEventListener("click", () => { exportCsv(); closeExportModal(); });
       $("exportJsonBtn").addEventListener("click", () => { exportJson(); closeExportModal(); });
       $("searchInput").addEventListener("input", filterRecords);
+      $("monthGroupToggle").addEventListener("click", () => {
+        monthGroupOn = !monthGroupOn;
+        $("monthGroupToggle").textContent = "按月分组：" + (monthGroupOn ? "开" : "关");
+        renderRecords();
+      });
       $("closeEditModal").addEventListener("click", closeEdit);
       $("saveEditBtn").addEventListener("click", saveEdit);
       $("editModal").addEventListener("click", e => { if (e.target === $("editModal")) closeEdit(); });

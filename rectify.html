@@ -1216,7 +1216,7 @@
       if (failCount === 0) {
         // 不再立即清除草稿：FC 返回 ok ≠ 已入表（FC 内存暂存可能因实例重启/TTL丢失）
         // 完整 payload（照片/签名）保留在本地，由 reconcileOutbox 确认入表后自动清除
-        resultEl.textContent = "全部提交成功，等待同步..."; pollSyncStatus(Date.now(), resultEl);
+        resultEl.textContent = "全部提交成功，等待同步..."; pollSyncStatus(Date.now(), resultEl, pending.map(p => p.clientId).filter(Boolean));
         resultEl.className = "submit-result success";
         resultEl.style.display = "block";
         showToast("全部提交成功", "success");
@@ -1245,15 +1245,15 @@
       t.className = "toast show " + (type || "");
       setTimeout(() => t.classList.remove("show"), 2500);
     }
-    // === 提交后实时轮询同步状态（指数退避：0-20s每2s / 20-60s每5s / 60s+每10s，120s超时）===
+    // === 提交后实时轮询同步状态（指数退避：0-20s每2s / 20-60s每5s / 60s+每10s，5分钟超时判定）===
     let _pollTimer = null;
     let _fcSessionId = null;  // 提交时所在 FC 实例会话（会话变更=实例重启，本次提交可能丢失）
-    function pollSyncStatus(submitTime, resultEl) {
+    function pollSyncStatus(submitTime, resultEl, clientIds) {
       if (_pollTimer) clearTimeout(_pollTimer);
       var localFailed = false;  // 本地队列不可达标志（手机端等场景）
       var retryCount = 0;
-      var MAX_TIME = 120000;    // 总超时 120 秒
-      var MAX_RETRIES = 40;     // 最多 40 次探测
+      var MAX_TIME = 300000;    // 总超时 5 分钟：超时后主动核验 FC 是否真收到，防"同步中"误导
+      var MAX_RETRIES = 60;     // 最多 60 次探测
 
       function nextDelay() {
         var elapsed = Date.now() - submitTime;
@@ -1271,10 +1271,32 @@
         if (_pollTimer) clearTimeout(_pollTimer);
         _pollTimer = setTimeout(checkOnce, nextDelay());
       }
+      // 超时判定：查 FC 是否真的收到了这批提交（clientId 命中 pending/done 都算收到）
+      function verifyOnTimeout() {
+        if (!clientIds || !clientIds.length) { done("已提交，稍后刷新管理后台即可查看", "warning"); return; }
+        fetchWithTimeout(FC_URL + "/rectify/history", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Auth-Token": AUTH_TOKEN },
+          body: JSON.stringify({ clientIds: clientIds, limit: 500 })
+        }, 15000).then(function(r) { return r.json(); }).then(function(d) {
+          var hit = (d && d.ok && (d.records || []).some(function(r) {
+            return r.clientId && clientIds.indexOf(r.clientId) >= 0;
+          }));
+          if (hit) {
+            done("已提交（FC 已收到，后台同步中），稍后刷新管理后台即可查看", "warning");
+          } else {
+            done("⚠ 提交未送达服务器！请检查门店网络后重新提交；不重开页面的话，下次打开本页面会自动补交", "error");
+            reconcileOutbox(true);  // 立即对账补交
+          }
+        }).catch(function() {
+          // 核验本身网络不通 → 无法断定失败，保守提示
+          done("已提交，但网络不稳定无法确认同步状态，建议连接正常网络后刷新本页面核验", "warning");
+        });
+      }
       function checkOnce() {
         var elapsed = Date.now() - submitTime;
         if (elapsed > MAX_TIME || retryCount >= MAX_RETRIES) {
-          done("已提交，稍后刷新管理后台即可查看", "warning");
+          verifyOnTimeout();
           return;
         }
         retryCount++;
